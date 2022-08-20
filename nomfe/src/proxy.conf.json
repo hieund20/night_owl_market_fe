@@ -1,0 +1,10 @@
+{
+  "/market": {
+    "target": "https://night-owl-market.herokuapp.com",
+    "secure": false,
+    "pathRewrite": {
+      "^/market": ""
+    },
+    "changeOrigin": true
+  }
+}

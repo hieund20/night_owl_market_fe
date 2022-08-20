@@ -8,4 +8,34 @@
 // MDB SCSS
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 
-@import '@angular/cdk/overlay-prebuilt.css';
+@import "@angular/cdk/overlay-prebuilt.css";
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.main-layout-box {
+    width: 90%;
+    margin: 2rem auto;
+}
+
+.mr-3 {
+    margin-right: 3px;
+}
+.mr-5 {
+    margin-right: 5px !important;
+}
+.mr-7 {
+    margin-right: 7px !important;
+}
+.mr-8 {
+    margin-right: 8px !important;
+}
+.mr-10 {
+    margin-right: 10px !important;
+}

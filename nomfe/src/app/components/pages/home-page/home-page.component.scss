@@ -1,0 +1,29 @@
+.search-form {
+    // border: 1px solid blue;
+    width: 80%;
+    margin: 0 auto;
+    
+    & > .search-full-width {
+        width: 90%;
+    }
+
+    & > .search-btn {
+        width: 10%;
+        height: 52px;
+        margin-bottom: 17px;
+    }
+}
+
+.mat-card-title {
+    font-size: 18px;
+}
+
+.mat-card-content {
+    margin-bottom: 0px !important;
+}
+
+.product-card {
+    width: 25%;
+    min-width: 25%;
+    max-width: 25%;
+}

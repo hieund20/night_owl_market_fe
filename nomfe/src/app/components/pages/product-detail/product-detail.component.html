@@ -1,0 +1,61 @@
+<div class="main-layout-box">
+  <mat-card class="mb-4">
+    <div class="d-flex justify-content-between">
+      <div class="product-pic">
+        <img mat-card-md-image src="{{ productDetail.picture }}" />
+      </div>
+      <div class="product-info">
+        <h1 class="product-name">
+          {{ productDetail.name }}
+        </h1>
+        <h2 class="product-sold-amount">{{ productDetail.sold_amount }}đ</h2>
+
+        <div class="product-quantity mb-6 mt-4">
+          <span class="mr-3">Số lượng</span>
+          <quantity-input
+            (ngModel)="(productQuantity)"
+            (quantityChange)="onProductQuantityChange($event)"
+          ></quantity-input>
+        </div>
+        <div class="product-action">
+          <button mat-stroked-button color="primary" class="mr-8">
+            Thêm vào giỏ hàng
+          </button>
+          <button mat-raised-button color="primary">Mua ngay</button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <!--Product Owner-->
+  <mat-card class="mb-4 d-flex justify-content-between align-items-center">
+    <div class="d-flex product-owner">
+      <div class="mr-10">
+        <img
+          src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
+          class="rounded-circle shadow-4"
+          style="width: 60px"
+          alt="Avatar"
+        />
+      </div>
+      <div>
+        <p>Cần trả về Tên chủ shop: owner_name</p>
+        <p>hiện tại chỉ show id của owner là: {{ productDetail.owner }}</p>
+      </div>
+    </div>
+    <div><button mat-stroked-button color="primary">Xem Shop</button></div>
+  </mat-card>
+
+  <!--Description-->
+  <mat-card class="mb-4">
+    <h2>Mô tả</h2>
+    <p class="product-description">
+      {{ productDetail.description }}
+    </p>
+  </mat-card>
+
+  <!--Comment-->
+  <mat-card>
+    <h2>Đánh giá sản phẩm</h2>
+  </mat-card>
+</div>
