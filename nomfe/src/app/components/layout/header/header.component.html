@@ -26,9 +26,21 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item" routerLink="/">
-          <a class="nav-link active text-light" aria-current="page" href="#">Trang chủ</a>
+          <a class="nav-link active text-light" aria-current="page" href="#"
+            >Trang chủ</a
+          >
         </li>
       </ul>
+      <!-- Left links -->
+      <div class="d-flex align-items-center">
+        <button mat-raised-button>
+          <span class="text-primary" routerLink="/auth/login">Đăng nhập</span>
+        </button>
+        <button mat-button>
+          <span class="text-light" routerLink="/auth/register">Đăng ký</span>
+        </button>
+      </div>
+      <!-- Search form -->
     </div>
     <!-- Collapsible wrapper -->
   </div>

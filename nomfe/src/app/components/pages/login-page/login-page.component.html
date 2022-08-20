@@ -1,0 +1,50 @@
+<div class="main-layout-box">
+  <mat-card>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="banner-image">
+        <h2>Sàn thương mại điện tử</h2>
+        <h1>Night Owl Market</h1>
+      </div>
+      <div class="form-container mt-5 mb-5">
+        <h1>Đăng nhập</h1>
+        <form [formGroup]="loginForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  formControlName="email"
+                  placeholder="Nhập email"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Mật khẩu</mat-label>
+                <input
+                  matInput
+                  formControlName="password"
+                  placeholder="Nhập mật khẩu"
+                  type="password"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- <div class="col">
+              <label>Ảnh đại diện</label>
+              <input type="file" formControlName="avatar" />
+            </div> -->
+
+          <button mat-raised-button color="primary" (click)="onSubmitLogin()">
+            Đăng nhập
+          </button>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</div>
