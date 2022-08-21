@@ -1,3 +1,4 @@
+import { FormGroup, FormControl } from '@angular/forms';
 import { UserService } from './../../../services/user.service';
 import { Product } from './../../../model/product';
 import { ProductService } from './../../../services/product.service';
@@ -13,8 +14,13 @@ import { CategoryService } from 'src/app/services/category.service';
 export class HomePageComponent implements OnInit {
   categoryList: Category[] = [];
   productList: Product[] = [];
+  cateId: number = 0;
   page: number = 1;
   pageLength: number = 0;
+
+  searchForm = new FormGroup({
+    search: new FormControl(''),
+  });
 
   constructor(
     private userService: UserService,
@@ -34,17 +40,44 @@ export class HomePageComponent implements OnInit {
     });
   }
 
-  getProductList(page: number) {
-    this.productService.apiProductGet(page).subscribe((res) => {
-      this.productList = res.results;
-      this.pageLength = res.count;
-      console.log('check product list', this.productList);
-    });
+  getProductList(page?: number, cateId?: number) {
+    const searchKey = this.searchForm.controls.search.value;
+    if (searchKey !== '') {
+      this.productService
+        .apiProductGet(page, cateId, <string>searchKey)
+        .subscribe((res) => {
+          this.productList = res.results;
+          this.pageLength = res.count;
+        });
+    } else {
+      if (this.cateId !== 0) {
+        this.productService.apiProductGet(page, cateId).subscribe((res) => {
+          this.productList = res.results;
+          this.pageLength = res.count;
+        });
+      } else {
+        this.productService.apiProductGet(page).subscribe((res) => {
+          this.productList = res.results;
+          this.pageLength = res.count;
+        });
+      }
+    }
   }
 
   onProductPageChange(data: any) {
     this.page = data.pageIndex + 1;
-    this.getProductList(this.page);
+    this.getProductList(this.page, this.cateId);
+  }
+
+  onFilterProductByProduct(cateId: any) {
+    this.cateId = <number>cateId;
+    this.page = 1;
+    this.getProductList(this.page, this.cateId);
+  }
+
+  onSearchProduct() {
+    this.page = 1;
+    this.getProductList(this.page, this.cateId);
   }
 
   getCurrentUser() {

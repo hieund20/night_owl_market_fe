@@ -46,22 +46,29 @@ export class ProductService {
    */
   public apiProductGet(
     page?: number,
-
+    category_id?: number,
+    search?: string,
     observe?: 'body',
     reportProgress?: boolean
   ): Observable<any>;
   public apiProductGet(
     page?: number,
+    category_id?: number,
+    search?: string,
     observe?: 'response',
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
   public apiProductGet(
     page?: number,
+    category_id?: number,
+    search?: string,
     observe?: 'events',
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
   public apiProductGet(
     page?: number,
+    category_id?: number,
+    search?: string,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
@@ -76,6 +83,12 @@ export class ProductService {
     });
     if (page !== undefined && page !== null) {
       queryParameters = queryParameters.set('page', <any>page);
+    }
+    if (category_id !== undefined && category_id !== null) {
+      queryParameters = queryParameters.set('category_id', <any>category_id);
+    }
+    if (search !== undefined && search !== null) {
+      queryParameters = queryParameters.set('search', <any>search);
     }
 
     let headers = this.defaultHeaders;
