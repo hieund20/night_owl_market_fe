@@ -45,37 +45,39 @@ export class ProductService {
    * @param reportProgress flag to report request and response progress.
    */
   public apiProductGet(
-    Filters?: string,
-    Sorts?: string,
-    Page?: number,
-    PageSize?: number,
+    page?: number,
+
     observe?: 'body',
     reportProgress?: boolean
   ): Observable<any>;
   public apiProductGet(
-    Filters?: string,
-    Sorts?: string,
-    Page?: number,
-    PageSize?: number,
+    page?: number,
     observe?: 'response',
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
   public apiProductGet(
-    Filters?: string,
-    Sorts?: string,
-    Page?: number,
-    PageSize?: number,
+    page?: number,
     observe?: 'events',
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
   public apiProductGet(
-    Filters?: string,
-    Sorts?: string,
-    Page?: number,
-    PageSize?: number,
+    page?: number,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
+    // if (page === null || page === undefined) {
+    //   throw new Error(
+    //     'Required parameter page was null or undefined when calling apiProductGet.'
+    //   );
+    // }
+
+    let queryParameters = new HttpParams({
+      encoder: new CustomHttpUrlEncodingCodec(),
+    });
+    if (page !== undefined && page !== null) {
+      queryParameters = queryParameters.set('page', <any>page);
+    }
+
     let headers = this.defaultHeaders;
     // to determine the Accept header
     let httpHeaderAccepts: string[] = [];
@@ -85,16 +87,13 @@ export class ProductService {
       headers = headers.set('Accept', httpHeaderAcceptSelected);
     }
 
-    return this.httpClient.request<any>(
-      'get',
-      `${this.basePath}/products/?format=json`,
-      {
-        headers: headers,
-        withCredentials: this.configuration.withCredentials,
-        observe: observe,
-        reportProgress: reportProgress,
-      }
-    );
+    return this.httpClient.request<any>('get', `${this.basePath}/products/`, {
+      params: queryParameters,
+      headers: headers,
+      withCredentials: this.configuration.withCredentials,
+      observe: observe,
+      reportProgress: reportProgress,
+    });
   }
 
   /**

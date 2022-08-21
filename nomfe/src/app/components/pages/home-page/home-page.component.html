@@ -5,7 +5,9 @@
         <mat-label>Tìm kiếm</mat-label>
         <input matInput placeholder="Nhập sản phẩm cần tìm..." />
       </mat-form-field>
-      <button mat-flat-button color="primary" class="search-btn">Tìm kiếm</button>
+      <button mat-flat-button color="primary" class="search-btn">
+        Tìm kiếm
+      </button>
     </form>
   </mat-card>
 
@@ -39,9 +41,14 @@
                 </b>
               </p>
               <div class="d-flex justify-content-between">
-                <p>{{ item.sold_amount }} đ</p>
+                <p>Đã bán: {{ item.sold_amount }}</p>
               </div>
-              <p>{{ item.categories }}</p>
+              <mat-chip-list
+                aria-label="category selection"
+                *ngFor="let item of item.categories"
+              >
+                <mat-chip color="primary" selected>{{ item }}</mat-chip>
+              </mat-chip-list>
             </mat-card-content>
             <mat-card-actions>
               <button mat-button [routerLink]="['/product/', item.id]">
@@ -55,10 +62,11 @@
     </mat-card-content>
     <mat-card-footer
       ><mat-paginator
-        [length]="100"
-        [pageSize]="10"
-        [pageSizeOptions]="[5, 10, 25, 100]"
+        [length]="pageLength"
+        [pageSize]="20"
+        [pageSizeOptions]="[20]"
         aria-label="Select page"
+        (page)="onProductPageChange($event)"
       >
       </mat-paginator>
     </mat-card-footer>

@@ -8,7 +8,7 @@
       <div class="form-container mt-5 mb-5">
         <h1>Đăng ký</h1>
         <form [formGroup]="registerForm">
-          <div class="row">
+          <div class="row mb-3">
             <div class="col">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Họ</mat-label>
@@ -17,6 +17,10 @@
                   formControlName="first_name"
                   placeholder="Nhập họ"
                 />
+                <mat-error
+                  *ngIf="registerForm.controls['first_name'].errors?.['required']"
+                  ><strong>Họ là bắt buộc</strong></mat-error
+                >
               </mat-form-field>
             </div>
 
@@ -28,11 +32,15 @@
                   formControlName="last_name"
                   placeholder="Nhập tên"
                 />
+                <mat-error
+                  *ngIf="registerForm.controls['last_name'].errors?.['required']"
+                  ><strong>Tên là bắt buộc</strong></mat-error
+                >
               </mat-form-field>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row mb-3">
             <div class="col">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Email</mat-label>
@@ -41,6 +49,14 @@
                   formControlName="email"
                   placeholder="Nhập email"
                 />
+                <mat-error
+                  *ngIf="registerForm.controls['email'].errors?.['required']"
+                  ><strong>Email là bắt buộc</strong></mat-error
+                >
+                <mat-error
+                  *ngIf="registerForm.controls['email'].errors?.['pattern']"
+                  ><strong>Email không hợp lệ</strong></mat-error
+                >
               </mat-form-field>
             </div>
 
@@ -52,11 +68,27 @@
                   formControlName="phone_number"
                   placeholder="Nhập email"
                 />
+                <mat-error
+                  *ngIf="registerForm.controls['phone_number'].errors?.['required']"
+                  ><strong>Số điện thoại là bắt buộc</strong></mat-error
+                >
+                <mat-error
+                  *ngIf="registerForm.controls['phone_number'].errors?.['pattern']"
+                  ><strong>Số điện thoại không hợp lệ</strong></mat-error
+                >
+                <!-- <mat-error
+                  *ngIf="registerForm.controls['phone_number'].errors?.['minlength']"
+                  ><strong>Số điện thoại phải có tối thiểu 10 số</strong></mat-error
+                >
+                <mat-error
+                  *ngIf="registerForm.controls['phone_number'].errors?.['maxLength']"
+                  ><strong>Số điện thoại chỉ chứa tối đa 10 số</strong></mat-error
+                > -->
               </mat-form-field>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row mb-3">
             <div class="col">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Mật khẩu</mat-label>
@@ -66,6 +98,16 @@
                   placeholder="Nhập mật khẩu"
                   type="password"
                 />
+                <mat-error
+                  *ngIf="registerForm.controls['password'].errors?.['required']"
+                  ><strong>Mật khẩu là bắt buộc</strong></mat-error
+                >
+                <mat-error
+                  *ngIf="registerForm.controls['password'].errors?.['minlength']"
+                  ><strong
+                    >Mật khẩu phải có tối thiểu 6 ký tự</strong
+                  ></mat-error
+                >
               </mat-form-field>
             </div>
           </div>

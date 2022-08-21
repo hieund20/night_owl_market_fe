@@ -2,7 +2,7 @@ import { Product } from './../../../model/product';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormControlName, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-product-detail',
@@ -13,6 +13,9 @@ export class ProductDetailComponent implements OnInit {
   productDetail: Product = {};
   productId: string = '';
   productQuantity: number = 1;
+  commentForm = new FormGroup({
+    rating: new FormControl(3),
+  });
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +36,6 @@ export class ProductDetailComponent implements OnInit {
 
   onProductQuantityChange(data: any) {
     this.productQuantity = data;
-    console.log("check quantity", this.productQuantity);
+    console.log('check quantity', this.productQuantity);
   }
 }

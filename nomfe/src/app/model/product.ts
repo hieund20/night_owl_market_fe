@@ -5,7 +5,8 @@ export interface Product {
   sold_amount?: number;
   picture?: string;
   description?: string;
-  owner?: string;
+  owner?: any;
   categories?: any;
   option_set?: any;
+  rating_set?: any;
 }

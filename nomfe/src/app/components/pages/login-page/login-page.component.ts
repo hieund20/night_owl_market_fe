@@ -26,7 +26,7 @@ export class LoginPageComponent implements OnInit {
     ),
     password: new FormControl(
       '',
-      Validators.compose([Validators.required, Validators.minLength(6)])
+      Validators.compose([Validators.required, Validators.minLength(8)])
     ),
   });
 
@@ -58,7 +58,7 @@ export class LoginPageComponent implements OnInit {
           this.toastr.success('Đăng nhập thành công');
           setTimeout(() => {
             this.router.navigate(['/']);
-          }, 3000);
+          }, 2000);
         }
       },
       (error) => {

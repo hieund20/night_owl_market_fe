@@ -32,7 +32,7 @@
         </li>
       </ul>
       <!-- Left links -->
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" *ngIf="!isCurrentUserLogged">
         <button mat-raised-button routerLink="/auth/login">
           <span class="text-primary">Đăng nhập</span>
         </button>
@@ -40,7 +40,27 @@
           <span class="text-light">Đăng ký</span>
         </button>
       </div>
-      <!-- Search form -->
+
+      <!--User Avatar-->
+      <div class="d-flex align-items-center" *ngIf="isCurrentUserLogged">
+        <img
+          src="{{ currentUser.avatar }}"
+          class="rounded-circle shadow-4"
+          style="width: 30px"
+          alt="avatars"
+          [matMenuTriggerFor]="menu"
+        />
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>account_circle</mat-icon>
+            <span>Tài khoản của tôi</span>
+          </button>
+          <button mat-menu-item (click)="onLogOut()">
+            <mat-icon>input</mat-icon>
+            <span>Đăng xuất</span>
+          </button>
+        </mat-menu>
+      </div>
     </div>
     <!-- Collapsible wrapper -->
   </div>

@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,8 +19,12 @@ import { ProductDetailComponent } from './components/pages/product-detail/produc
 import { QuantityInputModule } from '@nghacks/quantity-input';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import { NgxStarRatingModule } from 'ngx-star-rating';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -47,7 +51,11 @@ import { LoginPageComponent } from './components/pages/login-page/login-page.com
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    MatMenuModule,
+    MatIconModule,
+    NgxStarRatingModule,
+    MatChipsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
