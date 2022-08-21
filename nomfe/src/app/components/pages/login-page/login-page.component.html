@@ -8,7 +8,7 @@
       <div class="form-container mt-5 mb-5">
         <h1>Đăng nhập</h1>
         <form [formGroup]="loginForm">
-          <div class="row">
+          <div class="row mb-3">
             <div class="col">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Email</mat-label>
@@ -17,11 +17,19 @@
                   formControlName="email"
                   placeholder="Nhập email"
                 />
+                <mat-error
+                  *ngIf="loginForm.controls['email'].errors?.['required']"
+                  ><strong>Email là bắt buộc</strong></mat-error
+                >
+                <mat-error
+                  *ngIf="loginForm.controls['email'].errors?.['pattern']"
+                  ><strong>Email không hợp lệ</strong></mat-error
+                >
               </mat-form-field>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row mb-3">
             <div class="col">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Mật khẩu</mat-label>
@@ -31,15 +39,19 @@
                   placeholder="Nhập mật khẩu"
                   type="password"
                 />
+                <mat-error
+                  *ngIf="loginForm.controls['password'].errors?.['required']"
+                  ><strong>Mật khẩu là bắt buộc</strong></mat-error
+                >
+                <mat-error
+                  *ngIf="loginForm.controls['password'].errors?.['minlength']"
+                  ><strong
+                    >Mật khẩu phải có tối thiểu 6 ký tự</strong
+                  ></mat-error
+                >
               </mat-form-field>
             </div>
           </div>
-
-          <!-- <div class="col">
-              <label>Ảnh đại diện</label>
-              <input type="file" formControlName="avatar" />
-            </div> -->
-
           <button mat-raised-button color="primary" (click)="onSubmitLogin()">
             Đăng nhập
           </button>
