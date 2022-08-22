@@ -3,7 +3,7 @@
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Navbar brand -->
-    <a class="navbar-brand text-light" href="#">Night Owl Market</a>
+    <a class="navbar-brand text-light" routerLink="/">Night Owl Market</a>
 
     <!-- Toggle button -->
     <button
@@ -26,40 +26,46 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item" routerLink="/">
-          <a class="nav-link active text-light" aria-current="page" href="#"
-            >Trang chủ</a
-          >
+          <button mat-menu-item class="nav-link active text-light">
+            <span>Trang chủ</span>
+          </button>
         </li>
       </ul>
       <!-- Left links -->
-      <div class="d-flex align-items-center" *ngIf="!isCurrentUserLogged">
-        <button mat-raised-button routerLink="/auth/login">
-          <span class="text-primary">Đăng nhập</span>
+      <div class="d-flex align-items-center">
+        <button mat-icon-button class="mr-10">
+          <mat-icon matBadge="15" matBadgeColor="warn" color="white-icon"
+            >shopping_cart</mat-icon
+          >
         </button>
-        <button mat-button routerLink="/auth/register">
-          <span class="text-light">Đăng ký</span>
-        </button>
-      </div>
-
-      <!--User Avatar-->
-      <div class="d-flex align-items-center" *ngIf="isCurrentUserLogged">
-        <img
-          src="{{ currentUser.avatar }}"
-          class="rounded-circle shadow-4"
-          style="width: 30px"
-          alt="avatars"
-          [matMenuTriggerFor]="menu"
-        />
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>account_circle</mat-icon>
-            <span>Tài khoản của tôi</span>
+        <div *ngIf="!isCurrentUserLogged">
+          <button mat-raised-button routerLink="/auth/login">
+            <span class="text-primary">Đăng nhập</span>
           </button>
-          <button mat-menu-item (click)="onLogOut()">
-            <mat-icon>input</mat-icon>
-            <span>Đăng xuất</span>
+          <button mat-button routerLink="/auth/register">
+            <span class="text-light">Đăng ký</span>
           </button>
-        </mat-menu>
+        </div>
+        <!--User Avatar-->
+        <div *ngIf="isCurrentUserLogged">
+          <img
+            src="{{ currentUser.avatar }}"
+            class="rounded-circle shadow-4"
+            style="width: 30px"
+            alt="avatars"
+            [matMenuTriggerFor]="menu"
+          />
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>account_circle</mat-icon>
+              <span>Tài khoản của tôi</span>
+            </button>
+            <button mat-menu-item (click)="onLogOut()">
+              <mat-icon>input</mat-icon>
+              <span>Đăng xuất</span>
+            </button>
+          </mat-menu>
+        </div>
       </div>
     </div>
     <!-- Collapsible wrapper -->

@@ -18,15 +18,41 @@
           Đã bán: {{ productDetail.sold_amount }}
         </h3>
 
-        <div class="product-quantity mb-6 mt-4">
+        <div class="product-quantity mb-4 mt-4">
           <span class="mr-3">Số lượng</span>
           <quantity-input
             (ngModel)="(productQuantity)"
             (quantityChange)="onProductQuantityChange($event)"
           ></quantity-input>
         </div>
+
+        <div class="product-option mb-4 d-flex">
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            [(ngModel)]="optionItem"
+          >
+            <mat-radio-button
+              class="option-radio-button"
+              *ngFor="let item of productDetail.option_set"
+              [value]="item"
+            >
+              <span
+                ><b>{{ item.unit }}</b></span
+              >
+              <div>{{ item.price }} đ</div>
+              <span>Còn {{ item.unit_in_stock }} sản phẩm</span>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
         <div class="product-action">
-          <button mat-stroked-button color="primary" class="mr-8">
+          <button
+            mat-stroked-button
+            color="primary"
+            class="mr-8"
+            (click)="onAddProductToCart()"
+          >
             Thêm vào giỏ hàng
           </button>
           <button mat-raised-button color="primary">Mua ngay</button>

@@ -1,3 +1,4 @@
+import { Category } from './category';
 export interface Product {
   id?: number;
   name?: string;
@@ -6,7 +7,7 @@ export interface Product {
   picture?: string;
   description?: string;
   owner?: any;
-  categories?: any;
+  categories?: Category[];
   option_set?: any;
   rating_set?: any;
 }

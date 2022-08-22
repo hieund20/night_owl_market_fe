@@ -12,8 +12,7 @@
 
 //NGX-TOAST
 // regular style toast
-@import '~ngx-toastr/toastr';
-
+@import "~ngx-toastr/toastr";
 
 html,
 body {
@@ -44,7 +43,10 @@ body {
 .mr-10 {
     margin-right: 10px !important;
 }
-
 .w-100 {
     width: 100% !important;
+}
+
+.white-icon {
+    color: white;
 }

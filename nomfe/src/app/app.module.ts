@@ -25,6 +25,8 @@ import { RegisterPageComponent } from './components/pages/register-page/register
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatIconModule,
     NgxStarRatingModule,
     MatChipsModule,
+    MatBadgeModule,
+    MatRadioModule,
     ToastrModule.forRoot(),
   ],
   providers: [],
