@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Option } from 'src/app/model/option';
@@ -18,7 +18,8 @@ export class ProductDetailComponent implements OnInit {
   productQuantity: number = 1;
   optionItem: Option = {};
   commentForm = new FormGroup({
-    rating: new FormControl(3),
+    rate: new FormControl(3),
+    comment: new FormControl('', Validators.required),
   });
   accessToken: string = '';
 
@@ -46,6 +47,7 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
+  //Add product to cart
   onProductQuantityChange(data: any) {
     this.productQuantity = data;
   }
@@ -86,6 +88,39 @@ export class ProductDetailComponent implements OnInit {
         (error) => {
           console.log('check error add to cart', error);
           this.toastr.success('Thêm vào giỏ hàng thất bại');
+        }
+      );
+  }
+  //=====
+
+  //Push comment
+  onPostComment() {
+    const controls = <any>this.commentForm.controls;
+
+    if (this.commentForm.invalid) {
+      Object.keys(controls).forEach((controlName) =>
+        controls[controlName].markAsTouched()
+      );
+      return;
+    }
+
+    this.productService
+      .apiProductAddCommentPost(
+        this.accessToken,
+        this.productId,
+        this.commentForm.value
+      )
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.toastr.success('Đăng bình luận thành công');
+            this.commentForm.controls.comment.setValue("");
+            this.getProductDetail();
+          }
+        },
+        (error) => {
+          console.log('check error add to comment', error);
+          this.toastr.success('Đăng bình luận thất bại');
         }
       );
   }

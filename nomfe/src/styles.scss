@@ -50,3 +50,14 @@ body {
 .white-icon {
     color: white;
 }
+
+//Ngx-star-ratting 
+input.star:checked ~ label.star:before {
+    color: orange !important;
+    font-size: 18px;
+}
+
+input.star ~ label.star:before {
+    color: orange !important;
+    font-size: 18px;
+}

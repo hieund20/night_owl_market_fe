@@ -99,6 +99,37 @@
   <!--Comment-->
   <mat-card>
     <h2>Đánh giá sản phẩm</h2>
+    <div class="mb-5">
+      <form [formGroup]="commentForm">
+        <div class="row mb-2">
+          <ngx-star-rating
+            [id]="'rate'"
+            formControlName="rate"
+            style="width: fit-content"
+          ></ngx-star-rating>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Bình luận của bạn</mat-label>
+              <input
+                matInput
+                formControlName="comment"
+                placeholder="Nhập bình luận của bạn"
+              />
+              <mat-error
+                *ngIf="commentForm.controls['comment'].errors?.['required']"
+                ><strong>Bạn chưa nhập nội dung bình luận</strong></mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <button mat-raised-button color="primary" (click)="onPostComment()">
+          Đăng đánh giá
+        </button>
+      </form>
+    </div>
     <div *ngIf="productDetail.rating_set.length > 0">
       <div *ngFor="let item of productDetail.rating_set">
         <div class="d-flex align-items-center">
@@ -111,20 +142,22 @@
             />
           </div>
           <div>
-            <b>
-              {{ item.creator.first_name + "&nbsp;" + item.creator.last_name }}
-            </b>
+            <div>
+              <b>
+                {{
+                  item.creator.first_name + "&nbsp;" + item.creator.last_name
+                }}
+              </b>
+            </div>
+            <span
+              class="fa fa-star checked"
+              style="font-size: 10px; color: orange; margin-right: 4px"
+              *ngFor="let number of [].constructor(item.rate)"
+            ></span>
           </div>
         </div>
         <div style="margin-left: 50px">
-          <p class="mb-3">{{ item.comment }}</p>
-          <p>Đánh giá: {{ item.rate }}/5</p>
-          <!-- <form [formGroup]="commentForm">
-            <ngx-star-rating
-              [id]="'rating'"
-              formControlName="rating"
-            ></ngx-star-rating>
-          </form> -->
+          <p class="mb-4 mt-3">{{ item.comment }}</p>
         </div>
       </div>
     </div>
