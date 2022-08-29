@@ -10,4 +10,5 @@ export interface Product {
   categories?: Category[];
   option_set?: any;
   rating_set?: any;
+  min_price?: number;
 }

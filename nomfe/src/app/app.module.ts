@@ -27,6 +27,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatRadioModule } from '@angular/material/radio';
+import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatRadioModule } from '@angular/material/radio';
     ProductDetailComponent,
     RegisterPageComponent,
     LoginPageComponent,
+    CustomCurrencyPipe,
   ],
   imports: [
     BrowserModule,

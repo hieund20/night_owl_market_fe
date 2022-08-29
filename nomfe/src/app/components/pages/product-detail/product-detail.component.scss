@@ -18,9 +18,13 @@
     }
 }
 
-.option-radio-button {
-    border: 1px solid #e0e0e0;
-    padding: 8px 4px;
-    border-radius: 8px;
-}
+.product-option {
+    padding-bottom: 8px;
 
+    & .option-radio-button {
+        border: 1px solid #e0e0e0;
+        padding: 8px 4px;
+        border-radius: 8px;
+        margin-right: 16px;
+    }
+}

@@ -1,3 +1,4 @@
+import { User } from 'src/app/model/user';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +7,7 @@ import { Option } from 'src/app/model/option';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from './../../../model/product';
 import { OptionService } from './../../../services/option.service';
+import { CustomCurrencyPipe } from '../../shared/pipe/currency.pipe';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,6 +24,7 @@ export class ProductDetailComponent implements OnInit {
     comment: new FormControl('', Validators.required),
   });
   accessToken: string = '';
+  isCurrentUserLogged: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +37,7 @@ export class ProductDetailComponent implements OnInit {
     this.productId = <string>this.route.snapshot.paramMap.get('id');
     this.getProductDetail();
     this.getAccessToken();
+    this.checkLoggedCurrentUser();
   }
 
   getAccessToken() {
@@ -45,6 +49,20 @@ export class ProductDetailComponent implements OnInit {
       console.log('check res detail', res);
       this.productDetail = res;
     });
+  }
+
+  checkLoggedCurrentUser() {
+    const currentUser = JSON.parse(<any>localStorage.getItem('current_user'));
+    //User is not logged
+    if (
+      Object.keys(currentUser).length === 0 &&
+      Object.keys(currentUser) === Object.prototype
+    ) {
+      console.log('User is not logged');
+    } else {
+      console.log('User is logged');
+      this.isCurrentUserLogged = true;
+    }
   }
 
   //Add product to cart
@@ -114,7 +132,7 @@ export class ProductDetailComponent implements OnInit {
         (res) => {
           if (res) {
             this.toastr.success('Đăng bình luận thành công');
-            this.commentForm.controls.comment.setValue("");
+            this.commentForm.controls.comment.setValue('');
             this.getProductDetail();
           }
         },

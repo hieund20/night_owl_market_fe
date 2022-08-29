@@ -5,6 +5,7 @@ import { ProductService } from './../../../services/product.service';
 import { Category } from './../../../model/category';
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
+import { CustomCurrencyPipe } from '../../shared/pipe/currency.pipe';
 
 @Component({
   selector: 'app-home-page',
