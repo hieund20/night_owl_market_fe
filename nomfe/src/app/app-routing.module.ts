@@ -1,3 +1,4 @@
+import { CartComponent } from './components/pages/cart/cart.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
@@ -21,14 +22,18 @@ const routes: Routes = [
     children: [
       {
         path: 'register',
-        component: RegisterPageComponent
+        component: RegisterPageComponent,
       },
       {
         path: 'login',
-        component: LoginPageComponent
-      }
-    ]
-  }
+        component: LoginPageComponent,
+      },
+    ],
+  },
+  {
+    path: 'cart',
+    component: CartComponent,
+  },
 ];
 
 @NgModule({

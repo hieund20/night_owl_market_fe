@@ -27,7 +27,10 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
+import { CartComponent } from './components/pages/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
     RegisterPageComponent,
     LoginPageComponent,
     CustomCurrencyPipe,
+    CartComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,8 @@ import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
     MatChipsModule,
     MatBadgeModule,
     MatRadioModule,
+    MatTableModule,
+    MatCheckboxModule,
     ToastrModule.forRoot(),
   ],
   providers: [],

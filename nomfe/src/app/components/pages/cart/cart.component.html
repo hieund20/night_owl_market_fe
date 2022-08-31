@@ -1,0 +1,95 @@
+<div class="main-layout-box">
+  <mat-card class="mt-4 mb-6">
+    <mat-card-title>Giỏ hàng</mat-card-title>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" class="table">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Sản phẩm</th>
+
+          <td mat-cell *matCellDef="let element">
+            {{ element.name }}
+          </td>
+        </ng-container>
+
+        <!-- Unit Column -->
+        <ng-container matColumnDef="unit">
+          <th mat-header-cell *matHeaderCellDef>Loại hàng</th>
+          <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Đơn giá</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.price | customcurrency }} đ
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Thao tác</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Example icon button with a heart icon"
+              (click)="deleteProductInCart(element.id)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-footer class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+        <span>Đã chọn: {{ countProduct }} sản phẩm</span>
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="onDeleteManyProductInCart()"
+          style="margin-left: 8px"
+        >
+          Xóa
+        </button>
+      </div>
+      <div class="d-flex align-items-center">
+        <span>Thành tiền: {{ totalPrice | customcurrency }} đ</span>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onDeleteManyProductInCart()"
+    style="margin-left: 8px"
+  >
+    Thanh toán
+  </button>
+</div>

@@ -1,0 +1,32 @@
+.table {
+    width: 100%;
+
+    & .mat-column-select {
+        padding: 14px 4px;
+        align-items: center;
+    }
+
+    & .mat-column-name {
+        padding: 14px 4px;
+        align-items: center;
+    }
+
+    & .mat-column-unit {
+        padding: 14px 4px;
+        align-items: center;
+    }
+
+    & .mat-column-price {
+        padding: 14px 4px;
+        align-items: center;
+    }
+
+    & .mat-column-action {
+        padding: 5px 4px;
+        align-items: center;
+    }
+}
+
+.mat-card-footer {
+    padding: 12px 16px;
+}

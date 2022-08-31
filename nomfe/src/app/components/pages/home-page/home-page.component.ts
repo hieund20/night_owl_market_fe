@@ -1,11 +1,10 @@
-import { FormGroup, FormControl } from '@angular/forms';
-import { UserService } from './../../../services/user.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { CategoryService } from 'src/app/services/category.service';
+import { Category } from './../../../model/category';
 import { Product } from './../../../model/product';
 import { ProductService } from './../../../services/product.service';
-import { Category } from './../../../model/category';
-import { Component, OnInit } from '@angular/core';
-import { CategoryService } from 'src/app/services/category.service';
-import { CustomCurrencyPipe } from '../../shared/pipe/currency.pipe';
+import { UserService } from './../../../services/user.service';
 
 @Component({
   selector: 'app-home-page',
