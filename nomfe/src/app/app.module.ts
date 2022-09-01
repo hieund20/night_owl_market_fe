@@ -29,8 +29,13 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+
 import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
 import { CartComponent } from './components/pages/cart/cart.component';
+import { PurchaseComponent } from './components/pages/purchase/purchase.component';
+import { CheckoutComponent } from './components/pages/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +49,8 @@ import { CartComponent } from './components/pages/cart/cart.component';
     LoginPageComponent,
     CustomCurrencyPipe,
     CartComponent,
+    PurchaseComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +74,8 @@ import { CartComponent } from './components/pages/cart/cart.component';
     MatRadioModule,
     MatTableModule,
     MatCheckboxModule,
+    MatTabsModule,
+    MatSelectModule,
     ToastrModule.forRoot(),
   ],
   providers: [],

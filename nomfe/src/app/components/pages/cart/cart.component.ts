@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { OrdersService } from './../../../services/orders.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,6 +23,8 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
+    private orderService: OrdersService,
+    private router: Router,
     private toastr: ToastrService
   ) {}
 
@@ -38,7 +42,6 @@ export class CartComponent implements OnInit {
 
   getCartGroupByOwner() {
     this.dataTableList = [];
-    this.totalPrice = 0;
 
     this.cartService.apiCartGroupByOwnerGet(this.accessToken).subscribe(
       (res) => {
@@ -50,7 +53,6 @@ export class CartComponent implements OnInit {
             unit: el.product_option.unit,
             price: el.product_option.price,
           });
-          this.totalPrice += Number.parseInt(el.product_option.price);
         });
         this.dataSource.data = this.dataTableList;
       },
@@ -65,7 +67,13 @@ export class CartComponent implements OnInit {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
 
+    //Count product
     this.countProduct = this.selection.selected.length;
+    //Calculation total price
+    this.totalPrice = 0;
+    this.selection.selected.forEach((el) => {
+      return (this.totalPrice += Number.parseInt(el.price));
+    });
 
     return numSelected === numRows;
   }
@@ -111,6 +119,38 @@ export class CartComponent implements OnInit {
       this.selection.selected.forEach((el) => {
         this.deleteProductInCart(el.id);
       });
+    }
+  }
+
+  onBuyProductInCart() {
+    if (this.selection.selected.length === 0) {
+      this.toastr.warning('Bạn chưa chọn sản phẩm');
+    } else {
+      console.log('check product', this.selection.selected);
+      let payload = {
+        list_cart: [],
+      };
+
+      this.selection.selected.forEach((el) => {
+        return payload.list_cart.push(<never>el.id);
+      });
+
+      this.orderService.apiOrdersPost(this.accessToken, payload).subscribe(
+        (res) => {
+          if (res) {
+            console.log('post orders success: ', res.message);
+            this.getCartGroupByOwner();
+            this.toastr.success('Chuyển trang thanh toán ...');
+            setTimeout(() => {
+              this.router.navigate(['checkout']);
+            }, 3000);
+          }
+        },
+        (error) => {
+          console.log('error when post orders', error);
+          this.toastr.error('Có lỗi xảy ra');
+        }
+      );
     }
   }
 }

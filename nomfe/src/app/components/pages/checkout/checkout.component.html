@@ -1,0 +1,137 @@
+<div class="main-layout-box">
+  <h2>Thanh toán</h2>
+
+  <!-- Address -->
+  <mat-card class="mt-4 mb-3">
+    <mat-card-title>Địa chỉ nhận hàng</mat-card-title>
+    <mat-card-content class="mt-4">
+      <p>
+        Nguyễn Đức Hiếu (+84) 392737598 03 Sông Thao, phường 2, quận Tân Bình,
+        Phường 2, Quận Tân Bình, TP. Hồ Chí Minh
+      </p>
+      <button mat-button color="primary">Thay đổi</button>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Product list -->
+  <mat-card class="mt-4 mb-6">
+    <mat-card-title>Sản phẩm</mat-card-title>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" class="table">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Sản phẩm</th>
+
+          <td mat-cell *matCellDef="let element">
+            {{ element.name }}
+          </td>
+        </ng-container>
+
+        <!-- Unit Column -->
+        <ng-container matColumnDef="unit">
+          <th mat-header-cell *matHeaderCellDef>Loại hàng</th>
+          <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Đơn giá</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.price | customcurrency }} đ
+          </td>
+        </ng-container>
+
+        <!-- Count Column -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Số lượng</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.quantity }}
+          </td>
+        </ng-container>
+
+        <!-- Total Price Column -->
+        <ng-container matColumnDef="total_price">
+          <th mat-header-cell *matHeaderCellDef>Thành tiền</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.total_price | customcurrency }} đ
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-footer class="d-flex align-items-center justify-content-between">
+      <div></div>
+      <div class="d-flex align-items-center">
+        <span
+          >Tổng số tiền ({{ totalProduct }} sản phẩm):
+          {{ totalFinalPrice | customcurrency }} đ</span
+        >
+      </div>
+    </mat-card-footer>
+  </mat-card>
+
+  <!-- Payment -->
+  <mat-card class="mt-4 mb-3">
+    <mat-card-title>Phương thức thanh toán</mat-card-title>
+    <mat-card-content class="mt-4 d-flex justify-content-between">
+      <div class="w-40">
+        <!-- Edit Payment Method Form -->
+        <form [formGroup]="paymentMethodForm" *ngIf="isEditPaymentForm">
+          <div class="row mb-1">
+            <mat-form-field appearance="outline">
+              <mat-label>Phương thức thanh toán</mat-label>
+              <mat-select
+                formControlName="method"
+                (valueChange)="onPaymentMethodSelectChange($event)"
+              >
+                <mat-option
+                  *ngFor="let item of paymentMethodList"
+                  [value]="item.value"
+                >
+                  {{ item.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="isEditPaymentForm = false"
+          >
+            Xác nhận
+          </button>
+        </form>
+
+        <!-- Payment Method Submitted Value -->
+        <div *ngIf="!isEditPaymentForm">
+          <span>{{ paymentMethodShow }}</span>
+          <button mat-button color="primary" (click)="isEditPaymentForm = true">
+            Thay đổi
+          </button>
+        </div>
+      </div>
+
+      <!-- Payment Info -->
+      <div class="w-40">
+        <div class="row">
+          <div class="col">Tổng tiền hàng</div>
+          <div class="col">{{ totalFinalPrice | customcurrency }} đ</div>
+        </div>
+        <div class="row">
+          <div class="col">Phí vận chuyển</div>
+          <div class="col">32.200 đ</div>
+        </div>
+        <div class="row">
+          <div class="col">Tổng thanh toán</div>
+          <div class="col">{{ totalFinalPrice | customcurrency }} đ</div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-footer class="d-flex justify-content-between">
+      <div></div>
+      <button mat-flat-button color="primary">Đặt hàng</button>
+    </mat-card-footer>
+  </mat-card>
+</div>

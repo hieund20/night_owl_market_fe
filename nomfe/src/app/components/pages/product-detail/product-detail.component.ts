@@ -105,7 +105,7 @@ export class ProductDetailComponent implements OnInit {
         },
         (error) => {
           console.log('check error add to cart', error);
-          this.toastr.success('Thêm vào giỏ hàng thất bại');
+          this.toastr.error('Thêm vào giỏ hàng thất bại');
         }
       );
   }
