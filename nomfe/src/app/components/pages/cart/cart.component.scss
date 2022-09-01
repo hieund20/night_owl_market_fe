@@ -35,3 +35,14 @@
 .mat-card-footer {
     padding: 12px 16px;
 }
+
+.quantity-input {
+    border: 1px solid lightgray;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+}

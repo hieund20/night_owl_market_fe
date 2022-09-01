@@ -102,9 +102,12 @@ export class CartComponent implements OnInit {
   }
 
   onChangeProductQuantityInCart(event: any, id: number) {
-    console.log(':check data: ', event.target.value);
+    let quantity = event.target.value;
+    if (quantity == 0) {
+      
+    }
     let body = {
-      quantity: event.target.value,
+      quantity: quantity,
     };
     this.patchProductInCart(id, body);
   }
