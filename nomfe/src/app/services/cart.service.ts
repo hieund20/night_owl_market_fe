@@ -90,25 +90,25 @@ export class CartService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public apiCartGroupByOwnerDelete(
+  public apiCartDelete(
     accessToken: string,
     id: number,
     observe?: 'body',
     reportProgress?: boolean
   ): Observable<any>;
-  public apiCartGroupByOwnerDelete(
+  public apiCartDelete(
     accessToken: string,
     id: number,
     observe?: 'response',
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
-  public apiCartGroupByOwnerDelete(
+  public apiCartDelete(
     accessToken: string,
     id: number,
     observe?: 'events',
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
-  public apiCartGroupByOwnerDelete(
+  public apiCartDelete(
     accessToken: string,
     id: number,
     observe: any = 'body',
@@ -139,6 +139,77 @@ export class CartService {
 
     return this.httpClient.request<any>('delete', `${this.basePath}/cart/${id}`, {
       headers: headers,
+      withCredentials: this.configuration.withCredentials,
+      observe: observe,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * @param accessToken
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+   public apiCartPatch(
+    accessToken: string,
+    id: number,
+    body: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiCartPatch(
+    accessToken: string,
+    id: number,
+    body: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiCartPatch(
+    accessToken: string,
+    id: number,
+    body: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiCartPatch(
+    accessToken: string,
+    id: number,
+    body: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiCartPatch.'
+      );
+    }
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling apiCartPatch.'
+      );
+    }
+    if (body === null || body === undefined) {
+      throw new Error(
+        'Body was null or undefined when calling apiCartPatch.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected != undefined) {
+      headers = headers.set('Content-Type', httpContentTypeSelected);
+    }
+
+    return this.httpClient.request<any>('patch', `${this.basePath}/cart/${id}/`, {
+      headers: headers,
+      body: body,
       withCredentials: this.configuration.withCredentials,
       observe: observe,
       reportProgress: reportProgress,

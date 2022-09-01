@@ -48,6 +48,21 @@
           </td>
         </ng-container>
 
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Số lượng</th>
+          <td mat-cell *matCellDef="let element">
+            <input
+              matInput
+              placeholder="Nhập số lượng sản phẩm"
+              value="{{ element.quantity }}"
+              type="number"
+              onKeyDown="return false"
+              (change)="onChangeProductQuantityInCart($event, element.id)"
+            />
+          </td>
+        </ng-container>
+
         <!-- Action Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Thao tác</th>

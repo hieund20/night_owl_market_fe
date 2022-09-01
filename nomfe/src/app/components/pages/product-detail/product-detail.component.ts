@@ -1,4 +1,3 @@
-import { User } from 'src/app/model/user';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -7,7 +6,6 @@ import { Option } from 'src/app/model/option';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from './../../../model/product';
 import { OptionService } from './../../../services/option.service';
-import { CustomCurrencyPipe } from '../../shared/pipe/currency.pipe';
 
 @Component({
   selector: 'app-product-detail',
