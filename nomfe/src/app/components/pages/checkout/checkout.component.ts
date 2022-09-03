@@ -1,4 +1,4 @@
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderDetailService } from './../../../services/order-detail.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
@@ -30,6 +30,11 @@ export class CheckoutComponent implements OnInit {
   });
   isEditPaymentForm: boolean = false;
   paymentMethodShow: string = this.paymentMethodList[1].viewValue;
+  //Address
+  addressForm = new FormGroup({
+    address: new FormControl('35/28 Lê Bình, phường 04, quận Tân Bình', Validators.required),
+  });
+  isEditAddressForm: boolean = false;
 
   constructor(
     private orderDetailService: OrderDetailService,
@@ -78,6 +83,19 @@ export class CheckoutComponent implements OnInit {
   }
 
   //Others
+  onAddressFormSubmit() {
+    const controls = <any>this.addressForm.controls;
+
+    if (this.addressForm.invalid) {
+      Object.keys(controls).forEach((controlName) =>
+        controls[controlName].markAsTouched()
+      );
+      return;
+    }
+
+    this.isEditAddressForm = false;
+  }
+
   onPaymentMethodSelectChange(data: any) {
     this.paymentMethodList.forEach((el) => {
       if (el.value === data) {

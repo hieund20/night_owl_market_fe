@@ -1,3 +1,4 @@
+import { SellerProductMangementComponent } from './components/pages/seller-product-mangement/seller-product-mangement.component';
 import { CheckoutComponent } from './components/pages/checkout/checkout.component';
 import { CartComponent } from './components/pages/cart/cart.component';
 import { NgModule } from '@angular/core';
@@ -43,6 +44,15 @@ const routes: Routes = [
   {
     path: 'purchase',
     component: PurchaseComponent,
+  },
+  {
+    path: 'seller',
+    children: [
+      {
+        path: 'product-management',
+        component: SellerProductMangementComponent,
+      },
+    ],
   },
 ];
 

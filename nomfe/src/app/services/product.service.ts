@@ -72,7 +72,6 @@ export class ProductService {
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
-
     let queryParameters = new HttpParams({
       encoder: new CustomHttpUrlEncodingCodec(),
     });
@@ -98,6 +97,70 @@ export class ProductService {
     return this.httpClient.request<any>('get', `${this.basePath}/products/`, {
       params: queryParameters,
       headers: headers,
+      withCredentials: this.configuration.withCredentials,
+      observe: observe,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   *
+   *
+   * @param accessToken
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiProductPost(
+    accessToken: string,
+    body: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiProductPost(
+    accessToken: string,
+    body: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiProductPost(
+    accessToken: string,
+    body: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiProductPost(
+    accessToken: string,
+    body: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiProductPost.'
+      );
+    }
+    if (body === null || body === undefined) {
+      throw new Error(
+        'Required parameter body was null or undefined when calling apiProductPost.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [];
+    const httpHeaderAcceptSelected: string | undefined =
+      this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    if (httpHeaderAcceptSelected != undefined) {
+      headers = headers.set('Accept', httpHeaderAcceptSelected);
+    }
+
+    return this.httpClient.request<any>('post', `${this.basePath}/products/`, {
+      headers: headers,
+      body: body,
       withCredentials: this.configuration.withCredentials,
       observe: observe,
       reportProgress: reportProgress,
@@ -163,7 +226,7 @@ export class ProductService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-   public apiProductAddCommentPost(
+  public apiProductAddCommentPost(
     accessToken: string,
     productId: string,
     body?: any,

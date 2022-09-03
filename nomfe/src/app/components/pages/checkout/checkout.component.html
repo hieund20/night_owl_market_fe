@@ -1,15 +1,43 @@
 <div class="main-layout-box">
   <h2>Thanh toán</h2>
-
   <!-- Address -->
   <mat-card class="mt-4 mb-3">
     <mat-card-title>Địa chỉ nhận hàng</mat-card-title>
-    <mat-card-content class="mt-4">
-      <p>
-        Nguyễn Đức Hiếu (+84) 392737598 03 Sông Thao, phường 2, quận Tân Bình,
-        Phường 2, Quận Tân Bình, TP. Hồ Chí Minh
-      </p>
-      <button mat-button color="primary">Thay đổi</button>
+    <mat-card-content class="mt-4 d-flex justify-content-between">
+      <div class="w-40">
+        <!-- Edit Payment Method Form -->
+        <form [formGroup]="addressForm" *ngIf="isEditAddressForm">
+          <div class="row mb-1">
+            <mat-form-field appearance="outline">
+              <mat-label>Địa chỉ nhận hàng</mat-label>
+              <input
+                matInput
+                placeholder="Địa chỉ nhận hàng"
+                formControlName="address"
+              />
+            </mat-form-field>
+            <mat-error
+              *ngIf="addressForm.controls['address'].errors?.['required']"
+              ><strong>Địa chỉ nhận hàng là bắt buộc</strong></mat-error
+            >
+          </div>
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="onAddressFormSubmit()"
+          >
+            Xác nhận
+          </button>
+        </form>
+
+        <!-- Address Submitted Value -->
+        <div *ngIf="!isEditAddressForm">
+          <span>{{ addressForm.controls.address.value }}</span>
+          <button mat-button color="primary" (click)="isEditAddressForm = true">
+            Thay đổi
+          </button>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 

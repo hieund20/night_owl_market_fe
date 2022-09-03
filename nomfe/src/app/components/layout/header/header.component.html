@@ -32,6 +32,31 @@
             <span>Trang chủ</span>
           </button>
         </li>
+        <li
+          ngbDropdown
+          class="nav-item dropdown"
+          *ngIf="currentUser.is_business"
+        >
+          <button
+            ngbDropdownToggle
+            mat-menu-item
+            class="nav-link active text-light"
+          >
+            <span>Trang bán hàng</span>
+          </button>
+
+          <ul
+            ngbDropdownMenu
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdownMenuLink"
+          >
+            <li routerLink="/seller/product-management">
+              <button mat-menu-item class="nav-link active text-center">
+                <span>Quản lý sản phẩm</span>
+              </button>
+            </li>
+          </ul>
+        </li>
       </ul>
       <!-- Left links -->
       <div class="d-flex align-items-center">

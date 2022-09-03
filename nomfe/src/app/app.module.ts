@@ -31,11 +31,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
 import { CartComponent } from './components/pages/cart/cart.component';
 import { PurchaseComponent } from './components/pages/purchase/purchase.component';
 import { CheckoutComponent } from './components/pages/checkout/checkout.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SellerProductMangementComponent } from './components/pages/seller-product-mangement/seller-product-mangement.component';
+import { ModalAddProductComponent } from './components/pages/seller-product-mangement/modal-add-product/modal-add-product.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +56,8 @@ import { CheckoutComponent } from './components/pages/checkout/checkout.componen
     CartComponent,
     PurchaseComponent,
     CheckoutComponent,
+    SellerProductMangementComponent,
+    ModalAddProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +83,10 @@ import { CheckoutComponent } from './components/pages/checkout/checkout.componen
     MatCheckboxModule,
     MatTabsModule,
     MatSelectModule,
+    MatDialogModule,
+    MatAutocompleteModule,
     ToastrModule.forRoot(),
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

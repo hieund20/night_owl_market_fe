@@ -14,6 +14,9 @@
 // regular style toast
 @import "~ngx-toastr/toastr";
 
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
 html,
 body {
     height: 100%;
@@ -64,3 +67,4 @@ input.star ~ label.star:before {
     color: orange !important;
     font-size: 18px;
 }
+
