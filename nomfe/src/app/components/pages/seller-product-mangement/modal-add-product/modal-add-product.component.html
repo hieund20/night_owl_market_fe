@@ -1,85 +1,157 @@
 <h2 mat-dialog-title>Thêm mới sản phẩm</h2>
 <div mat-dialog-content>
-  <form [formGroup]="addProductForm">
-    <div class="row mb-3">
-      <div class="col">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Tên sản phẩm</mat-label>
-          <input
-            matInput
-            formControlName="name"
-            placeholder="Nhập tên sản phẩm"
-          />
-          <mat-error
-            *ngIf="addProductForm.controls['name'].errors?.['required']"
-            ><strong>Tên sản phẩm là bắt buộc</strong></mat-error
-          >
-        </mat-form-field>
-      </div>
-    </div>
+  <mat-vertical-stepper [linear]="true" #stepper [animationDuration]="'500'">
+    <mat-step [stepControl]="addProductForm">
+      <form [formGroup]="addProductForm">
+        <ng-template matStepLabel>Thêm mới sản phẩm</ng-template>
+        <div class="row mb-3">
+          <div class="col">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Tên sản phẩm</mat-label>
+              <input
+                matInput
+                formControlName="name"
+                placeholder="Nhập tên sản phẩm"
+              />
+              <mat-error
+                *ngIf="addProductForm.controls['name'].errors?.['required']"
+                ><strong>Tên sản phẩm là bắt buộc</strong></mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
 
-    <div class="row mb-3">
-      <div class="col">
-        <mat-checkbox formControlName="is_available">Kich hoạt</mat-checkbox>
-      </div>
-    </div>
+        <div class="row mb-3">
+          <div class="col">
+            <mat-checkbox formControlName="is_available"
+              >Kich hoạt</mat-checkbox
+            >
+          </div>
+        </div>
 
-    <div class="row mb-3">
-      <div class="col">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Mô tả</mat-label>
-          <textarea
-            matInput
-            formControlName="description"
-            placeholder="Nhập mô tả sản phẩm"
-          >
-          </textarea>
-        </mat-form-field>
-      </div>
-    </div>
+        <div class="row mb-3">
+          <div class="col">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Mô tả</mat-label>
+              <textarea
+                matInput
+                formControlName="description"
+                placeholder="Nhập mô tả sản phẩm"
+              >
+              </textarea>
+            </mat-form-field>
+          </div>
+        </div>
 
-    <div class="row mb-3">
-      <mat-form-field class="example-chip-list" appearance="outline">
-        <mat-label>Danh mục</mat-label>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip *ngFor="let cate of categories" (removed)="remove(cate)">
-            {{ cate.name }}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input
-            placeholder="Thêm danh mục"
-            #cateInput
-            [formControl]="cateCtrl"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)"
-          />
-        </mat-chip-list>
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="selected($event)"
+        <div class="row mb-3">
+          <mat-form-field class="example-chip-list" appearance="outline">
+            <mat-label>Danh mục</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip
+                *ngFor="let cate of categories"
+                (removed)="remove(cate)"
+              >
+                {{ cate.name }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input
+                placeholder="Thêm danh mục"
+                #cateInput
+                [formControl]="cateCtrl"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)"
+              />
+            </mat-chip-list>
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="selected($event)"
+            >
+              <mat-option
+                *ngFor="let cate of filteredCategories | async"
+                [value]="cate"
+              >
+                {{ cate.name }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error
+              *ngIf="addProductForm.controls['categories'].errors?.['required']"
+              >Danh mục là bắt buộc</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="onAddNewProduct()"
+          matStepperNext
         >
-          <mat-option
-            *ngFor="let cate of filteredCategories | async"
-            [value]="cate"
-          >
-            {{ cate.name }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-error
-          *ngIf="addProductForm.controls['categories'].errors?.['required']"
-          >Danh mục là bắt buộc</mat-error
+          Thêm
+        </button>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="addOptionForm">
+      <form [formGroup]="addOptionForm">
+        <ng-template matStepLabel>Thêm mới option</ng-template>
+        <div class="row mb-3">
+          <div class="col">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Đơn vị</mat-label>
+              <input
+                matInput
+                formControlName="unit"
+                placeholder="Nhập đơn vị sản phẩm"
+              />
+              <mat-error
+                *ngIf="addOptionForm.controls['unit'].errors?.['required']"
+                ><strong>Đơn vị sản phẩm là bắt buộc</strong></mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Đơn giá</mat-label>
+              <input
+                matInput
+                formControlName="price"
+                placeholder="Nhập đơn giá sản phẩm"
+              />
+              <mat-error
+                *ngIf="addOptionForm.controls['price'].errors?.['required']"
+                ><strong>Đơn giá sản phẩm là bắt buộc</strong></mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="onAddNewOption()"
+          matStepperNext
         >
-      </mat-form-field>
-    </div>
-  </form>
+          Thêm
+        </button>
+      </form>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Thêm sản phẩm hoàn tất</ng-template>
+      <p>Quá trình thêm sản phâm mới thành công</p>
+      <div>
+        <button mat-button matStepperPrevious>Thêm mới option khác</button>
+        <button mat-button (click)="onCloseModal()">Hoàn tất</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Đóng</button>
-  <button mat-flat-button color="primary" (click)="onAddNewProduct()">
-    Thêm
-  </button>
 </div>

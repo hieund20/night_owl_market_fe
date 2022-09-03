@@ -59,7 +59,7 @@ export class SellerProductMangementComponent implements OnInit {
 
   onOpenAddProductModal(isAdd: boolean) {
     const dialogRef = this.dialog.open(ModalAddProductComponent, {
-      width: '600px',
+      width: '800px',
       data: { isAdd: isAdd },
     });
 

@@ -33,6 +33,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
 import { CartComponent } from './components/pages/cart/cart.component';
@@ -85,6 +86,7 @@ import { ModalAddProductComponent } from './components/pages/seller-product-mang
     MatSelectModule,
     MatDialogModule,
     MatAutocompleteModule,
+    MatStepperModule,
     ToastrModule.forRoot(),
     NgbModule,
   ],
