@@ -42,6 +42,7 @@ import { CheckoutComponent } from './components/pages/checkout/checkout.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SellerProductMangementComponent } from './components/pages/seller-product-mangement/seller-product-mangement.component';
 import { ModalAddProductComponent } from './components/pages/seller-product-mangement/modal-add-product/modal-add-product.component';
+import { ModalAddAddressComponent } from './components/pages/checkout/modal-add-address/modal-add-address.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ModalAddProductComponent } from './components/pages/seller-product-mang
     CheckoutComponent,
     SellerProductMangementComponent,
     ModalAddProductComponent,
+    ModalAddAddressComponent,
   ],
   imports: [
     BrowserModule,

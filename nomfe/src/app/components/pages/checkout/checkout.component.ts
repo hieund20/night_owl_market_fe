@@ -1,3 +1,5 @@
+import { ModalAddAddressComponent } from './modal-add-address/modal-add-address.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AddressService } from './../../../services/address.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -34,13 +36,11 @@ export class CheckoutComponent implements OnInit {
   });
   isEditPaymentForm: boolean = false;
   paymentMethodShow: string = this.paymentMethodList[1].viewValue;
-  
-  //GHN
-  provinceList: any[] = [];
+
   //Address
   addressList: any[] = [];
   addressForm = new FormGroup({
-    province: new FormControl(this.provinceList[0], Validators.required),
+    address: new FormControl('', Validators.required),
   });
   isEditAddressForm: boolean = false;
 
@@ -48,6 +48,7 @@ export class CheckoutComponent implements OnInit {
     private orderService: OrdersService,
     private addressService: AddressService,
     private ghnLocationService: GhnLocationService,
+    public dialog: MatDialog,
     private toastr: ToastrService
   ) {}
 
@@ -55,7 +56,6 @@ export class CheckoutComponent implements OnInit {
     this.getAccessToken();
     this.getOrdersList(this.page);
     this.getMyAddressList();
-    this.getAllProvinceOfVietNam();
   }
 
   getAccessToken() {
@@ -97,8 +97,13 @@ export class CheckoutComponent implements OnInit {
     this.addressService.apiAddressGet(this.accessToken).subscribe(
       (res) => {
         if (res) {
-          console.log('check res', res);
-          this.addressList = res.results;
+          res.results.forEach((el: any, index: number) => {
+            this.addressList.push(
+              `${el.street}, ${el.ward_id}, ${el.district_id},
+              ${el.province_id}, ${el.country}`
+            );
+          });
+          this.addressForm.controls.address.setValue(this.addressList[0]);
         }
       },
       (error) => {
@@ -107,35 +112,7 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-  //GHN-API
-  getAllProvinceOfVietNam() {
-    this.ghnLocationService.apiProvincesGet().subscribe(
-      (res) => {
-        if (res && res.code === 200) {
-          console.log('check res', res);
-          this.provinceList = res.data;
-        }
-      },
-      (error) => {
-        console.log('Have a error when get GHN province : ', error);
-      }
-    );
-  }
-
   //Others
-  onAddressFormSubmit() {
-    const controls = <any>this.addressForm.controls;
-
-    if (this.addressForm.invalid) {
-      Object.keys(controls).forEach((controlName) =>
-        controls[controlName].markAsTouched()
-      );
-      return;
-    }
-
-    this.isEditAddressForm = false;
-  }
-
   onPaymentMethodSelectChange(data: any) {
     this.paymentMethodList.forEach((el) => {
       if (el.value === data) {
@@ -147,5 +124,17 @@ export class CheckoutComponent implements OnInit {
   onProductPageChange(data: any) {
     this.page = data.pageIndex + 1;
     this.getOrdersList(this.page);
+  }
+
+  onOpenModalAddAddress() {
+    const dialogRef = this.dialog.open(ModalAddAddressComponent, {
+      width: '700px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getMyAddressList();
+      }
+    });
   }
 }

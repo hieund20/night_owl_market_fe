@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>Thêm mới địa chỉ nhận hàng</h2>
+<div mat-dialog-content>
+  <form [formGroup]="addressForm">
+    <div class="row mb-1">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Tỉnh</mat-label>
+          <mat-select
+            formControlName="province_id"
+            (valueChange)="onChangeProvince($event)"
+          >
+            <mat-option
+              *ngFor="let province of provinceList"
+              [value]="province.ProvinceID"
+            >
+              {{ province.ProvinceName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Quận - Huyện</mat-label>
+          <mat-select
+            formControlName="district_id"
+            (valueChange)="onChangeDistrict($event)"
+          >
+            <mat-option
+              *ngFor="let district of districtList"
+              [value]="district.DistrictID"
+            >
+              {{ district.DistrictName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Phường - Xã</mat-label>
+          <mat-select formControlName="ward_id">
+            <mat-option *ngFor="let ward of wardList" [value]="ward.WardCode">
+              {{ ward.WardName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mb-1">
+      <mat-form-field appearance="outline">
+        <mat-label>Tên đường</mat-label>
+        <input
+          matInput
+          formControlName="street"
+          placeholder="Nhập địa chỉ tên đường"
+        />
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Đóng</button>
+  <button mat-flat-button color="primary" (click)="onSubmitAddAddress()">
+    Thêm địa chỉ
+  </button>
+</div>

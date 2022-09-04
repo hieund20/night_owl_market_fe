@@ -2,52 +2,45 @@
   <h2>Thanh toán</h2>
   <!-- Address -->
   <mat-card class="mt-4 mb-3">
-    <mat-card-title>Địa chỉ nhận hàng</mat-card-title>
+    <mat-card-title class="d-flex align-items-center"
+      >Địa chỉ nhận hàng<button
+        *ngIf="isEditAddressForm"
+        mat-icon-button
+        color="primary"
+        (click)="onOpenModalAddAddress()"
+      >
+        <mat-icon>add_circle_outline</mat-icon>
+      </button></mat-card-title
+    >
     <mat-card-content class="mt-4 d-flex justify-content-between">
-      <div class="w-40">
-        <!-- Edit Payment Method Form -->
-        <form [formGroup]="addressForm" *ngIf="isEditAddressForm">
-          <mat-radio-group aria-label="Select an option">
+      <!-- Edit Address Form -->
+      <div class="d-block w-100" *ngIf="isEditAddressForm">
+        <form [formGroup]="addressForm">
+          <mat-radio-group formControlName="address">
             <mat-radio-button
+              class="d-block mb-3"
               *ngFor="let item of addressList"
-              value="{{ item.id }}"
-              >{{ item.country }}</mat-radio-button
+              value="{{ item }}"
+              >{{ item }}</mat-radio-button
             >
-            <mat-radio-button value="2">Option 2</mat-radio-button>
           </mat-radio-group>
-          <div class="row mb-1">
-            <mat-form-field appearance="outline">
-              <mat-label>Tỉnh</mat-label>
-              <mat-select formControlName="province">
-                <mat-option
-                  *ngFor="let province of provinceList"
-                  [value]="province.ProvinceID"
-                >
-                  {{ province.ProvinceName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <!-- <mat-error
-              *ngIf="addressForm.controls['address'].errors?.['required']"
-              ><strong>Địa chỉ nhận hàng là bắt buộc</strong></mat-error
-            > -->
-          </div>
           <button
+            class="mt-3"
             mat-flat-button
             color="primary"
-            (click)="onAddressFormSubmit()"
+            (click)="isEditAddressForm = false"
           >
             Xác nhận
           </button>
         </form>
+      </div>
 
-        <!-- Address Submitted Value -->
-        <div *ngIf="!isEditAddressForm">
-          <!-- <span>{{ addressForm.controls.address.value }}</span> -->
-          <button mat-button color="primary" (click)="isEditAddressForm = true">
-            Thay đổi
-          </button>
-        </div>
+      <!-- Address Submitted Value -->
+      <div *ngIf="!isEditAddressForm">
+        <span>{{ addressForm.controls.address.value }}</span>
+        <button mat-button color="primary" (click)="isEditAddressForm = true">
+          Thay đổi
+        </button>
       </div>
     </mat-card-content>
   </mat-card>

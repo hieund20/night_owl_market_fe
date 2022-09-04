@@ -38,7 +38,7 @@ export class AddressService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-   public apiAddressGet(
+  public apiAddressGet(
     accessToken: string,
     page?: number,
     observe?: 'body',
@@ -89,6 +89,65 @@ export class AddressService {
     return this.httpClient.request<any>('get', `${this.basePath}/address/`, {
       params: queryParameters,
       headers: headers,
+      withCredentials: this.configuration.withCredentials,
+      observe: observe,
+      reportProgress: reportProgress,
+    });
+  }
+
+  /**
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiAddressPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiAddressPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiAddressPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiAddressPost(
+    accessToken: string,
+    body?: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    let queryParameters = new HttpParams({
+      encoder: new CustomHttpUrlEncodingCodec(),
+    });
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiOrdersGet.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected != undefined) {
+      headers = headers.set('Content-Type', httpContentTypeSelected);
+    }
+
+    return this.httpClient.request<any>('post', `${this.basePath}/address/`, {
+      headers: headers,
+      body: body,
       withCredentials: this.configuration.withCredentials,
       observe: observe,
       reportProgress: reportProgress,
