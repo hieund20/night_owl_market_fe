@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { PaymentMethods } from '../../constants/payment-methods';
+import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'app-checkout',
@@ -32,18 +33,21 @@ export class CheckoutComponent implements OnInit {
   paymentMethodShow: string = this.paymentMethodList[1].viewValue;
   //Address
   addressForm = new FormGroup({
-    address: new FormControl('35/28 Lê Bình, phường 04, quận Tân Bình', Validators.required),
+    address: new FormControl(
+      '35/28 Lê Bình, phường 04, quận Tân Bình',
+      Validators.required
+    ),
   });
   isEditAddressForm: boolean = false;
 
   constructor(
-    private orderDetailService: OrderDetailService,
+    private orderService: OrdersService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.getAccessToken();
-    this.getOrderDetailList();
+    this.getOrdersList();
   }
 
   getAccessToken() {
@@ -51,10 +55,10 @@ export class CheckoutComponent implements OnInit {
   }
 
   //API
-  getOrderDetailList() {
+  getOrdersList() {
     this.dataTableList = [];
 
-    this.orderDetailService.apiOrderDetailsGet(this.accessToken).subscribe(
+    this.orderService.apiOrdersGet(this.accessToken, '0').subscribe(
       (res) => {
         console.log('check res', res);
         if (res) {
@@ -63,15 +67,14 @@ export class CheckoutComponent implements OnInit {
           res.results.forEach((el: any) => {
             this.dataTableList.push({
               id: el.id,
-              name: el.product_option.base_product.name,
-              unit: el.product_option.unit,
-              price: Number.parseInt(el.unit_price),
-              quantity: el.quantity,
-              total_price: el.quantity * Number.parseInt(el.unit_price),
+              name: el.orderdetail_set[0].product_option.base_product.name,
+              unit: el.orderdetail_set[0].product_option.unit,
+              price: el.orderdetail_set[0].unit_price,
+              quantity: el.orderdetail_set.length,
+              total_price: el.cost,
             });
 
-            this.totalFinalPrice +=
-              el.quantity * Number.parseInt(el.unit_price);
+            this.totalFinalPrice += el.cost;
           });
           this.dataSource.data = this.dataTableList;
         }
