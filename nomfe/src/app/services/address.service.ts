@@ -14,7 +14,7 @@ import { CustomHttpUrlEncodingCodec } from '../encoder';
 @Injectable({
   providedIn: 'root',
 })
-export class OrdersService {
+export class AddressService {
   protected basePath = 'https://night-owl-market.herokuapp.com/market';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
@@ -34,91 +34,31 @@ export class OrdersService {
   }
 
   /**
-   * @param body
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public apiOrdersPost(
-    accessToken: string,
-    body?: any,
-    observe?: 'body',
-    reportProgress?: boolean
-  ): Observable<any>;
-  public apiOrdersPost(
-    accessToken: string,
-    body?: any,
-    observe?: 'response',
-    reportProgress?: boolean
-  ): Observable<HttpResponse<any>>;
-  public apiOrdersPost(
-    accessToken: string,
-    body?: any,
-    observe?: 'events',
-    reportProgress?: boolean
-  ): Observable<HttpEvent<any>>;
-  public apiOrdersPost(
-    accessToken: string,
-    body?: any,
-    observe: any = 'body',
-    reportProgress: boolean = false
-  ): Observable<any> {
-    if (accessToken === null || accessToken === undefined) {
-      throw new Error(
-        'Required parameter accessToken was null or undefined when calling apiOptionAddToCartPost.'
-      );
-    }
-
-    let headers = this.defaultHeaders;
-    // to determine the Accept header
-    headers = headers.set('Authorization', `Bearer ${accessToken}`);
-
-    // to determine the Content-Type header
-    const consumes: string[] = ['application/json'];
-    const httpContentTypeSelected: string | undefined =
-      this.configuration.selectHeaderContentType(consumes);
-    if (httpContentTypeSelected != undefined) {
-      headers = headers.set('Content-Type', httpContentTypeSelected);
-    }
-
-    return this.httpClient.request<any>('post', `${this.basePath}/orders/`, {
-      body: body,
-      headers: headers,
-      withCredentials: this.configuration.withCredentials,
-      observe: observe,
-      reportProgress: reportProgress,
-    });
-  }
-
-  /**
    * @param status
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public apiOrdersGet(
+   public apiAddressGet(
     accessToken: string,
-    status: string,
-    page: number,
+    page?: number,
     observe?: 'body',
     reportProgress?: boolean
   ): Observable<any>;
-  public apiOrdersGet(
+  public apiAddressGet(
     accessToken: string,
-    status: string,
-    page: number,
+    page?: number,
     observe?: 'response',
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
-  public apiOrdersGet(
+  public apiAddressGet(
     accessToken: string,
-    status: string,
-    page: number,
+    page?: number,
     observe?: 'events',
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
-  public apiOrdersGet(
+  public apiAddressGet(
     accessToken: string,
-    status: string,
-    page: number,
+    page?: number,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
@@ -130,10 +70,7 @@ export class OrdersService {
         'Required parameter accessToken was null or undefined when calling apiOrdersGet.'
       );
     }
-    if (status !== null || status !== undefined) {
-      queryParameters = queryParameters.set('status', <any>status);
-    }
-    if (page !== null || page !== undefined) {
+    if (page !== null && page !== undefined) {
       queryParameters = queryParameters.set('page', <any>page);
     }
 
@@ -149,7 +86,7 @@ export class OrdersService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<any>('get', `${this.basePath}/orders/`, {
+    return this.httpClient.request<any>('get', `${this.basePath}/address/`, {
       params: queryParameters,
       headers: headers,
       withCredentials: this.configuration.withCredentials,

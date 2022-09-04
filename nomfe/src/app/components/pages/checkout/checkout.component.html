@@ -7,19 +7,30 @@
       <div class="w-40">
         <!-- Edit Payment Method Form -->
         <form [formGroup]="addressForm" *ngIf="isEditAddressForm">
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button
+              *ngFor="let item of addressList"
+              value="{{ item.id }}"
+              >{{ item.country }}</mat-radio-button
+            >
+            <mat-radio-button value="2">Option 2</mat-radio-button>
+          </mat-radio-group>
           <div class="row mb-1">
             <mat-form-field appearance="outline">
-              <mat-label>Địa chỉ nhận hàng</mat-label>
-              <input
-                matInput
-                placeholder="Địa chỉ nhận hàng"
-                formControlName="address"
-              />
+              <mat-label>Tỉnh</mat-label>
+              <mat-select formControlName="province">
+                <mat-option
+                  *ngFor="let province of provinceList"
+                  [value]="province.ProvinceID"
+                >
+                  {{ province.ProvinceName }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-error
+            <!-- <mat-error
               *ngIf="addressForm.controls['address'].errors?.['required']"
               ><strong>Địa chỉ nhận hàng là bắt buộc</strong></mat-error
-            >
+            > -->
           </div>
           <button
             mat-flat-button
@@ -32,7 +43,7 @@
 
         <!-- Address Submitted Value -->
         <div *ngIf="!isEditAddressForm">
-          <span>{{ addressForm.controls.address.value }}</span>
+          <!-- <span>{{ addressForm.controls.address.value }}</span> -->
           <button mat-button color="primary" (click)="isEditAddressForm = true">
             Thay đổi
           </button>
@@ -88,6 +99,14 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+      <mat-paginator
+        [length]="pageLength"
+        [pageSize]="5"
+        [pageSizeOptions]="[5]"
+        aria-label="Chọn page"
+        (page)="onProductPageChange($event)"
+      >
+      </mat-paginator>
     </mat-card-content>
     <mat-card-footer class="d-flex align-items-center justify-content-between">
       <div></div>

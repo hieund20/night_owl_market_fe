@@ -1,3 +1,4 @@
+import { OrdersService } from 'src/app/services/orders.service';
 import { ModalAddProductComponent } from './modal-add-product/modal-add-product.component';
 import { ProductService } from 'src/app/services/product.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,6 +26,7 @@ export class SellerProductMangementComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private orderService: OrdersService,
     public dialog: MatDialog
   ) {}
 
@@ -38,7 +40,7 @@ export class SellerProductMangementComponent implements OnInit {
     this.accessToken = <string>localStorage.getItem('access_token');
   }
 
-  getProductList(page?: number) {
+  getProductList(page: number) {
     this.productService.apiProductGet(page).subscribe(
       (res) => {
         this.dataTableList = res.results;
@@ -49,6 +51,16 @@ export class SellerProductMangementComponent implements OnInit {
         console.log('Have a error when get product list', error);
       }
     );
+    // this.orderService.apiOrdersGet(this.accessToken, '1', this.page).subscribe(
+    //   (res) => {
+    //     this.dataTableList = res.results;
+    //     this.dataSource.data = this.dataTableList;
+    //     this.pageLength = res.count;
+    //   },
+    //   (error) => {
+    //     console.log('Have a error when get product list', error);
+    //   }
+    // );
   }
 
   //Others
@@ -65,7 +77,7 @@ export class SellerProductMangementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.getProductList();
+        this.getProductList(this.page);
       }
     });
   }
