@@ -43,6 +43,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SellerProductMangementComponent } from './components/pages/seller-product-mangement/seller-product-mangement.component';
 import { ModalAddProductComponent } from './components/pages/seller-product-mangement/modal-add-product/modal-add-product.component';
 import { ModalAddAddressComponent } from './components/pages/checkout/modal-add-address/modal-add-address.component';
+import { CloudinaryModule } from '@cloudinary/ng';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -91,6 +93,8 @@ import { ModalAddAddressComponent } from './components/pages/checkout/modal-add-
     MatStepperModule,
     ToastrModule.forRoot(),
     NgbModule,
+    CloudinaryModule,
+    NgxDropzoneModule
   ],
   providers: [],
   bootstrap: [AppComponent],

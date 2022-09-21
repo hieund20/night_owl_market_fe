@@ -14,13 +14,7 @@ export class SellerProductMangementComponent implements OnInit {
   accessToken: string = '';
   dataTableList: any[] = [];
   dataSource = new MatTableDataSource<any>(this.dataTableList);
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'min_price',
-    'sold_amount',
-    'action',
-  ];
+  displayedColumns: string[] = ['id', 'name', 'price', 'sold_amount', 'action'];
   page: number = 1;
   pageLength: number = 0;
 
@@ -41,26 +35,26 @@ export class SellerProductMangementComponent implements OnInit {
   }
 
   getProductList(page: number) {
-    this.productService.apiProductGet(page).subscribe(
-      (res) => {
-        this.dataTableList = res.results;
-        this.dataSource.data = this.dataTableList;
-        this.pageLength = res.count;
-      },
-      (error) => {
-        console.log('Have a error when get product list', error);
-      }
-    );
-    // this.orderService.apiOrdersGet(this.accessToken, '1', this.page).subscribe(
-    //   (res) => {
-    //     this.dataTableList = res.results;
-    //     this.dataSource.data = this.dataTableList;
-    //     this.pageLength = res.count;
-    //   },
-    //   (error) => {
-    //     console.log('Have a error when get product list', error);
-    //   }
-    // );
+    this.orderService
+      .apiOrdersGet(this.accessToken, null, 1, this.page)
+      .subscribe(
+        (res) => {
+          this.dataTableList = res.results;
+          this.dataSource.data = this.dataTableList;
+          this.pageLength = res.count;
+          res.results.forEach((el: any) => {
+            this.dataTableList.push({
+              id: el.id,
+              name: el.orderdetail_set[0].product_option.base_product.name,
+              price: el.orderdetail_set[0].unit_price,
+              sold_amount: el.orderdetail_set.length,
+            });
+          });
+        },
+        (error) => {
+          console.log('Have a error when get product list', error);
+        }
+      );
   }
 
   //Others

@@ -18,13 +18,7 @@ export class CheckoutComponent implements OnInit {
   accessToken: string = '';
   dataTableList: any[] = [];
   dataSource = new MatTableDataSource<any>(this.dataTableList);
-  displayedColumns: string[] = [
-    'name',
-    'unit',
-    'price',
-    'quantity',
-    'total_price',
-  ];
+  displayedColumns: string[] = ['store_name', 'cost', 'total_shipping_fee'];
   pageLength: number = 0;
   page: number = 1;
   totalProduct: number = 0;
@@ -66,7 +60,7 @@ export class CheckoutComponent implements OnInit {
   getOrdersList(page: number) {
     this.dataTableList = [];
 
-    this.orderService.apiOrdersGet(this.accessToken, '0', page).subscribe(
+    this.orderService.apiOrdersGet(this.accessToken, '0', null, page).subscribe(
       (res) => {
         console.log('check res', res);
         if (res) {
@@ -75,11 +69,9 @@ export class CheckoutComponent implements OnInit {
           res.results.forEach((el: any) => {
             this.dataTableList.push({
               id: el.id,
-              name: el.orderdetail_set[0].product_option.base_product.name,
-              unit: el.orderdetail_set[0].product_option.unit,
-              price: el.orderdetail_set[0].unit_price,
-              quantity: el.orderdetail_set.length,
-              total_price: el.cost,
+              store_name: `${el.store.last_name} ${el.store.first_name}`,
+              cost: el.cost,
+              total_shipping_fee: el.total_shipping_fee,
             });
 
             this.totalFinalPrice += el.cost;

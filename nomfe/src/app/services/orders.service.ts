@@ -96,29 +96,33 @@ export class OrdersService {
    */
   public apiOrdersGet(
     accessToken: string,
-    status: string,
-    page: number,
+    status?: any,
+    state?: any,
+    page?: number,
     observe?: 'body',
     reportProgress?: boolean
   ): Observable<any>;
   public apiOrdersGet(
     accessToken: string,
-    status: string,
-    page: number,
+    status?: any,
+    state?: any,
+    page?: number,
     observe?: 'response',
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
   public apiOrdersGet(
     accessToken: string,
-    status: string,
-    page: number,
+    status?: any,
+    state?: any,
+    page?: number,
     observe?: 'events',
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
   public apiOrdersGet(
     accessToken: string,
-    status: string,
-    page: number,
+    status?: any,
+    state?: any,
+    page?: number,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
@@ -130,10 +134,13 @@ export class OrdersService {
         'Required parameter accessToken was null or undefined when calling apiOrdersGet.'
       );
     }
-    if (status !== null || status !== undefined) {
+    if (status !== null && status !== undefined) {
       queryParameters = queryParameters.set('status', <any>status);
     }
-    if (page !== null || page !== undefined) {
+    if (state !== null && state !== undefined) {
+      queryParameters = queryParameters.set('state', <any>state);
+    }
+    if (page !== null && page !== undefined) {
       queryParameters = queryParameters.set('page', <any>page);
     }
 

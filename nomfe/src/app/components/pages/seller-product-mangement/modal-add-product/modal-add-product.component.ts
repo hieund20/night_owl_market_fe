@@ -10,11 +10,14 @@ import { map, Observable, startWith } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
 import { Category } from './../../../../model/category';
+import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
+import { UploadService } from 'src/app/services/cloudinary-services/upload.service';
 
 @Component({
   selector: 'app-modal-add-product',
   templateUrl: './modal-add-product.component.html',
   styleUrls: ['./modal-add-product.component.scss'],
+  providers: [UploadService],
 })
 export class ModalAddProductComponent implements OnInit {
   accessToken: string = '';
@@ -33,6 +36,9 @@ export class ModalAddProductComponent implements OnInit {
     unit: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),
   });
+  imageOptionList: any = [];
+  fileList: File[] = [];
+  img: CloudinaryImage | undefined;
 
   //Category Chip auto complete
   categoryList: Category[] = [];
@@ -48,7 +54,8 @@ export class ModalAddProductComponent implements OnInit {
     private productService: ProductService,
     private optionService: OptionService,
     private toastr: ToastrService,
-    public dialogRef: MatDialogRef<ModalAddProductComponent>
+    public dialogRef: MatDialogRef<ModalAddProductComponent>,
+    private uploadService: UploadService
   ) {
     //Category Chip auto complete
     this.filteredCategories = this.cateCtrl.valueChanges.pipe(
@@ -121,11 +128,16 @@ export class ModalAddProductComponent implements OnInit {
       return;
     }
 
+    let body = {
+      ...this.addOptionForm.value,
+      image_set: this.imageOptionList,
+    };
+
     this.optionService
       .apiOptionAddToProductPost(
         this.accessToken,
         this.productId.toString(),
-        this.addOptionForm.value
+        body
       )
       .subscribe(
         (res) => {
@@ -182,5 +194,32 @@ export class ModalAddProductComponent implements OnInit {
 
   onCloseModal() {
     this.dialogRef.close(true);
+  }
+
+  onSelect(e: any) {
+    this.fileList.push(...e.addedFiles);
+  }
+
+  onRemove(e: any) {
+    this.fileList.splice(this.fileList.indexOf(e), 1);
+  }
+
+  onUpload() {
+    if (!this.fileList[0]) {
+      console.log('no file');
+    }
+
+    const data = new FormData();
+    data.append('upload_preset', 'xssjwxbn');
+    data.append('cloud_name', 'dwgjmgf6o');
+
+    for (let i = 0; i < this.fileList.length; i++) {
+      data.append('file', this.fileList[i]);
+      this.uploadService.uploadImage(data).subscribe((res: any) => {
+        if (res) {
+          this.imageOptionList.push(res?.secure_url);
+        }
+      });
+    }
   }
 }
