@@ -116,15 +116,22 @@ export class CheckoutComponent implements OnInit {
       list_voucher: {
         ...list_voucher,
       },
-      payment_type: 1,
+      payment_type: 0,
     };
-    this.orderService
-      .apiOrdersCheckoutPost(this.accessToken, body)
-      .subscribe((res) => {
+    this.orderService.apiOrdersCheckoutPost(this.accessToken, body).subscribe(
+      (res) => {
         if (res) {
           console.log('res', res);
+          this.toastr.success('Đặt hàng thành công');
+        } else {
+          this.toastr.error('Đặt hàng không thành công');
         }
-      });
+      },
+      (err) => {
+        this.toastr.error('Đặt hàng không thành công');
+        console.log('have a error when post order checkout', err);
+      }
+    );
   }
 
   //Others
