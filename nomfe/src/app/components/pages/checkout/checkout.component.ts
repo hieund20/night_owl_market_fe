@@ -59,10 +59,8 @@ export class CheckoutComponent implements OnInit {
   //API
   getOrdersList(page: number) {
     this.dataTableList = [];
-
-    this.orderService.apiOrdersGet(this.accessToken, '0', null, page).subscribe(
+    this.orderService.apiOrdersGet(this.accessToken, null, 0, page).subscribe(
       (res) => {
-        console.log('check res', res);
         if (res) {
           this.totalProduct = res.count;
           this.pageLength = res.count;
@@ -73,7 +71,6 @@ export class CheckoutComponent implements OnInit {
               cost: el.cost,
               total_shipping_fee: el.total_shipping_fee,
             });
-
             this.totalFinalPrice += el.cost;
           });
           this.dataSource.data = this.dataTableList;
@@ -102,6 +99,32 @@ export class CheckoutComponent implements OnInit {
         console.log('Have a error when get address: ', error);
       }
     );
+  }
+
+  postOrderCheckout() {
+    let orderIdList = [];
+    for (let i = 0; i < this.dataTableList.length; i++) {
+      orderIdList.push(this.dataTableList[i].id);
+    }
+
+    let list_voucher: any = {};
+    orderIdList.forEach((el) => {
+      list_voucher[el] = null;
+    });
+
+    const body = {
+      list_voucher: {
+        ...list_voucher,
+      },
+      payment_type: 1,
+    };
+    this.orderService
+      .apiOrdersCheckoutPost(this.accessToken, body)
+      .subscribe((res) => {
+        if (res) {
+          console.log('res', res);
+        }
+      });
   }
 
   //Others
