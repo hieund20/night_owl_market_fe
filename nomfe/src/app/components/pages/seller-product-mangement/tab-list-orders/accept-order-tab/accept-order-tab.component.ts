@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrdersService } from 'src/app/services/orders.service';
 import { Component, OnInit } from '@angular/core';
@@ -22,7 +23,10 @@ export class AcceptOrderTabComponent implements OnInit {
   page: number = 1;
   pageLength: number = 0;
 
-  constructor(private orderService: OrdersService) {}
+  constructor(
+    private orderService: OrdersService,
+    public toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getAccessToken();
@@ -61,10 +65,12 @@ export class AcceptOrderTabComponent implements OnInit {
       (res) => {
         if (res) {
           console.log('check res', res);
+          this.toastr.success('Xác nhận đơn hàng thành công');
         }
       },
       (err) => {
         console.log('Have a error when accept order', err);
+        this.toastr.error('Xác nhận đơn hàng không thành công');
       }
     );
   }

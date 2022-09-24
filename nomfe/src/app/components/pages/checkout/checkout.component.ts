@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ModalAddAddressComponent } from './modal-add-address/modal-add-address.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressService } from './../../../services/address.service';
@@ -43,6 +44,7 @@ export class CheckoutComponent implements OnInit {
     private addressService: AddressService,
     private ghnLocationService: GhnLocationService,
     public dialog: MatDialog,
+    private router: Router,
     private toastr: ToastrService
   ) {}
 
@@ -123,6 +125,9 @@ export class CheckoutComponent implements OnInit {
         if (res) {
           console.log('res', res);
           this.toastr.success('Đặt hàng thành công');
+          setTimeout(() => {
+            this.router.navigateByUrl('/purchase#pending');
+          }, 1000);
         } else {
           this.toastr.error('Đặt hàng không thành công');
         }

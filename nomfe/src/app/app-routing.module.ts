@@ -10,6 +10,7 @@ import { RegisterPageComponent } from './components/pages/register-page/register
 import { PurchaseComponent } from './components/pages/purchase/purchase.component';
 import { ProductListTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/product-list-tab/product-list-tab.component';
 import { AcceptOrderTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/accept-order-tab/accept-order-tab.component';
+import { PendingPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/pending-purchase-tab/pending-purchase-tab.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -48,26 +49,18 @@ const routes: Routes = [
     component: PurchaseComponent,
   },
   {
+    path: 'purchase#pending',
+    component: PurchaseComponent,
+  },
+  {
     path: 'seller',
     children: [
       {
         path: 'product-management',
         component: SellerProductMangementComponent,
       },
-      {
-        path: 'product-management#actions',
-        component: ProductListTabComponent,
-      },
-      {
-        path: 'product-management#accepts',
-        component: AcceptOrderTabComponent,
-      },
     ],
   },
-  {
-    path: 'seller/product-management#actions',
-    component: ProductListTabComponent,
-  }
 ];
 
 @NgModule({
