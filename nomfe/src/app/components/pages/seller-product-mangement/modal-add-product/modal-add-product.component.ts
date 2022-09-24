@@ -127,25 +127,27 @@ export class ModalAddProductComponent implements OnInit {
       return;
     }
 
-    let data = new FormData();
-    this.fileList.forEach((el) => {
-      let blob = new Blob([el]);
-      this.imageOptionList.push(blob);
-    });
-    data.append('image_set', this.imageOptionList);
-    data.append('unit', <string>this.addOptionForm.controls.unit.value);
-    data.append('price', <string>this.addOptionForm.controls.price.value);
+    // let data = new FormData();
+    // this.fileList.forEach((el) => {
+    //   let blob = new Blob([el]);
+    //   this.imageOptionList.push(blob);
+    // });
+    // data.append('uploaded_images', this.imageOptionList);
+    // data.append('unit', <string>this.addOptionForm.controls.unit.value);
+    // data.append('price', <string>this.addOptionForm.controls.price.value);
 
-    // let body = {
-    //   ...this.addOptionForm.value,
-    //   image_set: [...this.fileList],
-    // };
+    // console.log('check form data', data.get('unit'));
+
+    let body = {
+      ...this.addOptionForm.value,
+      uploaded_images: this.imageOptionList,
+    };
 
     this.optionService
       .apiOptionAddToProductPost(
         this.accessToken,
         this.productId.toString(),
-        data
+        body
       )
       .subscribe(
         (res) => {

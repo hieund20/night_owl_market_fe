@@ -45,30 +45,34 @@ export class ProductService {
    * @param reportProgress flag to report request and response progress.
    */
   public apiProductGet(
-    page?: number,
-    category_id?: number,
-    search?: string,
+    page?: any,
+    category_id?: any,
+    search?: any,
+    owner?: any,
     observe?: 'body',
     reportProgress?: boolean
   ): Observable<any>;
   public apiProductGet(
-    page?: number,
-    category_id?: number,
-    search?: string,
+    page?: any,
+    category_id?: any,
+    search?: any,
+    owner?: any,
     observe?: 'response',
     reportProgress?: boolean
   ): Observable<HttpResponse<any>>;
   public apiProductGet(
-    page?: number,
-    category_id?: number,
-    search?: string,
+    page?: any,
+    category_id?: any,
+    search?: any,
+    owner?: any,
     observe?: 'events',
     reportProgress?: boolean
   ): Observable<HttpEvent<any>>;
   public apiProductGet(
-    page?: number,
-    category_id?: number,
-    search?: string,
+    page?: any,
+    category_id?: any,
+    search?: any,
+    owner?: any,
     observe: any = 'body',
     reportProgress: boolean = false
   ): Observable<any> {
@@ -83,6 +87,9 @@ export class ProductService {
     }
     if (search !== undefined && search !== null) {
       queryParameters = queryParameters.set('search', <any>search);
+    }
+    if (owner !== undefined && owner !== null) {
+      queryParameters = queryParameters.set('owner', <any>owner);
     }
 
     let headers = this.defaultHeaders;

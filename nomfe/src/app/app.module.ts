@@ -45,6 +45,8 @@ import { ModalAddProductComponent } from './components/pages/seller-product-mang
 import { ModalAddAddressComponent } from './components/pages/checkout/modal-add-address/modal-add-address.component';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { ProductListTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/product-list-tab/product-list-tab.component';
+import { AcceptOrderTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/accept-order-tab/accept-order-tab.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     SellerProductMangementComponent,
     ModalAddProductComponent,
     ModalAddAddressComponent,
+    ProductListTabComponent,
+    AcceptOrderTabComponent,
   ],
   imports: [
     BrowserModule,

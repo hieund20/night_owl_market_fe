@@ -8,6 +8,8 @@ import { LoginPageComponent } from './components/pages/login-page/login-page.com
 import { ProductDetailComponent } from './components/pages/product-detail/product-detail.component';
 import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
 import { PurchaseComponent } from './components/pages/purchase/purchase.component';
+import { ProductListTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/product-list-tab/product-list-tab.component';
+import { AcceptOrderTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/accept-order-tab/accept-order-tab.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -52,8 +54,20 @@ const routes: Routes = [
         path: 'product-management',
         component: SellerProductMangementComponent,
       },
+      {
+        path: 'product-management#actions',
+        component: ProductListTabComponent,
+      },
+      {
+        path: 'product-management#accepts',
+        component: AcceptOrderTabComponent,
+      },
     ],
   },
+  {
+    path: 'seller/product-management#actions',
+    component: ProductListTabComponent,
+  }
 ];
 
 @NgModule({

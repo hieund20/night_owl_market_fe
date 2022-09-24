@@ -30,6 +30,7 @@
             aria-labelledby="example-radio-group-label"
             class="option-radio-group"
             [(ngModel)]="optionItem"
+            (change)="onChangeOptions($event)"
           >
             <mat-radio-button
               class="option-radio-button"

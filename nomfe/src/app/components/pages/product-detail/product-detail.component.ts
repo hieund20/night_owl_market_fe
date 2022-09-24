@@ -1,3 +1,4 @@
+import { MatRadioChange } from '@angular/material/radio';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -13,16 +14,17 @@ import { OptionService } from './../../../services/option.service';
   styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
+  accessToken: string = '';
+  isCurrentUserLogged: boolean = false;
   productDetail: Product = {};
   productId: string = '';
   productQuantity: number = 1;
   optionItem: Option = {};
+  optionSelected: any = {};
   commentForm = new FormGroup({
     rate: new FormControl(3),
     comment: new FormControl('', Validators.required),
   });
-  accessToken: string = '';
-  isCurrentUserLogged: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,11 +70,17 @@ export class ProductDetailComponent implements OnInit {
     this.productQuantity = data;
   }
 
+  onChangeOptions(data: MatRadioChange) {
+    this.optionSelected = data.value;
+  }
+
   onAddProductToCart() {
     if (Object.keys(this.optionItem).length === 0) {
       this.toastr.warning('Vui lòng chọn option cho sản phẩm');
       return;
     }
+    console.log('check option choose', this.optionSelected);
+
     const payload = {
       product_option: {
         base_product: {
@@ -94,7 +102,7 @@ export class ProductDetailComponent implements OnInit {
       quantity: this.productQuantity,
     };
     this.optionService
-      .apiOptionAddToCartPost(this.accessToken, this.productId, payload)
+      .apiOptionAddToCartPost(this.accessToken, this.optionSelected.id, payload)
       .subscribe(
         (res) => {
           if (res) {
