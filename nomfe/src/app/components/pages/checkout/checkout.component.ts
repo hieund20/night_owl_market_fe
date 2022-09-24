@@ -109,14 +109,14 @@ export class CheckoutComponent implements OnInit {
 
     let list_voucher: any = {};
     orderIdList.forEach((el) => {
-      list_voucher[el] = null;
+      list_voucher[el] = 'null';
     });
 
     const body = {
       list_voucher: {
         ...list_voucher,
       },
-      payment_type: 0,
+      // payment_type: 0,
     };
     this.orderService.apiOrdersCheckoutPost(this.accessToken, body).subscribe(
       (res) => {

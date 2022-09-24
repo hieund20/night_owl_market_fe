@@ -1,17 +1,17 @@
-import { OptionService } from './../../../../services/option.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, startWith } from 'rxjs';
 import { CategoryService } from 'src/app/services/category.service';
+import { UploadService } from 'src/app/services/cloudinary-services/upload.service';
 import { ProductService } from 'src/app/services/product.service';
 import { Category } from './../../../../model/category';
-import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
-import { UploadService } from 'src/app/services/cloudinary-services/upload.service';
+import { OptionService } from './../../../../services/option.service';
 
 @Component({
   selector: 'app-modal-add-product',
@@ -105,7 +105,6 @@ export class ModalAddProductComponent implements OnInit {
       .apiProductPost(this.accessToken, this.addProductForm.value)
       .subscribe(
         (res) => {
-          console.log('check res', res);
           if (res) {
             this.toastr.success('Thêm mới sản phẩm thành công');
             this.productId = res.id;
@@ -128,16 +127,25 @@ export class ModalAddProductComponent implements OnInit {
       return;
     }
 
-    let body = {
-      ...this.addOptionForm.value,
-      image_set: this.imageOptionList,
-    };
+    let data = new FormData();
+    this.fileList.forEach((el) => {
+      let blob = new Blob([el]);
+      this.imageOptionList.push(blob);
+    });
+    data.append('image_set', this.imageOptionList);
+    data.append('unit', <string>this.addOptionForm.controls.unit.value);
+    data.append('price', <string>this.addOptionForm.controls.price.value);
+
+    // let body = {
+    //   ...this.addOptionForm.value,
+    //   image_set: [...this.fileList],
+    // };
 
     this.optionService
       .apiOptionAddToProductPost(
         this.accessToken,
         this.productId.toString(),
-        body
+        data
       )
       .subscribe(
         (res) => {
@@ -205,21 +213,22 @@ export class ModalAddProductComponent implements OnInit {
   }
 
   onUpload() {
-    if (!this.fileList[0]) {
-      console.log('no file');
-    }
+    console.log('check list', this.fileList);
+    // if (!this.fileList[0]) {
+    //   console.log('no file');
+    // }
 
-    const data = new FormData();
-    data.append('upload_preset', 'xssjwxbn');
-    data.append('cloud_name', 'dwgjmgf6o');
+    // const data = new FormData();
+    // data.append('upload_preset', 'xssjwxbn');
+    // data.append('cloud_name', 'dwgjmgf6o');
 
-    for (let i = 0; i < this.fileList.length; i++) {
-      data.append('file', this.fileList[i]);
-      this.uploadService.uploadImage(data).subscribe((res: any) => {
-        if (res) {
-          this.imageOptionList.push(res?.secure_url);
-        }
-      });
-    }
+    // for (let i = 0; i < this.fileList.length; i++) {
+    //   data.append('file', this.fileList[i]);
+    //   this.uploadService.uploadImage(data).subscribe((res: any) => {
+    //     if (res) {
+    //       this.imageOptionList.push(res?.secure_url);
+    //     }
+    //   });
+    // }
   }
 }

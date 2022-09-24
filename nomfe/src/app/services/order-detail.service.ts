@@ -76,11 +76,15 @@ export class OrderDetailService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<any>('get', `${this.basePath}/order-detail/`, {
-      headers: headers,
-      withCredentials: this.configuration.withCredentials,
-      observe: observe,
-      reportProgress: reportProgress,
-    });
+    return this.httpClient.request<any>(
+      'get',
+      `${this.basePath}/order-detail/`,
+      {
+        headers: headers,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
   }
 }
