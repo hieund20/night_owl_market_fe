@@ -39,6 +39,7 @@ export class AcceptOrderTabComponent implements OnInit {
   }
 
   getUnAcceptOrderList(page: number) {
+    this.dataTableList = [];
     this.orderService.apiOrdersGet(this.accessToken, 1, 1, page).subscribe(
       (res) => {
         if (res) {
