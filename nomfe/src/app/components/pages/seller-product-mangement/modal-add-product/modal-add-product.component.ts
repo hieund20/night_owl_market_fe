@@ -29,6 +29,8 @@ export class ModalAddProductComponent implements OnInit {
     description: new FormControl(''),
     categories: new FormControl([]),
   });
+  productFileList: any = [];
+  imageProductBase64: string = '';
 
   //Option Add Form
   productId: number = 0;
@@ -38,7 +40,6 @@ export class ModalAddProductComponent implements OnInit {
   });
   imageOptionList: any = [];
   fileList: File[] = [];
-  img: CloudinaryImage | undefined;
 
   //Category Chip auto complete
   categoryList: Category[] = [];
@@ -101,20 +102,23 @@ export class ModalAddProductComponent implements OnInit {
       categories: <any>categoryPayload,
     });
 
-    this.productService
-      .apiProductPost(this.accessToken, this.addProductForm.value)
-      .subscribe(
-        (res) => {
-          if (res) {
-            this.toastr.success('Thêm mới sản phẩm thành công');
-            this.productId = res.id;
-          }
-        },
-        (error) => {
-          console.log('Have errors when post product', error);
-          this.toastr.error('Thêm mới sản phẩm không thành công');
+    let data = {
+      ...this.addProductForm.value,
+      image: this.imageProductBase64,
+    };
+
+    this.productService.apiProductPost(this.accessToken, data).subscribe(
+      (res) => {
+        if (res) {
+          this.toastr.success('Thêm mới sản phẩm thành công');
+          this.productId = res.id;
         }
-      );
+      },
+      (error) => {
+        console.log('Have errors when post product', error);
+        this.toastr.error('Thêm mới sản phẩm không thành công');
+      }
+    );
   }
 
   onAddNewOption() {
@@ -127,20 +131,9 @@ export class ModalAddProductComponent implements OnInit {
       return;
     }
 
-    // let data = new FormData();
-    // this.fileList.forEach((el) => {
-    //   let blob = new Blob([el]);
-    //   this.imageOptionList.push(blob);
-    // });
-    // data.append('uploaded_images', this.imageOptionList);
-    // data.append('unit', <string>this.addOptionForm.controls.unit.value);
-    // data.append('price', <string>this.addOptionForm.controls.price.value);
-
-    // console.log('check form data', data.get('unit'));
-
     let body = {
       ...this.addOptionForm.value,
-      uploaded_images: this.imageOptionList,
+      uploaded_images: [...this.imageOptionList],
     };
 
     this.optionService
@@ -202,35 +195,48 @@ export class ModalAddProductComponent implements OnInit {
     );
   }
 
-  onCloseModal() {
-    this.dialogRef.close(true);
-  }
-
+  //Option upload file
   onSelect(e: any) {
     this.fileList.push(...e.addedFiles);
+
+    let file = e.addedFiles[0];
+    let reader = new FileReader();
+    reader.onload = this.handleOptionReaderLoaded.bind(this);
+    reader.readAsBinaryString(file);
   }
 
   onRemove(e: any) {
     this.fileList.splice(this.fileList.indexOf(e), 1);
   }
+  //--End option upload file--
 
-  onUpload() {
-    console.log('check list', this.fileList);
-    // if (!this.fileList[0]) {
-    //   console.log('no file');
-    // }
+  //Product upload file
+  onProductSelect(e: any) {
+    this.productFileList.push(...e.addedFiles);
 
-    // const data = new FormData();
-    // data.append('upload_preset', 'xssjwxbn');
-    // data.append('cloud_name', 'dwgjmgf6o');
+    let file = e.addedFiles[0];
+    let reader = new FileReader();
+    reader.onload = this.handleProductReaderLoaded.bind(this);
+    reader.readAsBinaryString(file);
+  }
 
-    // for (let i = 0; i < this.fileList.length; i++) {
-    //   data.append('file', this.fileList[i]);
-    //   this.uploadService.uploadImage(data).subscribe((res: any) => {
-    //     if (res) {
-    //       this.imageOptionList.push(res?.secure_url);
-    //     }
-    //   });
-    // }
+  onProductRemove(e: any) {
+    this.productFileList.splice(this.fileList.indexOf(e), 1);
+  }
+  //--End product upload file--
+
+  //Convert image file to base64 string
+  handleOptionReaderLoaded(readerEvt: any) {
+    var binaryString = readerEvt.target.result;
+    this.imageOptionList.push(btoa(binaryString));
+  }
+
+  handleProductReaderLoaded(readerEvt: any) {
+    var binaryString = readerEvt.target.result;
+    this.imageProductBase64 = btoa(binaryString);
+  }
+
+  onCloseModal() {
+    this.dialogRef.close(true);
   }
 }

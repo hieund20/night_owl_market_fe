@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,7 +21,8 @@ export class ProductListTabComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private productService: ProductService
+    private productService: ProductService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -39,8 +41,9 @@ export class ProductListTabComponent implements OnInit {
   }
 
   getProductList(page: number) {
+    this.dataTableList = [];
     this.productService
-      .apiProductGet(this.page, null, null, this.currentUser.id)
+      .apiProductGet(page, null, null, this.currentUser.id)
       .subscribe(
         (res) => {
           if (res) {
@@ -59,6 +62,19 @@ export class ProductListTabComponent implements OnInit {
           console.log('Have a error when get product list', err);
         }
       );
+  }
+
+  deleteProduct(id: number) {
+    this.productService.apiProductDelete(this.accessToken, id).subscribe(
+      (res) => {
+        this.toastr.success('Xóa sản phẩm thành công');
+        this.getProductList(this.page);
+      },
+      (err) => {
+        this.toastr.error('Xóa sản phẩm không thành công');
+        console.log('have a error when delete product', err);
+      }
+    );
   }
 
   //Others

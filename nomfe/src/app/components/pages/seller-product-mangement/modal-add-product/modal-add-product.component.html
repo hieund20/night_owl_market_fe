@@ -84,6 +84,23 @@
           </mat-form-field>
         </div>
 
+        <div class="row mb-3">
+          <div class="col">
+            <ngx-dropzone (change)="onProductSelect($event)">
+              <ngx-dropzone-label>Ảnh sản phẩm</ngx-dropzone-label>
+              <ngx-dropzone-preview
+                *ngFor="let f of productFileList"
+                [removable]="true"
+                (removed)="onProductRemove(f)"
+              >
+                <ngx-dropzone-label
+                  >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+                >
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </div>
+
         <button
           mat-flat-button
           color="primary"
@@ -135,7 +152,7 @@
         <div class="row mb-3">
           <div class="col">
             <ngx-dropzone (change)="onSelect($event)">
-              <ngx-dropzone-label>Ảnh sản phẩm</ngx-dropzone-label>
+              <ngx-dropzone-label>Ảnh option</ngx-dropzone-label>
               <ngx-dropzone-preview
                 *ngFor="let f of fileList"
                 [removable]="true"
@@ -147,7 +164,6 @@
               </ngx-dropzone-preview>
             </ngx-dropzone>
           </div>
-          <button mat-flat-button (click)="onUpload()">Xác nhận chọn ảnh</button>
         </div>
         <button
           mat-flat-button

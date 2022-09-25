@@ -79,7 +79,6 @@ export class ProductDetailComponent implements OnInit {
       this.toastr.warning('Vui lòng chọn option cho sản phẩm');
       return;
     }
-    console.log('check option choose', this.optionSelected);
 
     const payload = {
       product_option: {
