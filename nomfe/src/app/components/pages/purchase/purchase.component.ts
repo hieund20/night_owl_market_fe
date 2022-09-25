@@ -55,6 +55,9 @@ export class PurchaseComponent implements OnInit {
       case 'pending':
         this.tabIndex = 1;
         break;
+      case 'delivering':
+        this.tabIndex = 2;
+        break;
       default:
         break;
     }
@@ -68,6 +71,9 @@ export class PurchaseComponent implements OnInit {
         break;
       case 1:
         window.location.hash = 'pending';
+        break;
+      case 2:
+        window.location.hash = 'delivering';
         break;
       default:
         break;
