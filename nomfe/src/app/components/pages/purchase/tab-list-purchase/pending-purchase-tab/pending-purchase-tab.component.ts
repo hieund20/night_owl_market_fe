@@ -34,6 +34,7 @@ export class PendingPurchaseTabComponent implements OnInit {
   }
 
   getOrderList(page: number) {
+    this.dataTableList = [];
     this.orderService.apiOrdersGet(this.accessToken, 1, 0, page).subscribe(
       (res) => {
         if (res) {

@@ -34,6 +34,7 @@ export class DeliveringPurchaseTabComponent implements OnInit {
   }
 
   getOrderList(page: number) {
+    this.dataTableList = [];
     this.orderService.apiOrdersGet(this.accessToken, 2, 0, page).subscribe(
       (res) => {
         if (res) {
