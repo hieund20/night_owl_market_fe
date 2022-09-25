@@ -61,7 +61,7 @@ export class CheckoutComponent implements OnInit {
   //API
   getOrdersList(page: number) {
     this.dataTableList = [];
-    this.orderService.apiOrdersGet(this.accessToken, null, 0, page).subscribe(
+    this.orderService.apiOrdersGet(this.accessToken, 0, 0, page).subscribe(
       (res) => {
         if (res) {
           this.totalProduct = res.count;
