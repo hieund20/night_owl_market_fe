@@ -76,12 +76,16 @@ export class CartService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<any>('get', `${this.basePath}/cart/`, {
-      headers: headers,
-      withCredentials: this.configuration.withCredentials,
-      observe: observe,
-      reportProgress: reportProgress,
-    });
+    return this.httpClient.request<any>(
+      'get',
+      `${this.basePath}/cart/get-cart-groupby-owner/`,
+      {
+        headers: headers,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
   }
 
   /**
@@ -137,12 +141,16 @@ export class CartService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<any>('delete', `${this.basePath}/cart/${id}`, {
-      headers: headers,
-      withCredentials: this.configuration.withCredentials,
-      observe: observe,
-      reportProgress: reportProgress,
-    });
+    return this.httpClient.request<any>(
+      'delete',
+      `${this.basePath}/cart/${id}`,
+      {
+        headers: headers,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
   }
 
   /**
@@ -151,7 +159,7 @@ export class CartService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-   public apiCartPatch(
+  public apiCartPatch(
     accessToken: string,
     id: number,
     body: any,
@@ -190,9 +198,7 @@ export class CartService {
       );
     }
     if (body === null || body === undefined) {
-      throw new Error(
-        'Body was null or undefined when calling apiCartPatch.'
-      );
+      throw new Error('Body was null or undefined when calling apiCartPatch.');
     }
 
     let headers = this.defaultHeaders;
@@ -207,12 +213,16 @@ export class CartService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<any>('patch', `${this.basePath}/cart/${id}/`, {
-      headers: headers,
-      body: body,
-      withCredentials: this.configuration.withCredentials,
-      observe: observe,
-      reportProgress: reportProgress,
-    });
+    return this.httpClient.request<any>(
+      'patch',
+      `${this.basePath}/cart/${id}/`,
+      {
+        headers: headers,
+        body: body,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
   }
 }

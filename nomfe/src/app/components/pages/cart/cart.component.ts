@@ -5,25 +5,36 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from './../../../services/cart.service';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class CartComponent implements OnInit {
   accessToken: string = '';
   dataTableList: any[] = [];
   selection = new SelectionModel<any>(true, []);
   dataSource = new MatTableDataSource<any>(this.dataTableList);
-  displayedColumns: string[] = [
-    'select',
-    'name',
-    'unit',
-    'price',
-    'quantity',
-    'action',
-  ];
+  displayedColumns: string[] = ['select', 'seller_name', 'expand'];
+  expandedElement: any | null;
 
   countProduct: number = 0;
   totalPrice: number = 0;
@@ -36,12 +47,9 @@ export class CartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initVariable();
     this.getAccessToken();
     this.getCartGroupByOwner();
   }
-
-  initVariable() {}
 
   getAccessToken() {
     this.accessToken = <string>localStorage.getItem('access_token');
@@ -53,15 +61,22 @@ export class CartComponent implements OnInit {
 
     this.cartService.apiCartGroupByOwnerGet(this.accessToken).subscribe(
       (res) => {
-        console.log('check res', res);
         res.forEach((el: any) => {
-          this.dataTableList.push({
-            id: el.id,
-            name: el.product_option.base_product.name,
-            unit: el.product_option.unit,
-            price: el.product_option.price,
-            quantity: el.quantity,
-          });
+          let productListClone: any = [];
+          el.carts.forEach((item: any) => {
+            productListClone.push({
+              cartId: item.id,
+              quantity: item.quantity,
+              name: item.product_option.base_product.name,
+              price: item.product_option.price,
+              unit: item.product_option.unit,
+            });
+          }),
+            this.dataTableList.push({
+              id: el.id,
+              seller_name: `${el.first_name} ${el.last_name}`,
+              product_list: [...productListClone],
+            });
         });
         this.dataSource.data = this.dataTableList;
       },
@@ -104,7 +119,6 @@ export class CartComponent implements OnInit {
   onChangeProductQuantityInCart(event: any, id: number) {
     let quantity = event.target.value;
     if (quantity == 0) {
-      
     }
     let body = {
       quantity: quantity,
@@ -126,7 +140,6 @@ export class CartComponent implements OnInit {
     if (this.selection.selected.length === 0) {
       this.toastr.warning('Bạn chưa chọn sản phẩm');
     } else {
-      console.log('check product', this.selection.selected);
       let payload = {
         list_cart: [],
       };
@@ -165,7 +178,7 @@ export class CartComponent implements OnInit {
     //Calculation total price
     this.totalPrice = 0;
     this.selection.selected.forEach((el) => {
-      return (this.totalPrice += (Number.parseInt(el.price) * el.quantity));
+      return (this.totalPrice += Number.parseInt(el.price) * el.quantity);
     });
 
     return numSelected === numRows;
