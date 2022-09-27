@@ -36,12 +36,15 @@
               class="option-radio-button"
               *ngFor="let item of productDetail.option_set"
               [value]="item"
+              [disabled]="item.unit_in_stock === 0"
             >
               <span
                 ><b>{{ item.unit }}</b></span
               >
               <div>{{ item.price | customcurrency }} đ</div>
-              <!-- <span>Còn {{ item.unit_in_stock }} sản phẩm</span> -->
+              <span style="font-size: 11px"
+                >Còn {{ item.unit_in_stock }} sản phẩm</span
+              >
             </mat-radio-button>
           </mat-radio-group>
         </div>
@@ -55,7 +58,7 @@
           >
             Thêm vào giỏ hàng
           </button>
-          <button mat-raised-button color="primary">Mua ngay</button>
+          <!-- <button mat-raised-button color="primary">Mua ngay</button> -->
         </div>
       </div>
     </div>
