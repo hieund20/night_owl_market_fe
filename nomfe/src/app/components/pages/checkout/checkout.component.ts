@@ -118,16 +118,19 @@ export class CheckoutComponent implements OnInit {
       list_voucher: {
         ...list_voucher,
       },
-      // payment_type: 0,
+      payment_type: this.paymentMethodForm.controls.method.value,
     };
     this.orderService.apiOrdersCheckoutPost(this.accessToken, body).subscribe(
       (res) => {
         if (res) {
-          console.log('res', res);
+          //Payment with MoMo
           this.toastr.success('Đặt hàng thành công');
-          setTimeout(() => {
-            this.router.navigateByUrl('/purchase#pending');
-          }, 1000);
+          if (this.paymentMethodForm.controls.method.value === 1) {
+            window.open(res.pay_url, '_self');
+          }
+          // setTimeout(() => {
+          //   this.router.navigateByUrl('/purchase#pending');
+          // }, 1000);
         } else {
           this.toastr.error('Đặt hàng không thành công');
         }
