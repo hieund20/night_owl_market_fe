@@ -1,10 +1,3 @@
-import { Router } from '@angular/router';
-import { OrdersService } from './../../../services/orders.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
-import { CartService } from './../../../services/cart.service';
 import {
   animate,
   state,
@@ -12,6 +5,12 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { CartService } from './../../../services/cart.service';
+import { OrdersService } from './../../../services/orders.service';
 
 @Component({
   selector: 'app-cart',
@@ -31,10 +30,11 @@ import {
 export class CartComponent implements OnInit {
   accessToken: string = '';
   dataTableList: any[] = [];
-  selection = new SelectionModel<any>(true, []);
+  // selection = new SelectionModel<any>(true, []);
   dataSource = new MatTableDataSource<any>(this.dataTableList);
   displayedColumns: string[] = ['select', 'seller_name', 'expand'];
   expandedElement: any | null;
+  selectedProduct: any[] = [];
 
   countProduct: number = 0;
   totalPrice: number = 0;
@@ -127,31 +127,31 @@ export class CartComponent implements OnInit {
   }
 
   onDeleteManyProductInCart() {
-    if (this.selection.selected.length === 0) {
+    if (this.selectedProduct.length === 0) {
       this.toastr.warning('Bạn chưa chọn sản phẩm');
     } else {
-      this.selection.selected.forEach((el) => {
-        this.deleteProductInCart(el.id);
+      this.selectedProduct.forEach((el) => {
+        this.deleteProductInCart(el.cartId);
       });
     }
   }
 
   onBuyProductInCart() {
-    if (this.selection.selected.length === 0) {
+    if (this.selectedProduct.length === 0) {
       this.toastr.warning('Bạn chưa chọn sản phẩm');
     } else {
-      let payload = {
-        list_cart: [],
-      };
-
-      this.selection.selected.forEach((el) => {
-        return payload.list_cart.push(<never>el.id);
+      let orderIdList: any = [];
+      this.selectedProduct.forEach((el) => {
+        orderIdList.push(el.cartId);
       });
+
+      let payload = {
+        list_cart: [...orderIdList],
+      };
 
       this.orderService.apiOrdersPost(this.accessToken, payload).subscribe(
         (res) => {
           if (res) {
-            console.log('post orders success: ', res.message);
             this.getCartGroupByOwner();
             this.toastr.success('Chuyển trang thanh toán ...');
             setTimeout(() => {
@@ -167,40 +167,56 @@ export class CartComponent implements OnInit {
     }
   }
 
+  onSelectProduct(el: any) {
+    if (this.selectedProduct.find((item: any) => item.cartId === el.cartId)) {
+      let index = this.selectedProduct.findIndex((item) => item === el.cartId);
+      this.selectedProduct.splice(index, 1);
+      this.countProduct = this.selectedProduct.length;
+    } else {
+      this.selectedProduct.push(el);
+      this.countProduct = this.selectedProduct.length;
+    }
+
+    this.totalPrice = 0;
+    this.selectedProduct.forEach((el) => {
+      this.totalPrice += el.price * el.quantity;
+    });
+  }
+
   //Handle Mat-table Selection
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+  // isAllSelected() {
+  //   const numSelected = this.selection.selected.length;
+  //   const numRows = this.dataSource.data.length;
 
-    //Count product
-    this.countProduct = this.selection.selected.length;
-    //Calculation total price
-    this.totalPrice = 0;
-    this.selection.selected.forEach((el) => {
-      return (this.totalPrice += Number.parseInt(el.price) * el.quantity);
-    });
+  //   //Count product
+  //   this.countProduct = this.selection.selected.length;
+  //   //Calculation total price
+  //   this.totalPrice = 0;
+  //   this.selection.selected.forEach((el) => {
+  //     return (this.totalPrice += Number.parseInt(el.price) * el.quantity);
+  //   });
 
-    return numSelected === numRows;
-  }
+  //   return numSelected === numRows;
+  // }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
+  // /** Selects all rows if they are not all selected; otherwise clear selection. */
+  // toggleAllRows() {
+  //   if (this.isAllSelected()) {
+  //     this.selection.clear();
+  //     return;
+  //   }
 
-    this.selection.select(...this.dataSource.data);
-  }
+  //   this.selection.select(...this.dataSource.data);
+  // }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
-    }`;
-  }
+  // /** The label for the checkbox on the passed row */
+  // checkboxLabel(row?: any): string {
+  //   if (!row) {
+  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+  //   }
+  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+  //     row.position + 1
+  //   }`;
+  // }
 }

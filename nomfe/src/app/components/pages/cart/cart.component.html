@@ -12,22 +12,22 @@
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox
+            <!-- <mat-checkbox
               (change)="$event ? toggleAllRows() : null"
               [checked]="selection.hasValue() && isAllSelected()"
               [indeterminate]="selection.hasValue() && !isAllSelected()"
               [aria-label]="checkboxLabel()"
             >
-            </mat-checkbox>
+            </mat-checkbox> -->
           </th>
           <td mat-cell *matCellDef="let row">
-            <mat-checkbox
+            <!-- <mat-checkbox
               (click)="$event.stopPropagation()"
               (change)="$event ? selection.toggle(row) : null"
               [checked]="selection.isSelected(row)"
               [aria-label]="checkboxLabel(row)"
             >
-            </mat-checkbox>
+            </mat-checkbox> -->
           </td>
         </ng-container>
 
@@ -78,20 +78,12 @@
             >
               <div class="expand row" *ngFor="let item of element.product_list">
                 <div class="col">
-                  <mat-checkbox
-                    (click)="$event.stopPropagation()"
-                    (change)="$event ? selection.toggle(item) : null"
-                    [checked]="selection.isSelected(item)"
-                    [aria-label]="checkboxLabel(item)"
-                  >
-                  </mat-checkbox>
+                  <mat-checkbox (click)="onSelectProduct(item)"> </mat-checkbox>
                 </div>
                 <div class="col">
                   {{ item.name }}
                 </div>
-                <div class="col">
-                  {{ item.price }}
-                </div>
+                <div class="col">{{ item.price | customcurrency }} đ</div>
                 <div class="col">
                   {{ item.unit }}
                 </div>
