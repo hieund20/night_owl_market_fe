@@ -11,6 +11,7 @@ import { PurchaseComponent } from './components/pages/purchase/purchase.componen
 import { ProductListTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/product-list-tab/product-list-tab.component';
 import { AcceptOrderTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/accept-order-tab/accept-order-tab.component';
 import { PendingPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/pending-purchase-tab/pending-purchase-tab.component';
+import { PaymentComponent } from './components/pages/payment/payment.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -60,6 +61,10 @@ const routes: Routes = [
         component: SellerProductMangementComponent,
       },
     ],
+  },
+  {
+    path: 'payment',
+    component: PaymentComponent,
   },
 ];
 
