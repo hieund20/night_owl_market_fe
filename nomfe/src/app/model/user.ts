@@ -14,4 +14,6 @@ export interface User {
   verified?: boolean;
   groups?: any;
   user_permissions?: any;
+  balance?: string;
+  cart_quantity?: number;
 }

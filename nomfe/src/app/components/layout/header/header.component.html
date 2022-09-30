@@ -66,7 +66,7 @@
       <!-- Left links -->
       <div class="d-flex align-items-center">
         <button mat-icon-button class="mr-10" routerLink="/cart">
-          <mat-icon matBadge="15" matBadgeColor="warn" color="white-icon"
+          <mat-icon [matBadge]="currentUser.cart_quantity" matBadgeColor="warn" color="white-icon"
             >shopping_cart</mat-icon
           >
         </button>
@@ -88,6 +88,12 @@
             [matMenuTriggerFor]="menu"
           />
           <mat-menu #menu="matMenu">
+            <div mat-menu-item>
+              <mat-icon> attach_money</mat-icon>
+              <span
+                >NOM Coin: {{ currentUser.balance | customcurrency }} đ</span
+              >
+            </div>
             <button mat-menu-item>
               <mat-icon>account_circle</mat-icon>
               <span>Tài khoản của tôi</span>
