@@ -11,4 +11,5 @@ export interface Product {
   option_set?: any;
   rating_set?: any;
   min_price?: number;
+  unit_in_stock?: number;
 }

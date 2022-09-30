@@ -145,7 +145,6 @@ export class ModalAddProductComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res) {
-            console.log('check res', res);
             this.toastr.success('Thêm option cho sản phẩm thành công');
           }
         },

@@ -27,7 +27,6 @@ export class PurchaseComponent implements OnInit {
   }
 
   onCancelUnCheckoutOrder() {
-    console.log('checkout', this.accessToken);
     this.orderService.apiCancelUnCheckoutGet(this.accessToken).subscribe(
       (res) => {
         if (res) {

@@ -58,7 +58,6 @@ export class RegisterPageComponent implements OnInit {
 
     this.userService.apiUserPost(this.registerForm.value).subscribe(
       (res) => {
-        console.log('check res', res);
         if (res) {
           console.log('Đăng ký thành công', res);
           this.toastr.success('Đăng ký thành công');

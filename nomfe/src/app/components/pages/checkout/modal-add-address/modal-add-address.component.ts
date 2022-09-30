@@ -47,7 +47,6 @@ export class ModalAddAddressComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res) {
-            console.log('check res', res);
             this.toastr.success('Thêm mới địa chỉ nhận hàng thành công');
             this.dialogRef.close(true);
           }

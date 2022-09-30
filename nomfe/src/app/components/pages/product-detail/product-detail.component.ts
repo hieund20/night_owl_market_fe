@@ -19,6 +19,7 @@ export class ProductDetailComponent implements OnInit {
   productDetail: Product = {};
   productId: string = '';
   productQuantity: number = 1;
+  optionUnitInStock: number = 2;
   optionItem: Option = {};
   optionSelected: any = {};
   commentForm = new FormGroup({
@@ -46,7 +47,6 @@ export class ProductDetailComponent implements OnInit {
 
   getProductDetail() {
     this.productService.apiProductByIdGet(this.productId).subscribe((res) => {
-      console.log('check res detail', res);
       this.productDetail = res;
     });
   }
@@ -58,9 +58,7 @@ export class ProductDetailComponent implements OnInit {
       Object.keys(currentUser).length === 0 &&
       Object.keys(currentUser) === Object.prototype
     ) {
-      console.log('User is not logged');
     } else {
-      console.log('User is logged');
       this.isCurrentUserLogged = true;
     }
   }
@@ -72,6 +70,8 @@ export class ProductDetailComponent implements OnInit {
 
   onChangeOptions(data: MatRadioChange) {
     this.optionSelected = data.value;
+    this.optionUnitInStock = this.optionSelected.unit_in_stock;
+    this.productQuantity = 1;
   }
 
   onAddProductToCart() {

@@ -23,8 +23,9 @@
         <div class="product-quantity mb-4 mt-4">
           <span class="mr-3">Số lượng</span>
           <quantity-input
-            (ngModel)="(productQuantity)"
-            (quantityChange)="onProductQuantityChange($event)"
+            [(ngModel)]="productQuantity"
+            (ngModelChange)="onProductQuantityChange($event)"
+            [limit]="optionUnitInStock"
           ></quantity-input>
         </div>
 

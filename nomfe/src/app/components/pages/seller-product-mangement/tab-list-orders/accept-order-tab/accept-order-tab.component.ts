@@ -65,7 +65,6 @@ export class AcceptOrderTabComponent implements OnInit {
     this.orderService.apiAcceptOrderGet(this.accessToken, id).subscribe(
       (res) => {
         if (res) {
-          console.log('check res', res);
           this.toastr.success('Xác nhận đơn hàng thành công');
           this.getUnAcceptOrderList(this.page);
         }
