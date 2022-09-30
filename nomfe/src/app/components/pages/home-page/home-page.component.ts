@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CategoryService } from 'src/app/services/category.service';
 import { Category } from './../../../model/category';
@@ -29,7 +29,7 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
+    // this.getCurrentUser();
     this.getCategoryList();
     this.getProductList(this.page);
   }
@@ -78,16 +78,5 @@ export class HomePageComponent implements OnInit {
   onSearchProduct() {
     this.page = 1;
     this.getProductList(this.page, this.cateId);
-  }
-
-  getCurrentUser() {
-    const accessToken = <string>localStorage.getItem('access_token');
-    if (accessToken) {
-      this.userService.apiCurrentUserGet(accessToken).subscribe((res) => {
-        if (res) {
-          localStorage.setItem('current_user', JSON.stringify(res));
-        }
-      });
-    }
   }
 }

@@ -53,16 +53,16 @@ export class LoginPageComponent implements OnInit {
         if (res) {
           localStorage.setItem('access_token', res.access);
           localStorage.setItem('refresh_token', res.refresh);
-          
-          console.log('Đăng nhập thành công', res);
+
           this.toastr.success('Đăng nhập thành công');
           setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 2000);
+            this.router.navigate(['/']).then(() => {
+              window.location.reload();
+            });
+          }, 3000);
         }
       },
       (error) => {
-        console.log('Đăng nhập thất bại', error);
         if (error.status === 401) {
           this.toastr.error('Email hoặc mật khẩu không đúng');
         }

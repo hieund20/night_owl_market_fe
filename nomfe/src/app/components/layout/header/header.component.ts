@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from 'src/app/model/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -11,23 +12,28 @@ export class HeaderComponent implements OnInit {
   currentUser: User = {};
   isCurrentUserLogged: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getLoggedCurrentUser();
+    this.getCurrentUser();
   }
 
-  getLoggedCurrentUser() {
-    this.currentUser = JSON.parse(<any>localStorage.getItem('current_user'));
-    //User is not logged
-    if (
-      Object.keys(this.currentUser).length === 0 &&
-      Object.keys(this.currentUser) === Object.prototype
-    ) {
-      console.log('User is not logged');
-    } else {
-      console.log('User is logged');
-      this.isCurrentUserLogged = true;
+  //API
+  getCurrentUser() {
+    const accessToken = <string>localStorage.getItem('access_token');
+    if (accessToken) {
+      this.userService.apiCurrentUserGet(accessToken).subscribe(
+        (res) => {
+          if (res) {
+            localStorage.setItem('current_user', JSON.stringify(res));
+            this.currentUser = res;
+            this.isCurrentUserLogged = true;
+          }
+        },
+        (err) => {
+          this.isCurrentUserLogged = false;
+        }
+      );
     }
   }
 
