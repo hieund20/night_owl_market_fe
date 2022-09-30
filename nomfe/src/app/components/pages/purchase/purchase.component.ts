@@ -60,6 +60,9 @@ export class PurchaseComponent implements OnInit {
       case 'received':
         this.tabIndex = 3;
         break;
+      case 'canceled':
+        this.tabIndex = 4;
+        break;
       default:
         break;
     }
@@ -79,6 +82,9 @@ export class PurchaseComponent implements OnInit {
         break;
       case 3:
         window.location.hash = 'received';
+        break;
+      case 4:
+        window.location.hash = 'canceled';
         break;
       default:
         break;

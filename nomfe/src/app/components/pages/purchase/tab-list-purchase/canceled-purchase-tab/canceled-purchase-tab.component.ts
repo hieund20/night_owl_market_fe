@@ -4,11 +4,11 @@ import { ToastrService } from 'ngx-toastr';
 import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
-  selector: 'app-received-purchase-tab',
-  templateUrl: './received-purchase-tab.component.html',
-  styleUrls: ['./received-purchase-tab.component.scss'],
+  selector: 'app-canceled-purchase-tab',
+  templateUrl: './canceled-purchase-tab.component.html',
+  styleUrls: ['./canceled-purchase-tab.component.scss'],
 })
-export class ReceivedPurchaseTabComponent implements OnInit {
+export class CanceledPurchaseTabComponent implements OnInit {
   accessToken: string = '';
   dataTableList: any[] = [];
   dataSource = new _MatTableDataSource<any>(this.dataTableList);
@@ -39,7 +39,7 @@ export class ReceivedPurchaseTabComponent implements OnInit {
 
   getOrderList(page: number) {
     this.dataTableList = [];
-    this.orderService.apiOrdersGet(this.accessToken, 3, 0, page).subscribe(
+    this.orderService.apiOrdersGet(this.accessToken, 4, 0, page).subscribe(
       (res) => {
         if (res) {
           res.results.forEach((el: any) => {

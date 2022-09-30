@@ -52,6 +52,7 @@ import { DeliveringPurchaseTabComponent } from './components/pages/purchase/tab-
 import { PaymentComponent } from './components/pages/payment/payment.component';
 import { SellerOrderManagementComponent } from './components/pages/seller-pages/seller-order-management/seller-order-management.component';
 import { ReceivedPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/received-purchase-tab/received-purchase-tab.component';
+import { CanceledPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/canceled-purchase-tab/canceled-purchase-tab.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { ReceivedPurchaseTabComponent } from './components/pages/purchase/tab-li
     PaymentComponent,
     SellerOrderManagementComponent,
     ReceivedPurchaseTabComponent,
+    CanceledPurchaseTabComponent,
   ],
   imports: [
     BrowserModule,
