@@ -1,6 +1,7 @@
 import { OrdersService } from 'src/app/services/orders.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-delivering-purchase-tab',
@@ -17,11 +18,15 @@ export class DeliveringPurchaseTabComponent implements OnInit {
     'buyer_phone',
     'cost',
     'total_shipping_fee',
+    'actions',
   ];
   page: number = 1;
   pageLength: number = 0;
 
-  constructor(private orderService: OrdersService) {}
+  constructor(
+    private orderService: OrdersService,
+    public toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getAccessToken();
@@ -52,6 +57,21 @@ export class DeliveringPurchaseTabComponent implements OnInit {
       },
       (error) => {
         console.log('Have a error when get product list', error);
+      }
+    );
+  }
+
+  onReceiveOrder(id: number) {
+    this.orderService.apiReceiveOrderGet(this.accessToken, id).subscribe(
+      (res) => {
+        if (res) {
+          this.toastr.success('Xác nhận nhận hàng thành công');
+          this.getOrderList(this.page);
+        }
+      },
+      (err) => {
+        console.log('Have a error when accept order', err);
+        this.toastr.error('Xác nhận nhận hàng không thành công');
       }
     );
   }
