@@ -7,6 +7,9 @@
       <div class="product-info">
         <h1 class="product-name">
           {{ productDetail.name }}
+          <span style="font-size: 12px"
+            >(Đã bán: {{ productDetail.sold_amount }} sản phẩm)
+          </span>
         </h1>
         <mat-chip-list aria-label="category selection" class="d-flex">
           <mat-chip
