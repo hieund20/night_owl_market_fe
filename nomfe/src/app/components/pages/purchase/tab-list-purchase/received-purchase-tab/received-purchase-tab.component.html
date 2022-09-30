@@ -1,5 +1,5 @@
 <mat-card-title class="d-flex justify-content-between align-items-center">
-  <span style="font-size: 16px">Danh sách đơn hàng đang giao</span>
+  <span style="font-size: 16px">Danh sách đơn hàng đã giao</span>
 </mat-card-title>
 <mat-card-content>
   <table mat-table [dataSource]="dataSource" class="table">
@@ -36,21 +36,6 @@
       <th mat-header-cell *matHeaderCellDef>Tổng phí vận chuyển</th>
       <td mat-cell *matCellDef="let element">
         {{ element.total_shipping_fee | customcurrency }}đ
-      </td>
-    </ng-container>
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Thao tác</th>
-      <td mat-cell *matCellDef="let element">
-        <button
-          mat-icon-button
-          color="primary"
-          matTooltip="Đã nhận hàng"
-          (click)="onReceiveOrder(element.id)"
-        >
-          <mat-icon>done</mat-icon>
-        </button>
       </td>
     </ng-container>
 

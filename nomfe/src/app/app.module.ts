@@ -51,6 +51,7 @@ import { PendingPurchaseTabComponent } from './components/pages/purchase/tab-lis
 import { DeliveringPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/delivering-purchase-tab/delivering-purchase-tab.component';
 import { PaymentComponent } from './components/pages/payment/payment.component';
 import { SellerOrderManagementComponent } from './components/pages/seller-pages/seller-order-management/seller-order-management.component';
+import { ReceivedPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/received-purchase-tab/received-purchase-tab.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { SellerOrderManagementComponent } from './components/pages/seller-pages/
     DeliveringPurchaseTabComponent,
     PaymentComponent,
     SellerOrderManagementComponent,
+    ReceivedPurchaseTabComponent,
   ],
   imports: [
     BrowserModule,
