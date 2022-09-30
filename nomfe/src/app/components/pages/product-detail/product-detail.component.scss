@@ -11,13 +11,6 @@
     width: 65%;
 }
 
-.product-quantity {
-    & > span {
-        font-size: 16px;
-        margin-right: 16px;
-    }
-}
-
 .product-option {
     padding-bottom: 8px;
 
@@ -27,4 +20,13 @@
         border-radius: 8px;
         margin-right: 16px;
     }
+}
+
+.quantity-input {
+    width: 30px;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+
+    text-align: center;
 }

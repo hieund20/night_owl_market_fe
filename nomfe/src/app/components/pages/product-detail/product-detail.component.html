@@ -20,13 +20,29 @@
           >
         </mat-chip-list>
 
-        <div class="product-quantity mb-4 mt-4">
-          <span class="mr-3">Số lượng</span>
-          <quantity-input
-            [(ngModel)]="productQuantity"
-            (ngModelChange)="onProductQuantityChange($event)"
-            [limit]="optionUnitInStock"
-          ></quantity-input>
+        <div class="product-quantity mb-4 mt-4 d-flex align-items-center">
+          <div class="mr-3">Số lượng:</div>
+          <div>
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="onProductQuantityChange('MINUS')"
+            >
+              -
+            </button>
+            <input
+              type="text"
+              class="quantity-input"
+              [(ngModel)]="productQuantity"
+            />
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="onProductQuantityChange('ADD')"
+            >
+              +
+            </button>
+          </div>
         </div>
 
         <div class="product-option mb-4 d-flex">

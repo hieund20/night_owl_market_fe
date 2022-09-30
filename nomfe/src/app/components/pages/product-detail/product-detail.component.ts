@@ -64,8 +64,21 @@ export class ProductDetailComponent implements OnInit {
   }
 
   //Add product to cart
-  onProductQuantityChange(data: any) {
-    this.productQuantity = data;
+  onProductQuantityChange(data: string) {
+    if (Object.keys(this.optionSelected).length === 0) {
+      this.toastr.warning('Bạn chưa chọn option cho sản phẩm');
+      return;
+    }
+    if (data === 'ADD') {
+      if (this.optionSelected.unit_in_stock === this.productQuantity) {
+        this.toastr.warning('Sản phẩm còn lại trong kho không đủ');
+        return;
+      }
+      this.productQuantity++;
+    } else {
+      if (this.productQuantity === 1) return;
+      this.productQuantity--;
+    }
   }
 
   onChangeOptions(data: MatRadioChange) {

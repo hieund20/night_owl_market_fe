@@ -16,7 +16,6 @@ import { FooterComponent } from './components/layout/footer/footer.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProductDetailComponent } from './components/pages/product-detail/product-detail.component';
-import { QuantityInputModule } from '@nghacks/quantity-input';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
@@ -85,7 +84,6 @@ import { PaymentComponent } from './components/pages/payment/payment.component';
     MatCardModule,
     MatButtonModule,
     MatPaginatorModule,
-    QuantityInputModule,
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
