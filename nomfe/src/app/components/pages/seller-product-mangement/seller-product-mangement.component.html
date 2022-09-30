@@ -1,19 +1,6 @@
 <div class="main-layout-box">
   <h2>Quản lý sản phẩm</h2>
   <mat-card class="mt-4 mb-6">
-    <mat-tab-group
-      mat-align-tabs="start"
-      class="mt-4"
-      (selectedTabChange)="onTabChange($event)"
-      selectedIndex="0"
-    >
-      <mat-tab label="Danh sách sản phẩm"
-        ><app-product-list-tab *ngIf="tabIndex === 0"></app-product-list-tab>
-      </mat-tab>
-      <mat-tab label="Xác nhận đơn hàng">
-        <app-accept-order-tab *ngIf="tabIndex === 1"></app-accept-order-tab
-      ></mat-tab>
-      <mat-tab label="Hủy đơn hàng">Hủy đơn hàng</mat-tab>
-    </mat-tab-group>
+    <app-product-list-tab *ngIf="tabIndex === 0"></app-product-list-tab>
   </mat-card>
 </div>

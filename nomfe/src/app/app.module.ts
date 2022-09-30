@@ -33,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
 import { CartComponent } from './components/pages/cart/cart.component';
@@ -50,6 +51,7 @@ import { AllPurchaseTabComponent } from './components/pages/purchase/tab-list-pu
 import { PendingPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/pending-purchase-tab/pending-purchase-tab.component';
 import { DeliveringPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/delivering-purchase-tab/delivering-purchase-tab.component';
 import { PaymentComponent } from './components/pages/payment/payment.component';
+import { SellerOrderManagementComponent } from './components/pages/seller-pages/seller-order-management/seller-order-management.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { PaymentComponent } from './components/pages/payment/payment.component';
     PendingPurchaseTabComponent,
     DeliveringPurchaseTabComponent,
     PaymentComponent,
+    SellerOrderManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,7 +107,8 @@ import { PaymentComponent } from './components/pages/payment/payment.component';
     ToastrModule.forRoot(),
     NgbModule,
     CloudinaryModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

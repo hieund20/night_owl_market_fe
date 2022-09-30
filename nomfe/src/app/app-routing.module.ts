@@ -12,6 +12,7 @@ import { ProductListTabComponent } from './components/pages/seller-product-mange
 import { AcceptOrderTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/accept-order-tab/accept-order-tab.component';
 import { PendingPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/pending-purchase-tab/pending-purchase-tab.component';
 import { PaymentComponent } from './components/pages/payment/payment.component';
+import { SellerOrderManagementComponent } from './components/pages/seller-pages/seller-order-management/seller-order-management.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -59,6 +60,10 @@ const routes: Routes = [
       {
         path: 'product-management',
         component: SellerProductMangementComponent,
+      },
+      {
+        path: 'order-management',
+        component: SellerOrderManagementComponent,
       },
     ],
   },
