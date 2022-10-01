@@ -18,6 +18,8 @@ export class MyAccountTabComponent implements OnInit {
     phone_number: new FormControl(null, Validators.required),
   });
   isEditUserForm: boolean = false;
+  isEmailVerified: boolean = false;
+  isPhoneVerified: boolean = false;
 
   constructor(private userService: UserService, public toastr: ToastrService) {}
 
@@ -44,6 +46,8 @@ export class MyAccountTabComponent implements OnInit {
         if (res) {
           this.currentUser = res;
           this.initFormValue();
+          this.checkEmailVerified();
+          this.checkPhoneVerified();
         }
       },
       (err) => {
@@ -88,5 +92,17 @@ export class MyAccountTabComponent implements OnInit {
   //Others
   onCloseForm() {
     this.isEditUserForm = false;
+  }
+
+  checkEmailVerified() {
+    if (this.currentUser.email_verified) {
+      this.isEmailVerified = true;
+    }
+  }
+
+  checkPhoneVerified() {
+    if (this.currentUser.phone_verified) {
+      this.isPhoneVerified = true;
+    }
   }
 }

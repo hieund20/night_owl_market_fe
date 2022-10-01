@@ -11,11 +11,37 @@
     <div *ngIf="!isEditUserForm">
       <div class="row">
         <div class="col">
-          <label><b>Email</b></label>
+          <label class="d-flex align-items-center"
+            ><b>Email</b
+            ><img
+              style="margin-left: 4px"
+              *ngIf="isEmailVerified"
+              matTooltip="Đã xác thực"
+              src="../../../../../../assets/icons/ic_verified.png"
+            />
+            <img
+              style="margin-left: 8px"
+              *ngIf="!isEmailVerified"
+              matTooltip="Chưa xác thực"
+              src="../../../../../../assets/icons/ic_verify.png"
+            />
+          </label>
           <p>{{ currentUser.email }}</p>
         </div>
         <div class="col">
-          <label><b>Số điện thoại</b></label>
+          <label class="d-flex align-items-center"
+            ><b>Số điện thoại</b
+            ><img
+              style="margin-left: 4px"
+              *ngIf="isPhoneVerified"
+              matTooltip="Đã xác thực"
+              src="../../../../../../assets/icons/ic_verified.png" />
+            <img
+              style="margin-left: 8px"
+              *ngIf="!isPhoneVerified"
+              matTooltip="Chưa xác thực"
+              src="../../../../../../assets/icons/ic_verify.png"
+          /></label>
           <p>{{ currentUser.phone_number }}</p>
         </div>
       </div>
