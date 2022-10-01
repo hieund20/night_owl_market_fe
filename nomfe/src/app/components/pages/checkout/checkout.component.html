@@ -3,18 +3,21 @@
   <!-- Address -->
   <mat-card class="mt-4 mb-3">
     <mat-card-title class="d-flex align-items-center"
-      >Địa chỉ nhận hàng<button
+      >Địa chỉ nhận hàng
+      <!-- <button
         *ngIf="isEditAddressForm"
         mat-icon-button
         color="primary"
         (click)="onOpenModalAddAddress()"
       >
         <mat-icon>add_circle_outline</mat-icon>
-      </button></mat-card-title
-    >
+      </button> -->
+    </mat-card-title>
     <mat-card-content class="mt-4 d-flex justify-content-between">
+      <p>{{ myAddress }}</p>
+
       <!-- Edit Address Form -->
-      <div class="d-block w-100" *ngIf="isEditAddressForm">
+      <!-- <div class="d-block w-100" *ngIf="isEditAddressForm">
         <form [formGroup]="addressForm">
           <mat-radio-group formControlName="address">
             <mat-radio-button
@@ -33,15 +36,15 @@
             Xác nhận
           </button>
         </form>
-      </div>
+      </div> -->
 
       <!-- Address Submitted Value -->
-      <div *ngIf="!isEditAddressForm">
+      <!-- <div *ngIf="!isEditAddressForm">
         <span>{{ addressForm.controls.address.value }}</span>
         <button mat-button color="primary" (click)="isEditAddressForm = true">
           Thay đổi
         </button>
-      </div>
+      </div> -->
     </mat-card-content>
   </mat-card>
 

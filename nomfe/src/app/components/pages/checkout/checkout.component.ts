@@ -33,11 +33,12 @@ export class CheckoutComponent implements OnInit {
   paymentMethodShow: string = this.paymentMethodList[1].viewValue;
 
   //Address
-  addressList: any[] = [];
-  addressForm = new FormGroup({
-    address: new FormControl('', Validators.required),
-  });
-  isEditAddressForm: boolean = false;
+  myAddress: string = '';
+  // addressList: any[] = [];
+  // addressForm = new FormGroup({
+  //   address: new FormControl('', Validators.required),
+  // });
+  // isEditAddressForm: boolean = false;
 
   constructor(
     private orderService: OrdersService,
@@ -51,11 +52,18 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.getAccessToken();
     this.getOrdersList(this.page);
-    this.getMyAddressList();
+    this.getMyAddress();
+    // this.getMyAddressList();
   }
 
   getAccessToken() {
     this.accessToken = <string>localStorage.getItem('access_token');
+  }
+
+  getMyAddress() {
+    let currentUser = JSON.parse(<string>localStorage.getItem('current_user'));
+    console.log(currentUser);
+    this.myAddress = currentUser.address.full_address;
   }
 
   //API
@@ -84,24 +92,24 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-  getMyAddressList() {
-    this.addressService.apiAddressGet(this.accessToken).subscribe(
-      (res) => {
-        if (res) {
-          res.results.forEach((el: any, index: number) => {
-            this.addressList.push(
-              `${el.street}, ${el.ward_id}, ${el.district_id},
-              ${el.province_id}, ${el.country}`
-            );
-          });
-          this.addressForm.controls.address.setValue(this.addressList[0]);
-        }
-      },
-      (error) => {
-        console.log('Have a error when get address: ', error);
-      }
-    );
-  }
+  // getMyAddressList() {
+  //   this.addressService.apiAddressGet(this.accessToken).subscribe(
+  //     (res) => {
+  //       if (res) {
+  //         res.results.forEach((el: any, index: number) => {
+  //           this.addressList.push(
+  //             `${el.street}, ${el.ward_id}, ${el.district_id},
+  //             ${el.province_id}, ${el.country}`
+  //           );
+  //         });
+  //         this.addressForm.controls.address.setValue(this.addressList[0]);
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log('Have a error when get address: ', error);
+  //     }
+  //   );
+  // }
 
   postOrderCheckout() {
     let orderIdList = [];
@@ -156,15 +164,15 @@ export class CheckoutComponent implements OnInit {
     this.getOrdersList(this.page);
   }
 
-  onOpenModalAddAddress() {
-    const dialogRef = this.dialog.open(ModalAddAddressComponent, {
-      width: '700px',
-    });
+  // onOpenModalAddAddress() {
+  //   const dialogRef = this.dialog.open(ModalAddAddressComponent, {
+  //     width: '700px',
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getMyAddressList();
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.getMyAddressList();
+  //     }
+  //   });
+  // }
 }
