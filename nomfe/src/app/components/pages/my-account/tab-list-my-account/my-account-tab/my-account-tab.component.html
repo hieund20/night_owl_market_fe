@@ -1,0 +1,48 @@
+<div class="row" style="margin-top: 32px; margin-bottom: 32px">
+  <div class="col d-flex justify-content-center">
+    <img
+      [src]="currentUser.avatar"
+      class="rounded-circle"
+      style="width: 150px; height: 150px"
+      alt="Avatar"
+    />
+  </div>
+  <div class="col">
+    <div *ngIf="!isEditUserForm">
+      <div class="row">
+        <div class="col">
+          <label><b>Email</b></label>
+          <p>{{ currentUser.email }}</p>
+        </div>
+        <div class="col">
+          <label><b>Số điện thoại</b></label>
+          <p>{{ currentUser.phone_number }}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label><b>Họ</b></label>
+          <p>{{ currentUser.last_name }}</p>
+        </div>
+        <div class="col">
+          <label><b>Tên</b></label>
+          <p>{{ currentUser.first_name }}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label><b>NOM Coin</b></label>
+          <p>{{ currentUser.balance | customcurrency }} đ</p>
+        </div>
+      </div>
+    </div>
+    <form *ngIf="isEditUserForm"></form>
+
+    <div class="d-flex justify-content-between">
+      <div></div>
+      <button mat-flat-button color="primary">Sửa thông tin</button>
+    </div>
+  </div>
+</div>

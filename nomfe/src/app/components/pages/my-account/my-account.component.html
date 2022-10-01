@@ -1,0 +1,21 @@
+<div class="main-layout-box">
+  <h2>Tài khoản của tôi</h2>
+  <mat-card class="mt-4 mb-6">
+    <mat-card-content>
+      <mat-tab-group
+        mat-align-tabs="start"
+        class="mt-4"
+        (selectedTabChange)="onTabChange($event)"
+        [selectedIndex]="tabIndex"
+      >
+        <mat-tab label="Thông tin tài khoản">
+          <app-my-account-tab *ngIf="tabIndex === 0"></app-my-account-tab>
+        </mat-tab>
+        <mat-tab label="Nạp NOM Coin">
+          <app-add-coin-tab *ngIf="tabIndex === 1"></app-add-coin-tab>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-footer> </mat-card-footer>
+  </mat-card>
+</div>

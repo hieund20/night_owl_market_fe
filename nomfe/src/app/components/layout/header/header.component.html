@@ -65,11 +65,24 @@
       </ul>
       <!-- Left links -->
       <div class="d-flex align-items-center">
-        <button mat-icon-button class="mr-10" routerLink="/cart">
-          <mat-icon [matBadge]="currentUser.cart_quantity" matBadgeColor="warn" color="white-icon"
+        <button
+          mat-icon-button
+          class="mr-10"
+          routerLink="/cart"
+          *ngIf="isCurrentUserLogged"
+        >
+          <mat-icon
+            [matBadge]="currentUser.cart_quantity"
+            matBadgeColor="warn"
+            color="white-icon"
             >shopping_cart</mat-icon
           >
         </button>
+        <div *ngIf="isCurrentUserLogged">
+          <span style="color: white; margin-left: 16px"
+            >NOM Coin: {{ currentUser.balance | customcurrency }} đ</span
+          >
+        </div>
         <div *ngIf="!isCurrentUserLogged">
           <button mat-raised-button routerLink="/auth/login">
             <span class="text-primary">Đăng nhập</span>
@@ -83,21 +96,19 @@
           <img
             src="{{ currentUser.avatar }}"
             class="rounded-circle shadow-4"
-            style="width: 30px"
+            style="width: 30px; margin-left: 16px"
             alt="avatars"
             [matMenuTriggerFor]="menu"
           />
           <mat-menu #menu="matMenu">
-            <div mat-menu-item>
-              <mat-icon> attach_money</mat-icon>
-              <span
-                >NOM Coin: {{ currentUser.balance | customcurrency }} đ</span
-              >
-            </div>
-            <button mat-menu-item>
+            <button mat-menu-item routerLink="/myaccount">
               <mat-icon>account_circle</mat-icon>
               <span>Tài khoản của tôi</span>
             </button>
+            <div mat-menu-item>
+              <mat-icon> attach_money</mat-icon>
+              <span>Nạp NOM Coin</span>
+            </div>
             <button mat-menu-item routerLink="/purchase">
               <mat-icon>shopping_basket</mat-icon>
               <span>Đơn mua</span>

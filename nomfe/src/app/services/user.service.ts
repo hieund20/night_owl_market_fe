@@ -71,7 +71,7 @@ export class UserService {
       'application/json',
       'text/json',
       'application/_*+json',
-      'multipart/form-data'
+      'multipart/form-data',
     ];
     const httpContentTypeSelected: string | undefined =
       this.configuration.selectHeaderContentType(consumes);
@@ -128,6 +128,58 @@ export class UserService {
       `${this.basePath}/users/current-user/`,
       {
         headers: headers,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiCashingPost(
+    accessToken: string,
+    body: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiCashingPost(
+    accessToken: string,
+    body: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiCashingPost(
+    accessToken: string,
+    body: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiCashingPost(
+    accessToken: string,
+    body: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiCurrentUserGet.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    return this.httpClient.request<any>(
+      'post',
+      `${this.basePath}/users/cashin/`,
+      {
+        headers: headers,
+        body: body,
         withCredentials: this.configuration.withCredentials,
         observe: observe,
         reportProgress: reportProgress,

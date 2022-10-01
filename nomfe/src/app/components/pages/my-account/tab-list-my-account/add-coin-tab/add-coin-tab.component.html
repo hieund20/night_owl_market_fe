@@ -1,0 +1,22 @@
+<div style="margin-top: 32px; margin-bottom: 32px">
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label>Số coin</mat-label>
+        <input
+          matInput
+          placeholder="Nhập số coin cần nạp"
+          [formControl]="cashinCoin"
+        />
+        <mat-icon matSuffix>attach_money</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button mat-flat-button color="primary" (click)="onAddCasingCoin()">
+        Nạp
+      </button>
+    </div>
+  </div>
+</div>

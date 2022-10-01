@@ -53,6 +53,9 @@ import { PaymentComponent } from './components/pages/payment/payment.component';
 import { SellerOrderManagementComponent } from './components/pages/seller-pages/seller-order-management/seller-order-management.component';
 import { ReceivedPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/received-purchase-tab/received-purchase-tab.component';
 import { CanceledPurchaseTabComponent } from './components/pages/purchase/tab-list-purchase/canceled-purchase-tab/canceled-purchase-tab.component';
+import { MyAccountComponent } from './components/pages/my-account/my-account.component';
+import { MyAccountTabComponent } from './components/pages/my-account/tab-list-my-account/my-account-tab/my-account-tab.component';
+import { AddCoinTabComponent } from './components/pages/my-account/tab-list-my-account/add-coin-tab/add-coin-tab.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +82,9 @@ import { CanceledPurchaseTabComponent } from './components/pages/purchase/tab-li
     SellerOrderManagementComponent,
     ReceivedPurchaseTabComponent,
     CanceledPurchaseTabComponent,
+    MyAccountComponent,
+    MyAccountTabComponent,
+    AddCoinTabComponent,
   ],
   imports: [
     BrowserModule,
