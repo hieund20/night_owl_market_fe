@@ -29,7 +29,6 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getCurrentUser();
     this.getCategoryList();
     this.getProductList(this.page);
   }

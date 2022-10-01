@@ -38,11 +38,66 @@
         </div>
       </div>
     </div>
-    <form *ngIf="isEditUserForm"></form>
+    <form *ngIf="isEditUserForm" [formGroup]="userForm">
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Số điện thoại</mat-label>
+            <input matInput formControlName="phone_number" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Họ</mat-label>
+            <input matInput formControlName="last_name" />
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tên</mat-label>
+            <input matInput formControlName="first_name" />
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
 
     <div class="d-flex justify-content-between">
       <div></div>
-      <button mat-flat-button color="primary">Sửa thông tin</button>
+      <div>
+        <button
+          *ngIf="!isEditUserForm"
+          mat-flat-button
+          color="primary"
+          (click)="onSubmitForm(true)"
+        >
+          Sửa thông tin
+        </button>
+        <button
+          *ngIf="isEditUserForm"
+          mat-button
+          color="primary"
+          (click)="onCloseForm()"
+        >
+          Đóng
+        </button>
+        <button
+          *ngIf="isEditUserForm"
+          mat-flat-button
+          color="primary"
+          (click)="onSubmitForm(false)"
+        >
+          Lưu
+        </button>
+      </div>
     </div>
   </div>
 </div>
