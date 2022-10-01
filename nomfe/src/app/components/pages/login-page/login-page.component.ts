@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login-page',
@@ -38,6 +39,7 @@ export class LoginPageComponent implements OnInit {
     private userService: UserService,
     private fireAuth: AngularFireAuth,
     private router: Router,
+    private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) {}
 
@@ -45,6 +47,8 @@ export class LoginPageComponent implements OnInit {
 
   //API
   onSubmitLogin() {
+    this.spinner.show();
+
     const controls = <any>this.loginForm.controls;
 
     if (this.loginForm.invalid) {
@@ -60,6 +64,7 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('access_token', res.access);
           localStorage.setItem('refresh_token', res.refresh);
 
+          this.spinner.hide();
           this.toastr.success('Đăng nhập thành công');
           setTimeout(() => {
             this.router.navigate(['/']).then(() => {
@@ -81,7 +86,9 @@ export class LoginPageComponent implements OnInit {
       (res: any) => {
         if (res) {
           let idToken = res.credential?.idToken;
+          this.spinner.show();
           setTimeout(() => {
+            this.spinner.hide();
             this.loginWithGoogleApp(idToken);
           }, 2000);
         }

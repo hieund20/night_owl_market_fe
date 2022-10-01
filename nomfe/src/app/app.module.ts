@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { MatCardModule } from '@angular/material/card';
@@ -56,11 +56,14 @@ import { CanceledPurchaseTabComponent } from './components/pages/purchase/tab-li
 import { MyAccountComponent } from './components/pages/my-account/my-account.component';
 import { MyAccountTabComponent } from './components/pages/my-account/tab-list-my-account/my-account-tab/my-account-tab.component';
 import { AddCoinTabComponent } from './components/pages/my-account/tab-list-my-account/add-coin-tab/add-coin-tab.component';
+//Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+//Ngx-spinner
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -119,6 +122,9 @@ import { AngularFireModule } from '@angular/fire/compat';
     MatStepperModule,
     ToastrModule.forRoot(),
     NgbModule,
+    NgxSpinnerModule.forRoot({
+      type: 'ball-spin-fade',
+    }),
     CloudinaryModule,
     NgxDropzoneModule,
     MatTooltipModule,
@@ -127,6 +133,8 @@ import { AngularFireModule } from '@angular/fire/compat';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
+  exports: [NgxSpinnerModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent],
 })

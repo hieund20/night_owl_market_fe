@@ -31,6 +31,7 @@
     "lodash": "^4.17.21",
     "mdb-angular-ui-kit": "^2.3.0",
     "ngx-dropzone": "^3.1.0",
+    "ngx-spinner": "^14.0.0",
     "ngx-star-rating": "^2.1.0",
     "ngx-toastr": "^15.0.0",
     "popper.js": "^1.16.1",
