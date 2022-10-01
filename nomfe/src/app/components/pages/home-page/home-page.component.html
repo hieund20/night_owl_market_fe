@@ -51,7 +51,9 @@
       <div class="row mt-4" *ngIf="productList.length > 0">
         <div *ngFor="let item of productList" class="product-card col-sm mb-4">
           <mat-card>
-            <img mat-card-image src="{{ item.picture }}" alt="." />
+            <div class="card-img">
+              <img mat-card-image src="{{ item.picture }}" alt="." />
+            </div>
             <mat-card-content>
               <p>
                 <b>
