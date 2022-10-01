@@ -1,8 +1,11 @@
+import { UserService } from './../../../services/user.service';
 import { AuthService } from './../../../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { GoogleAuthProvider } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-login-page',
@@ -32,12 +35,15 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
+    private fireAuth: AngularFireAuth,
     private router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {}
 
+  //API
   onSubmitLogin() {
     const controls = <any>this.loginForm.controls;
 
@@ -66,6 +72,48 @@ export class LoginPageComponent implements OnInit {
         if (error.status === 401) {
           this.toastr.error('Email hoặc mật khẩu không đúng');
         }
+      }
+    );
+  }
+
+  onLoginWithGoogleFirebase() {
+    return this.fireAuth.signInWithPopup(new GoogleAuthProvider()).then(
+      (res: any) => {
+        if (res) {
+          let idToken = res.credential?.idToken;
+          setTimeout(() => {
+            this.loginWithGoogleApp(idToken);
+          }, 2000);
+        }
+      },
+      (err) => {
+        console.log('Something is wrong', err);
+      }
+    );
+  }
+
+  loginWithGoogleApp(idTokenGG: string) {
+    let body = {
+      id_token: idTokenGG,
+    };
+    this.userService.apiLoginWithGooglePost(body).subscribe(
+      (res) => {
+        if (res) {
+          localStorage.setItem('access_token', res.access);
+          localStorage.setItem('refresh_token', res.refresh);
+
+          this.toastr.success('Đăng nhập thành công');
+          setTimeout(() => {
+            this.router.navigate(['/']).then(() => {
+              window.location.reload();
+            });
+          }, 3000);
+        }
+      },
+      (err) => {
+        this.toastr.error(
+          'Đăng nhập bằng Google vào hệ thống không thành công'
+        );
       }
     );
   }

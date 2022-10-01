@@ -56,6 +56,11 @@ import { CanceledPurchaseTabComponent } from './components/pages/purchase/tab-li
 import { MyAccountComponent } from './components/pages/my-account/my-account.component';
 import { MyAccountTabComponent } from './components/pages/my-account/tab-list-my-account/my-account-tab/my-account-tab.component';
 import { AddCoinTabComponent } from './components/pages/my-account/tab-list-my-account/add-coin-tab/add-coin-tab.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -117,6 +122,10 @@ import { AddCoinTabComponent } from './components/pages/my-account/tab-list-my-a
     CloudinaryModule,
     NgxDropzoneModule,
     MatTooltipModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent],

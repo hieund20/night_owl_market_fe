@@ -2,7 +2,7 @@
   <mat-card>
     <div class="d-flex justify-content-between align-items-center">
       <div class="banner-image">
-        <img src="../../../../assets/images/banner.png"/>
+        <img src="../../../../assets/images/banner.png" />
       </div>
       <div class="form-container mt-5 mb-5">
         <h1>Đăng nhập</h1>
@@ -51,9 +51,25 @@
               </mat-form-field>
             </div>
           </div>
-          <button mat-raised-button color="primary" (click)="onSubmitLogin()">
-            Đăng nhập
-          </button>
+          <div class="d-flex aligns-item-center">
+            <button
+              mat-flat-button
+              color="primary"
+              (click)="onSubmitLogin()"
+              style="margin-right: 16px"
+            >
+              Đăng nhập
+            </button>
+            <button
+              mat-flat-button
+              class="d-flex aligns-item-center"
+              style="border: 1px solid lightgray"
+              (click)="onLoginWithGoogleFirebase()"
+            >
+              <img src="../../../../assets/icons/ic_google.png" />
+              <span> Đăng nhập với Google </span>
+            </button>
+          </div>
         </form>
       </div>
     </div>
