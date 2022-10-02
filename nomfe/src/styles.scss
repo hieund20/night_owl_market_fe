@@ -15,7 +15,7 @@
 @import "~ngx-toastr/toastr";
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 //Ngx-Spinner
 @import "~ngx-spinner/animations/ball-spin-fade.css";
@@ -31,7 +31,9 @@ body {
 
 .main-layout-box {
     width: 90%;
-    margin: 2rem auto;
+    margin: 32px auto;
+    padding-bottom: 72px;
+    padding-top: 8px;
 }
 
 .mr-3 {
@@ -56,11 +58,7 @@ body {
     width: 40% !important;
 }
 
-.white-icon {
-    color: white;
-}
-
-//Ngx-star-ratting 
+//Ngx-star-ratting
 input.star:checked ~ label.star:before {
     color: orange !important;
     font-size: 18px;
@@ -71,3 +69,8 @@ input.star ~ label.star:before {
     font-size: 18px;
 }
 
+//mat-table
+.mat-cell {
+    vertical-align: middle;
+    height: 50px;
+}

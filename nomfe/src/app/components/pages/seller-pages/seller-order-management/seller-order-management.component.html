@@ -50,17 +50,16 @@
           <td mat-cell *matCellDef="let element">
             <button
               mat-icon-button
-              color="primary"
               (click)="onAcceptOrder(element.id)"
               matTooltip="Xác nhận đơn hàng"
             >
-              <mat-icon>done</mat-icon>
+              <mat-icon [ngStyle]="{ color: '#2eb82e' }">done</mat-icon>
             </button>
             <button
               mat-icon-button
-              color="primary"
               (click)="onCancelOrder(element.id)"
               matTooltip="Hủy đơn hàng"
+              color="warn"
             >
               <mat-icon>cancel</mat-icon>
             </button>

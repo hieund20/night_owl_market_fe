@@ -1,9 +1,12 @@
 .product-pic {
     width: 30%;
+    height: 300px;
+
 
     & .mat-card-md-image {
         width: 100%;
         height: 300px;
+        object-fit: contain;
     }
 }
 

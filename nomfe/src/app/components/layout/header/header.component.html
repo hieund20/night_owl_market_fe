@@ -1,5 +1,8 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+<nav
+  class="navbar navbar-expand-lg navbar-light"
+  style="background-color: #3f51b5"
+>
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Navbar brand -->
@@ -74,12 +77,13 @@
           <mat-icon
             [matBadge]="currentUser.cart_quantity"
             matBadgeColor="warn"
-            color="white-icon"
+            [ngStyle]="{ color: 'white' }"
             >shopping_cart</mat-icon
           >
         </button>
-        <div *ngIf="isCurrentUserLogged">
-          <span style="color: white; margin-left: 16px"
+        <div *ngIf="isCurrentUserLogged" style="margin-left: 16px">
+          <img src="../../../../assets/icons/ic_dollar.png" />
+          <span style="color: white; margin-left: 8px"
             >NOM Coin: {{ currentUser.balance | customcurrency }} đ</span
           >
         </div>

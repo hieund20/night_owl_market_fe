@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OrdersService } from 'src/app/services/orders.service';
 import { PaymentMethods } from '../../constants/payment-methods';
 import { GhnLocationService } from 'src/app/services/ghn-services/ghn-location.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-checkout',
@@ -46,7 +47,8 @@ export class CheckoutComponent implements OnInit {
     private ghnLocationService: GhnLocationService,
     public dialog: MatDialog,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -112,6 +114,7 @@ export class CheckoutComponent implements OnInit {
   // }
 
   postOrderCheckout() {
+    this.spinner.show();
     let orderIdList = [];
     for (let i = 0; i < this.dataTableList.length; i++) {
       orderIdList.push(this.dataTableList[i].id);
@@ -132,13 +135,16 @@ export class CheckoutComponent implements OnInit {
       (res) => {
         if (res) {
           //Payment with MoMo
-          this.toastr.success('Đặt hàng thành công');
           if (this.paymentMethodForm.controls.method.value === 1) {
+            this.spinner.hide();
             window.open(res.pay_url, '_self');
+          } else {
+            //Payment with another
+            setTimeout(() => {
+              this.spinner.hide();
+              this.router.navigateByUrl('/purchase#pending');
+            }, 1000);
           }
-          // setTimeout(() => {
-          //   this.router.navigateByUrl('/purchase#pending');
-          // }, 1000);
         } else {
           this.toastr.error('Đặt hàng không thành công');
         }

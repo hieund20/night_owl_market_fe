@@ -8,6 +8,7 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from './../../../services/cart.service';
 import { OrdersService } from './../../../services/orders.service';
@@ -43,7 +44,8 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private orderService: OrdersService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -140,6 +142,7 @@ export class CartComponent implements OnInit {
     if (this.selectedProduct.length === 0) {
       this.toastr.warning('Bạn chưa chọn sản phẩm');
     } else {
+      this.spinner.show();
       let orderIdList: any = [];
       this.selectedProduct.forEach((el) => {
         orderIdList.push(el.cartId);
@@ -153,10 +156,10 @@ export class CartComponent implements OnInit {
         (res) => {
           if (res) {
             this.getCartGroupByOwner();
-            this.toastr.success('Chuyển trang thanh toán ...');
             setTimeout(() => {
+              this.spinner.hide();
               this.router.navigate(['checkout']);
-            }, 3000);
+            }, 2000);
           }
         },
         (error) => {
