@@ -48,6 +48,7 @@ export class PendingPurchaseTabComponent implements OnInit {
             });
           });
           this.dataSource.data = this.dataTableList;
+          this.pageLength = res.count;
         }
       },
       (error) => {

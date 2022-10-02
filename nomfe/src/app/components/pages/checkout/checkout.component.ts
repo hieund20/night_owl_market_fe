@@ -10,6 +10,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { PaymentMethods } from '../../constants/payment-methods';
 import { GhnLocationService } from 'src/app/services/ghn-services/ghn-location.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { VoucherService } from 'src/app/services/voucher.service';
 
 @Component({
   selector: 'app-checkout',
@@ -25,6 +26,7 @@ export class CheckoutComponent implements OnInit {
   page: number = 1;
   totalProduct: number = 0;
   totalFinalPrice: number = 0;
+  totalFinalShippingFee: number = 0;
   //Payment
   paymentMethodList = PaymentMethods;
   paymentMethodForm = new FormGroup({
@@ -43,6 +45,7 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private orderService: OrdersService,
+    private voucherService: VoucherService,
     private addressService: AddressService,
     private ghnLocationService: GhnLocationService,
     public dialog: MatDialog,
@@ -55,6 +58,7 @@ export class CheckoutComponent implements OnInit {
     this.getAccessToken();
     this.getOrdersList(this.page);
     this.getMyAddress();
+    this.getAllVoucher();
     // this.getMyAddressList();
   }
 
@@ -84,12 +88,28 @@ export class CheckoutComponent implements OnInit {
               total_shipping_fee: el.total_shipping_fee,
             });
             this.totalFinalPrice += el.cost;
+            this.totalFinalShippingFee += Number.parseInt(
+              el.total_shipping_fee
+            );
           });
+          this.pageLength = res.count;
           this.dataSource.data = this.dataTableList;
+          this.getOrderById(this.dataTableList[0].id);
         }
       },
       (error) => {
         console.log('Error when get order detail list: ', error);
+      }
+    );
+  }
+
+  getOrderById(id: number) {
+    this.orderService.apiOrderIdGet(this.accessToken, id).subscribe(
+      (res) => {
+        console.log('check res', res);
+      },
+      (err) => {
+        console.log('Something is wrong', err);
       }
     );
   }
@@ -152,6 +172,19 @@ export class CheckoutComponent implements OnInit {
       (err) => {
         this.toastr.error('Đặt hàng không thành công');
         console.log('have a error when post order checkout', err);
+      }
+    );
+  }
+
+  getAllVoucher() {
+    this.voucherService.apiVouchersGet(this.accessToken).subscribe(
+      (res) => {
+        if (res) {
+          console.log('check res', res);
+        }
+      },
+      (err) => {
+        console.log('Some thing is wrong', err);
       }
     );
   }

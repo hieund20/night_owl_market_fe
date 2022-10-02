@@ -53,6 +53,7 @@ export class DeliveringPurchaseTabComponent implements OnInit {
             });
           });
           this.dataSource.data = this.dataTableList;
+          this.pageLength = res.count;
         }
       },
       (error) => {

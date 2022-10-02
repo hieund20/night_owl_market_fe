@@ -52,6 +52,7 @@ export class CanceledPurchaseTabComponent implements OnInit {
             });
           });
           this.dataSource.data = this.dataTableList;
+          this.pageLength = res.count;
         }
       },
       (error) => {
