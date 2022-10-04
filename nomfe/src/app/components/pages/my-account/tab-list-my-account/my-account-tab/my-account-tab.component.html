@@ -1,129 +1,176 @@
-<div class="row" style="margin-top: 32px; margin-bottom: 32px">
-  <div class="col d-flex justify-content-center">
-    <img
-      [src]="currentUser.avatar"
-      class="rounded-circle"
-      style="width: 150px; height: 150px"
-      alt="Avatar"
-    />
-  </div>
-  <div class="col">
-    <div *ngIf="!isEditUserForm">
-      <div class="row">
-        <div class="col">
-          <label class="d-flex align-items-center"
-            ><b>Email</b
-            ><img
-              style="margin-left: 4px"
-              *ngIf="isEmailVerified"
-              matTooltip="Đã xác thực"
-              src="../../../../../../assets/icons/ic_verified.png"
-            />
-            <img
-              style="margin-left: 8px"
-              *ngIf="!isEmailVerified"
-              matTooltip="Chưa xác thực"
-              src="../../../../../../assets/icons/ic_verify.png"
-            />
-          </label>
-          <p>{{ currentUser.email }}</p>
-        </div>
-        <div class="col">
-          <label class="d-flex align-items-center"
-            ><b>Số điện thoại</b
-            ><img
-              style="margin-left: 4px"
-              *ngIf="isPhoneVerified"
-              matTooltip="Đã xác thực"
-              src="../../../../../../assets/icons/ic_verified.png" />
-            <img
-              style="margin-left: 8px"
-              *ngIf="!isPhoneVerified"
-              matTooltip="Chưa xác thực"
-              src="../../../../../../assets/icons/ic_verify.png"
-          /></label>
-          <p>{{ currentUser.phone_number }}</p>
-        </div>
+<div class="tab-container">
+  <mat-list>
+    <mat-list-item>Thông tin chi tiết</mat-list-item>
+    <mat-divider></mat-divider>
+    <div class="row mt-4">
+      <div class="col-5 d-flex justify-content-center">
+        <img
+          [src]="currentUser.avatar"
+          class="rounded-circle"
+          style="width: 150px; height: 150px"
+          alt="Avatar"
+        />
       </div>
+      <div class="col-7">
+        <div *ngIf="!isEditUserForm">
+          <div class="row">
+            <div class="col">
+              <label class="d-flex align-items-center"
+                ><b>Email</b
+                ><img
+                  style="margin-left: 4px"
+                  *ngIf="isEmailVerified"
+                  matTooltip="Đã xác thực"
+                  src="../../../../../../assets/icons/ic_verified.png"
+                />
+                <img
+                  style="margin-left: 8px"
+                  *ngIf="!isEmailVerified"
+                  matTooltip="Chưa xác thực"
+                  src="../../../../../../assets/icons/ic_verify.png"
+                />
+              </label>
+              <p>{{ currentUser.email }}</p>
+            </div>
+            <div class="col">
+              <label class="d-flex align-items-center"
+                ><b>Số điện thoại</b
+                ><img
+                  style="margin-left: 4px"
+                  *ngIf="isPhoneVerified"
+                  matTooltip="Đã xác thực"
+                  src="../../../../../../assets/icons/ic_verified.png" />
+                <img
+                  style="margin-left: 8px"
+                  *ngIf="!isPhoneVerified"
+                  matTooltip="Chưa xác thực"
+                  src="../../../../../../assets/icons/ic_verify.png"
+              /></label>
+              <p>{{ currentUser.phone_number }}</p>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col">
-          <label><b>Họ</b></label>
-          <p>{{ currentUser.last_name }}</p>
-        </div>
-        <div class="col">
-          <label><b>Tên</b></label>
-          <p>{{ currentUser.first_name }}</p>
-        </div>
-      </div>
+          <div class="row">
+            <div class="col">
+              <label><b>Họ</b></label>
+              <p>{{ currentUser.last_name }}</p>
+            </div>
+            <div class="col">
+              <label><b>Tên</b></label>
+              <p>{{ currentUser.first_name }}</p>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col">
-          <label><b>NOM Coin</b></label>
-          <p>{{ currentUser.balance | customcurrency }} đ</p>
+          <div class="row">
+            <div class="col">
+              <label><b>NOM Coin</b></label>
+              <p>{{ currentUser.balance | customcurrency }} đ</p>
+            </div>
+          </div>
+        </div>
+        <form *ngIf="isEditUserForm" [formGroup]="userForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Số điện thoại</mat-label>
+                <input matInput formControlName="phone_number" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Họ</mat-label>
+                <input matInput formControlName="last_name" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Tên</mat-label>
+                <input matInput formControlName="first_name" />
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+
+        <div class="d-flex justify-content-between">
+          <div></div>
+          <div>
+            <button
+              *ngIf="!isEditUserForm"
+              mat-flat-button
+              color="primary"
+              (click)="onSubmitUserDetailForm(true)"
+            >
+              Sửa thông tin
+            </button>
+            <button
+              *ngIf="isEditUserForm"
+              mat-button
+              color="primary"
+              (click)="onCloseForm()"
+            >
+              Đóng
+            </button>
+            <button
+              *ngIf="isEditUserForm"
+              mat-flat-button
+              color="primary"
+              (click)="onSubmitUserDetailForm(false)"
+            >
+              Lưu
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <form *ngIf="isEditUserForm" [formGroup]="userForm">
-      <div class="row">
-        <div class="col">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" />
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Số điện thoại</mat-label>
-            <input matInput formControlName="phone_number" />
-          </mat-form-field>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Họ</mat-label>
-            <input matInput formControlName="last_name" />
+    <mat-list-item>Mật khấu</mat-list-item>
+    <mat-divider></mat-divider>
+    <div class="row">
+      <div class="col-5"><span>Thay đổi mật khẩu của bạn</span></div>
+      <div class="col-7">
+        <form [formGroup]="changingPasswordForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Mật khẩu hiện tại</mat-label>
+            <input
+              matInput
+              placeholder="Nhập mật khẩu hiện tại..."
+              formControlName="current_password"
+            />
           </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Tên</mat-label>
-            <input matInput formControlName="first_name" />
+          <mat-form-field appearance="outline">
+            <mat-label>Mật khẩu mới</mat-label>
+            <input
+              matInput
+              placeholder="Nhập mật khẩu mới..."
+              formControlName="new_password"
+            />
           </mat-form-field>
-        </div>
-      </div>
-    </form>
-
-    <div class="d-flex justify-content-between">
-      <div></div>
-      <div>
-        <button
-          *ngIf="!isEditUserForm"
-          mat-flat-button
-          color="primary"
-          (click)="onSubmitForm(true)"
-        >
-          Sửa thông tin
-        </button>
-        <button
-          *ngIf="isEditUserForm"
-          mat-button
-          color="primary"
-          (click)="onCloseForm()"
-        >
-          Đóng
-        </button>
-        <button
-          *ngIf="isEditUserForm"
-          mat-flat-button
-          color="primary"
-          (click)="onSubmitForm(false)"
-        >
-          Lưu
-        </button>
+          <mat-form-field appearance="outline">
+            <mat-label>Xác nhận mật khẩu</mat-label>
+            <input
+              matInput
+              placeholder="Nhập lại mật khẩu hiện tại..."
+              formControlName="confirm_password"
+            />
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="onSubmitChangingPasswordForm()"
+          >
+            Đổi mật khẩu
+          </button>
+        </form>
       </div>
     </div>
-  </div>
+  </mat-list>
 </div>

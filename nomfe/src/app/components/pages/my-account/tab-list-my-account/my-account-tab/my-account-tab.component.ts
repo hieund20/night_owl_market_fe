@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 export class MyAccountTabComponent implements OnInit {
   accessToken: string = '';
   currentUser: any = null;
+  //User detail
   userForm = new FormGroup({
     email: new FormControl(null),
     first_name: new FormControl(null, Validators.required),
@@ -20,6 +21,12 @@ export class MyAccountTabComponent implements OnInit {
   isEditUserForm: boolean = false;
   isEmailVerified: boolean = false;
   isPhoneVerified: boolean = false;
+  //Change password
+  changingPasswordForm = new FormGroup({
+    current_password: new FormControl(null, Validators.required),
+    new_password: new FormControl(null, Validators.required),
+    confirm_password: new FormControl(null, Validators.required),
+  });
 
   constructor(private userService: UserService, public toastr: ToastrService) {}
 
@@ -56,7 +63,7 @@ export class MyAccountTabComponent implements OnInit {
     );
   }
 
-  onSubmitForm(isEdit: boolean) {
+  onSubmitUserDetailForm(isEdit: boolean) {
     if (isEdit) {
       this.isEditUserForm = true;
 
@@ -87,6 +94,24 @@ export class MyAccountTabComponent implements OnInit {
           }
         );
     }
+  }
+
+  onSubmitChangingPasswordForm() {
+    this.userService
+      .apiUserChangePasswordPost(
+        this.accessToken,
+        this.changingPasswordForm.value
+      )
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.toastr.success('Thay đổi mật khẩu thành công');
+          }
+        },
+        (err) => {
+          this.toastr.error('Thay đổi mật khẩu không thành công');
+        }
+      );
   }
 
   //Others

@@ -34,6 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
 import { CartComponent } from './components/pages/cart/cart.component';
@@ -120,6 +121,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MatDialogModule,
     MatAutocompleteModule,
     MatStepperModule,
+    MatDividerModule,
     ToastrModule.forRoot(),
     NgbModule,
     NgxSpinnerModule.forRoot({
