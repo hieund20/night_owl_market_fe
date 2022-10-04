@@ -4,7 +4,7 @@ export const environment = {
     appId: '1:549681751464:web:f14f8c9d85ed039d23299d',
     storageBucket: 'nom-market.appspot.com',
     apiKey: 'AIzaSyCUTxPzdfjjmgt9y0j_45S5wf0KeZa2Jx8',
-    authDomain: 'nom-market.firebaseapp.com',
+    authDomain: 'https://night-owl-market-fe.vercel.app/',
     messagingSenderId: '549681751464',
   },
   production: true
