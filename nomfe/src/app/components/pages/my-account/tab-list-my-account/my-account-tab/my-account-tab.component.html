@@ -1,6 +1,6 @@
 <div class="tab-container">
   <mat-list>
-    <mat-list-item>Thông tin chi tiết</mat-list-item>
+    <mat-list-item><b>Thông tin chi tiết</b></mat-list-item>
     <mat-divider></mat-divider>
     <div class="row mt-4">
       <div class="col-5 d-flex justify-content-center">
@@ -108,10 +108,11 @@
           <div>
             <button
               *ngIf="!isEditUserForm"
-              mat-flat-button
+              mat-stroked-button
               color="primary"
               (click)="onSubmitUserDetailForm(true)"
             >
+              <mat-icon>edit</mat-icon>
               Sửa thông tin
             </button>
             <button
@@ -128,6 +129,7 @@
               color="primary"
               (click)="onSubmitUserDetailForm(false)"
             >
+              <mat-icon>save</mat-icon>
               Lưu
             </button>
           </div>
@@ -135,43 +137,59 @@
       </div>
     </div>
 
-    <mat-list-item>Mật khấu</mat-list-item>
+    <mat-list-item><b>Mật khấu</b></mat-list-item>
     <mat-divider></mat-divider>
-    <div class="row">
-      <div class="col-5"><span>Thay đổi mật khẩu của bạn</span></div>
+    <div class="row mt-4">
+      <div class="col-5">
+        <span>Hãy nhập mật khẩu mạnh để đảm bảo bảo mật !</span>
+      </div>
       <div class="col-7">
         <form [formGroup]="changingPasswordForm">
-          <mat-form-field appearance="outline">
-            <mat-label>Mật khẩu hiện tại</mat-label>
-            <input
-              matInput
-              placeholder="Nhập mật khẩu hiện tại..."
-              formControlName="current_password"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Mật khẩu mới</mat-label>
-            <input
-              matInput
-              placeholder="Nhập mật khẩu mới..."
-              formControlName="new_password"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Xác nhận mật khẩu</mat-label>
-            <input
-              matInput
-              placeholder="Nhập lại mật khẩu hiện tại..."
-              formControlName="confirm_password"
-            />
-          </mat-form-field>
-          <button
-            mat-flat-button
-            color="primary"
-            (click)="onSubmitChangingPasswordForm()"
-          >
-            Đổi mật khẩu
-          </button>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Mật khẩu hiện tại</mat-label>
+                <input
+                  matInput
+                  placeholder="Nhập mật khẩu hiện tại..."
+                  formControlName="current_password"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Mật khẩu mới</mat-label>
+                <input
+                  matInput
+                  placeholder="Nhập mật khẩu mới..."
+                  formControlName="new_password"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Xác nhận mật khẩu</mat-label>
+                <input
+                  matInput
+                  placeholder="Nhập lại mật khẩu hiện tại..."
+                  formControlName="confirm_password"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <p *ngIf="isShowErrorMessage" class="error-text">
+            {{ errorMessage }}
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div></div>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="onSubmitChangingPasswordForm()"
+            >
+              Đổi mật khẩu
+            </button>
+          </div>
         </form>
       </div>
     </div>

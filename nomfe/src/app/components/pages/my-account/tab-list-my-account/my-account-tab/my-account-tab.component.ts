@@ -28,6 +28,8 @@ export class MyAccountTabComponent implements OnInit {
     new_password: new FormControl(null, Validators.required),
     confirm_password: new FormControl(null, Validators.required),
   });
+  isShowErrorMessage: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private userService: UserService,
@@ -102,6 +104,15 @@ export class MyAccountTabComponent implements OnInit {
   }
 
   onSubmitChangingPasswordForm() {
+    if (
+      this.changingPasswordForm.controls.new_password.value !==
+      this.changingPasswordForm.controls.confirm_password.value
+    ) {
+      this.isShowErrorMessage = true;
+      this.errorMessage = 'Mật khẩu và xác nhận mật khấu không trùng khớp !';
+      return;
+    }
+    
     this.userService
       .apiUserChangePasswordPost(
         this.accessToken,
