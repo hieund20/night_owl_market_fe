@@ -68,6 +68,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { CheckVerifiedAccountComponent } from './components/pages/check-verified-account/check-verified-account.component';
 import { VerifiedEmailTabComponent } from './components/pages/check-verified-account/tab-list-check-account/verified-email-tab/verified-email-tab.component';
 import { VerifiedPhoneTabComponent } from './components/pages/check-verified-account/tab-list-check-account/verified-phone-tab/verified-phone-tab.component';
+import { ModalViewOrderComponent } from './components/pages/checkout/modal-view-order/modal-view-order.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { VerifiedPhoneTabComponent } from './components/pages/check-verified-acc
     CheckVerifiedAccountComponent,
     VerifiedEmailTabComponent,
     VerifiedPhoneTabComponent,
+    ModalViewOrderComponent,
   ],
   imports: [
     BrowserModule,

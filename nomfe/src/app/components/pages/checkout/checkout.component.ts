@@ -10,6 +10,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { VoucherService } from 'src/app/services/voucher.service';
 import { PaymentMethods } from '../../constants/payment-methods';
 import { AddressService } from './../../../services/address.service';
+import { ModalViewOrderComponent } from './modal-view-order/modal-view-order.component';
 
 @Component({
   selector: 'app-checkout',
@@ -20,7 +21,12 @@ export class CheckoutComponent implements OnInit {
   accessToken: string = '';
   dataTableList: any[] = [];
   dataSource = new MatTableDataSource<any>(this.dataTableList);
-  displayedColumns: string[] = ['store_name', 'cost', 'total_shipping_fee'];
+  displayedColumns: string[] = [
+    'store_name',
+    'cost',
+    'total_shipping_fee',
+    'actions',
+  ];
   pageLength: number = 0;
   page: number = 1;
   totalProduct: number = 0;
@@ -213,4 +219,17 @@ export class CheckoutComponent implements OnInit {
   //     }
   //   });
   // }
+
+  onOpenModalViewOrderInformation(id: number) {
+    const dialogRef = this.dialog.open(ModalViewOrderComponent, {
+      width: '700px',
+      data: { orderId: id },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('data', result);
+      }
+    });
+  }
 }
