@@ -1,16 +1,15 @@
-import { Router } from '@angular/router';
-import { ModalAddAddressComponent } from './modal-add-address/modal-add-address.component';
-import { MatDialog } from '@angular/material/dialog';
-import { AddressService } from './../../../services/address.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
-import { OrdersService } from 'src/app/services/orders.service';
-import { PaymentMethods } from '../../constants/payment-methods';
-import { GhnLocationService } from 'src/app/services/ghn-services/ghn-location.service';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { GhnLocationService } from 'src/app/services/ghn-services/ghn-location.service';
+import { OrdersService } from 'src/app/services/orders.service';
 import { VoucherService } from 'src/app/services/voucher.service';
+import { PaymentMethods } from '../../constants/payment-methods';
+import { AddressService } from './../../../services/address.service';
 
 @Component({
   selector: 'app-checkout',
