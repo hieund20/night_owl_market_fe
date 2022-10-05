@@ -35,6 +35,8 @@ export class CartComponent implements OnInit {
   dataSource = new MatTableDataSource<any>(this.dataTableList);
   displayedColumns: string[] = ['select', 'seller_name', 'expand'];
   expandedElement: any | null;
+
+  cartList: any = [];
   selectedProduct: any[] = [];
 
   countProduct: number = 0;
@@ -60,27 +62,33 @@ export class CartComponent implements OnInit {
   //API
   getCartGroupByOwner() {
     this.dataTableList = [];
+    let cartListTemp: any = [];
 
     this.cartService.apiCartGroupByOwnerGet(this.accessToken).subscribe(
       (res) => {
         res.forEach((el: any) => {
-          let productListClone: any = [];
+          let productList: any = [];
           el.carts.forEach((item: any) => {
-            productListClone.push({
+            productList.push({
               cartId: item.id,
               quantity: item.quantity,
               name: item.product_option.base_product.name,
               price: item.product_option.price,
               unit: item.product_option.unit,
             });
-          }),
-            this.dataTableList.push({
-              id: el.id,
-              seller_name: `${el.first_name} ${el.last_name}`,
-              product_list: [...productListClone],
-            });
+          });
+
+          cartListTemp.push({
+            sellerId: el.id,
+            sellerFullName: `${el.last_name} ${el.first_name}`,
+            sellerAvatar: el.avatar,
+            productList: [...productList],
+          });
         });
-        this.dataSource.data = this.dataTableList;
+
+        console.log('cehck list', cartListTemp);
+        this.cartList = [...cartListTemp];
+
       },
       (error) => {
         console.log('error when get cart group by owner', error);

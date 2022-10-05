@@ -46,3 +46,29 @@
     min-width: 20%;
     max-width: 20%;
 }
+
+.cart-ticket-container {
+    border: 1px solid lightgray;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+    padding: 8px 16px 8px 16px;
+
+    & > .seller-infor-container {
+        border-bottom: 1px solid lightgray;
+        padding-bottom: 8px;
+
+        & .avatar-img {
+            margin-right: 8px;
+        }
+    }
+
+    & > .product-list-container {
+        padding-top: 16px;
+
+        & .row {
+            align-items: center;
+        }
+    }
+}

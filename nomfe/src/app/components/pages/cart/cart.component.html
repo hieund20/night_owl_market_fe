@@ -1,147 +1,86 @@
 <div class="main-layout-box">
   <h2>Giỏ hàng</h2>
-  <mat-card class="mt-4 mb-4">
-    <mat-card-title></mat-card-title>
-    <mat-card-content>
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        multiTemplateDataRows
-        class="table"
-      >
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let row"></td>
-        </ng-container>
+  <div class="row mb-4">
+    <div class="col"></div>
+    <div class="col"><b>Tên sản phẩm</b></div>
+    <div class="col"><b>Giá bán</b></div>
+    <div class="col"><b>Số lượng</b></div>
+    <div class="col"><b>Loại</b></div>
+    <div class="col"><b>Thao tác</b></div>
+  </div>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="seller_name">
-          <th mat-header-cell *matHeaderCellDef>Tên người bán</th>
-
-          <td mat-cell *matCellDef="let element">
-            {{ element.seller_name }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions">
-            &nbsp;
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              aria-label="expand row"
-              (click)="
-                expandedElement = expandedElement === element ? null : element;
-                $event.stopPropagation()
-              "
-            >
-              <mat-icon *ngIf="expandedElement !== element"
-                >keyboard_arrow_down</mat-icon
-              >
-              <mat-icon *ngIf="expandedElement === element"
-                >keyboard_arrow_up</mat-icon
-              >
-            </button>
-          </td>
-        </ng-container>
-
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [attr.colspan]="displayedColumns.length"
+  <div class="cart-ticket-container" *ngFor="let item of cartList">
+    <div class="seller-infor-container">
+      <img
+        src="{{ item.sellerAvatar }}"
+        class="rounded-circle avatar-img"
+        style="width: 35px; height: 35px"
+        alt="avatars"
+      />
+      <span>{{ item.sellerFullName }}</span>
+    </div>
+    <div class="product-list-container">
+      <div class="row" *ngFor="let el of item.productList">
+        <div class="col">
+          <mat-checkbox (click)="onSelectProduct(el)"> </mat-checkbox>
+        </div>
+        <div class="col">
+          {{ el.name }}
+        </div>
+        <div class="col">{{ el.price | customcurrency }} đ</div>
+        <div class="col">
+          <input
+            class="quantity-input"
+            matInput
+            placeholder="Nhập số lượng sản phẩm"
+            value="{{ el.quantity }}"
+            type="number"
+            onKeyDown="return false"
+            (change)="onChangeProductQuantityInCart($event, el.cartId)"
+          />
+        </div>
+        <div class="col">
+          {{ el.unit }}
+        </div>
+        <div class="col">
+          <button
+            matTooltip="Xóa sản phẩm"
+            mat-icon-button
+            color="warn"
+            (click)="deleteProductInCart(el.cartId)"
           >
-            <div
-              class="example-element-detail"
-              [@detailExpand]="
-                element == expandedElement ? 'expanded' : 'collapsed'
-              "
-            >
-              <div class="expand row" *ngFor="let item of element.product_list">
-                <div class="col">
-                  <mat-checkbox (click)="onSelectProduct(item)"> </mat-checkbox>
-                </div>
-                <div class="col">
-                  {{ item.name }}
-                </div>
-                <div class="col">{{ item.price | customcurrency }} đ</div>
-                <div class="col">
-                  {{ item.unit }}
-                </div>
-                <div class="col">
-                  <input
-                    class="quantity-input"
-                    matInput
-                    placeholder="Nhập số lượng sản phẩm"
-                    value="{{ item.quantity }}"
-                    type="number"
-                    onKeyDown="return false"
-                    (change)="
-                      onChangeProductQuantityInCart($event, item.cartId)
-                    "
-                  />
-                </div>
-                <div class="col">
-                  <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="deleteProductInCart(item.cartId)"
-                  >
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let element; columns: displayedColumns"
-          class="example-element-row"
-          [class.example-expanded-row]="expandedElement === element"
-          (click)="
-            expandedElement = expandedElement === element ? null : element
-          "
-        ></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: ['expandedDetail']"
-          [hidden]="expandedElement !== row"
-          class="example-detail-row"
-        ></tr>
-      </table>
-    </mat-card-content>
-    <mat-card-footer class="d-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center">
-        <span>Đã chọn: {{ countProduct }} sản phẩm</span>
-        <button
-          mat-flat-button
-          color="warn"
-          (click)="onDeleteManyProductInCart()"
-          style="margin-left: 8px"
-        >
-          Xóa
-        </button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between">
+    <div>
+      <span>Đã chọn: {{ countProduct }} sản phẩm</span>
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="onDeleteManyProductInCart()"
+        style="margin-left: 8px"
+      >
+        Xóa
+      </button>
       <div class="d-flex align-items-center">
         <span>Thành tiền: {{ totalPrice | customcurrency }} đ</span>
       </div>
-    </mat-card-footer>
-  </mat-card>
-  <div class="d-flex justify-content-between">
-    <div></div>
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="onBuyProductInCart()"
-      style="margin-left: 8px"
-    >
-      Mua ngay
-    </button>
+    </div>
+
+    <div>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="onBuyProductInCart()"
+        style="margin-left: 8px"
+      >
+        Mua ngay
+      </button>
+    </div>
   </div>
 </div>
