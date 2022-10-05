@@ -1,0 +1,22 @@
+<div class="tab-container">
+  <div>
+    <button mat-flat-button color="primary" (click)="sendToVerifiedPhone()">
+      Gửi mã xác thực
+    </button>
+    <p *ngIf="isShowSendRequestCodeMessage">{{ requestCodeMessage }}</p>
+  </div>
+
+  <div>
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Mã xác thực</mat-label>
+      <input
+        matInput
+        placeholder="Nhập mã xác thực của bạn"
+        [formControl]="code"
+      />
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="checkVerifiedPhone()">
+      Xác thực số điện thoại
+    </button>
+  </div>
+</div>

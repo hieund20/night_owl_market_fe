@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CartComponent } from './components/pages/cart/cart.component';
+import { CheckVerifiedAccountComponent } from './components/pages/check-verified-account/check-verified-account.component';
 import { CheckoutComponent } from './components/pages/checkout/checkout.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
@@ -69,9 +70,27 @@ const routes: Routes = [
     path: 'payment',
     component: PaymentComponent,
   },
+
   {
     path: 'myaccount',
     component: MyAccountComponent,
+  },
+  {
+    path: 'myaccount',
+    children: [
+      {
+        path: 'verified',
+        component: CheckVerifiedAccountComponent,
+      },
+      {
+        path: 'verified#email',
+        component: CheckVerifiedAccountComponent,
+      },
+      {
+        path: 'verified#phone',
+        component: CheckVerifiedAccountComponent,
+      },
+    ],
   },
 ];
 

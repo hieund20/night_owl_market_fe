@@ -65,6 +65,9 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 //Ngx-spinner
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CheckVerifiedAccountComponent } from './components/pages/check-verified-account/check-verified-account.component';
+import { VerifiedEmailTabComponent } from './components/pages/check-verified-account/tab-list-check-account/verified-email-tab/verified-email-tab.component';
+import { VerifiedPhoneTabComponent } from './components/pages/check-verified-account/tab-list-check-account/verified-phone-tab/verified-phone-tab.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +97,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MyAccountComponent,
     MyAccountTabComponent,
     AddCoinTabComponent,
+    CheckVerifiedAccountComponent,
+    VerifiedEmailTabComponent,
+    VerifiedPhoneTabComponent,
   ],
   imports: [
     BrowserModule,

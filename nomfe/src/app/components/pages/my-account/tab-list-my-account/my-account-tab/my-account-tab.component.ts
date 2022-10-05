@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -28,7 +29,11 @@ export class MyAccountTabComponent implements OnInit {
     confirm_password: new FormControl(null, Validators.required),
   });
 
-  constructor(private userService: UserService, public toastr: ToastrService) {}
+  constructor(
+    private userService: UserService,
+    public toastr: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getAccessToken();
@@ -128,6 +133,14 @@ export class MyAccountTabComponent implements OnInit {
   checkPhoneVerified() {
     if (this.currentUser.phone_verified) {
       this.isPhoneVerified = true;
+    }
+  }
+
+  onOpenVerifiedLink(type: string) {
+    if (type === 'EMAIL') {
+      this.router.navigateByUrl('/myaccount/verified#email');
+    } else {
+      this.router.navigateByUrl('/myaccount/verified#phone');
     }
   }
 }

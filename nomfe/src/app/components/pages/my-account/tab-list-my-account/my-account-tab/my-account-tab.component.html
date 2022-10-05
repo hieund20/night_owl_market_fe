@@ -28,6 +28,8 @@
                   *ngIf="!isEmailVerified"
                   matTooltip="Chưa xác thực"
                   src="../../../../../../assets/icons/ic_verify.png"
+                  routerLink="/myaccount/verified#email"
+                  (click)="onOpenVerifiedLink('EMAIL')"
                 />
               </label>
               <p>{{ currentUser.email }}</p>
@@ -45,6 +47,7 @@
                   *ngIf="!isPhoneVerified"
                   matTooltip="Chưa xác thực"
                   src="../../../../../../assets/icons/ic_verify.png"
+                  (click)="onOpenVerifiedLink('PHONE')"
               /></label>
               <p>{{ currentUser.phone_number }}</p>
             </div>

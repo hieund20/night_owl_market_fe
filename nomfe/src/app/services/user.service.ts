@@ -1,14 +1,13 @@
-import { Inject, Injectable, Optional } from '@angular/core';
 import {
   HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
   HttpEvent,
+  HttpHeaders,
+  HttpResponse,
 } from '@angular/common/http';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Configuration } from '../configuration';
-import { BASE_PATH, COLLECTION_FORMATS } from '../variable';
+import { BASE_PATH } from '../variable';
 
 @Injectable({
   providedIn: 'root',
@@ -348,6 +347,204 @@ export class UserService {
     return this.httpClient.request<any>(
       'post',
       `${this.basePath}/users/login-with-google/`,
+      {
+        headers: headers,
+        body: body,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiSendVerifiedCodeToEmailGet(
+    accessToken: string,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiSendVerifiedCodeToEmailGet(
+    accessToken: string,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiSendVerifiedCodeToEmailGet(
+    accessToken: string,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiSendVerifiedCodeToEmailGet(
+    accessToken: string,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiSendVerifiedCodeToEmailGet.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    return this.httpClient.request<any>(
+      'get',
+      `${this.basePath}/users/send-verified-code-to-email/`,
+      {
+        headers: headers,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiSendVerifiedCodeToPhoneGet(
+    accessToken: string,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiSendVerifiedCodeToPhoneGet(
+    accessToken: string,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiSendVerifiedCodeToPhoneGet(
+    accessToken: string,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiSendVerifiedCodeToPhoneGet(
+    accessToken: string,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiSendVerifiedCodeToEmailGet.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    return this.httpClient.request<any>(
+      'get',
+      `${this.basePath}/users/send-verified-code-to-phone-number/`,
+      {
+        headers: headers,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiCheckVerifiedCodeToPhonePost(
+    accessToken: string,
+    body?: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiCheckVerifiedCodeToPhonePost(
+    accessToken: string,
+    body?: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiCheckVerifiedCodeToPhonePost(
+    accessToken: string,
+    body?: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiCheckVerifiedCodeToPhonePost(
+    accessToken: string,
+    body?: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiCheckVerifiedCodeToPhonePost.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    return this.httpClient.request<any>(
+      'post',
+      `${this.basePath}/users/check-verified-code-to-phone-number/`,
+      {
+        headers: headers,
+        body: body,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiCheckVerifiedCodeToEmailPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiCheckVerifiedCodeToEmailPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiCheckVerifiedCodeToEmailPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiCheckVerifiedCodeToEmailPost(
+    accessToken: string,
+    body?: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiCheckVerifiedCodeToEmailPost.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    return this.httpClient.request<any>(
+      'post',
+      `${this.basePath}/users/check-verified-code-to-email/`,
       {
         headers: headers,
         body: body,

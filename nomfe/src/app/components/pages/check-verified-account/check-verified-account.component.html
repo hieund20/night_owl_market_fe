@@ -1,0 +1,25 @@
+<div class="main-layout-box">
+  <h2>Xác thực tài khoản</h2>
+  <mat-card class="mt-4 mb-6">
+    <mat-card-content>
+      <mat-tab-group
+        mat-align-tabs="start"
+        class="mt-4"
+        (selectedTabChange)="onTabChange($event)"
+        [selectedIndex]="tabIndex"
+      >
+        <mat-tab label="Xác thực Email">
+          <app-verified-email-tab
+            *ngIf="tabIndex === 0"
+          ></app-verified-email-tab>
+        </mat-tab>
+        <mat-tab label="Xác thực Số điện thoại">
+          <app-verified-phone-tab
+            *ngIf="tabIndex === 1"
+          ></app-verified-phone-tab>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-footer> </mat-card-footer>
+  </mat-card>
+</div>
