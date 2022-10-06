@@ -66,6 +66,13 @@
 
           <div class="row">
             <div class="col">
+              <label><b>Địa chỉ</b></label>
+              <p>{{ currentUser.address.full_address }}</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
               <label><b>NOM Coin</b></label>
               <p>{{ currentUser.balance | customcurrency }} đ</p>
             </div>
@@ -100,6 +107,68 @@
                 <input matInput formControlName="first_name" />
               </mat-form-field>
             </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Tỉnh</mat-label>
+                <mat-select
+                  formControlName="province_id"
+                  (valueChange)="onChangeProvince($event)"
+                >
+                  <mat-option
+                    *ngFor="let province of provinceList"
+                    [value]="province.ProvinceID"
+                  >
+                    {{ province.ProvinceName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Quận - Huyện</mat-label>
+                <mat-select
+                  formControlName="district_id"
+                  (valueChange)="onChangeDistrict($event)"
+                >
+                  <mat-option
+                    *ngFor="let district of districtList"
+                    [value]="district.DistrictID"
+                  >
+                    {{ district.DistrictName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Phường - Xã</mat-label>
+                <mat-select
+                  formControlName="ward_id"
+                  (valueChange)="onChangeWard($event)"
+                >
+                  <mat-option
+                    *ngFor="let ward of wardList"
+                    [value]="ward.WardCode"
+                  >
+                    {{ ward.WardName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <mat-form-field appearance="outline">
+              <mat-label>Tên đường</mat-label>
+              <input
+                matInput
+                formControlName="street"
+                placeholder="Nhập tên đường..."
+              />
+            </mat-form-field>
           </div>
         </form>
 

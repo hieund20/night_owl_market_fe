@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { GhnLocationService } from 'src/app/services/ghn-services/ghn-location.service';
 
 @Component({
   selector: 'app-my-account-tab',
@@ -18,6 +19,10 @@ export class MyAccountTabComponent implements OnInit {
     first_name: new FormControl(null, Validators.required),
     last_name: new FormControl(null, Validators.required),
     phone_number: new FormControl(null, Validators.required),
+    province_id: new FormControl(null, Validators.required),
+    district_id: new FormControl(null, Validators.required),
+    ward_id: new FormControl(null, Validators.required),
+    street: new FormControl(null, Validators.required),
   });
   isEditUserForm: boolean = false;
   isEmailVerified: boolean = false;
@@ -30,11 +35,20 @@ export class MyAccountTabComponent implements OnInit {
   });
   isShowErrorMessage: boolean = false;
   errorMessage: string = '';
+  //GHN
+  provinceList: any[] = [];
+  districtList: any[] = [];
+  wardList: any[] = [];
+
+  provinceSelectedName: string = '';
+  districtSelectedName: string = '';
+  wardSelectedName: string = '';
 
   constructor(
     private userService: UserService,
     public toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private ghnLocationService: GhnLocationService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +61,14 @@ export class MyAccountTabComponent implements OnInit {
     this.userForm.controls.first_name.setValue(this.currentUser.first_name);
     this.userForm.controls.last_name.setValue(this.currentUser.last_name);
     this.userForm.controls.phone_number.setValue(this.currentUser.phone_number);
+    this.userForm.controls.province_id.setValue(
+      this.currentUser.address.province_id
+    );
+    // this.userForm.controls.district_id.setValue(
+    //   this.currentUser.address.district_id
+    // );
+    // this.userForm.controls.ward_id.setValue(this.currentUser.address.ward_id);
+    this.userForm.controls.street.setValue(this.currentUser.address.street);
   }
 
   //API
@@ -79,16 +101,26 @@ export class MyAccountTabComponent implements OnInit {
         this.userForm.addControl('email', new FormControl(null));
       }
       this.initFormValue();
+      this.getAllProvinceOfVietNam();
     } else {
       this.isEditUserForm = false;
       (this.userForm as FormGroup).removeControl('email');
 
+      let body = {
+        address: {
+          province_id: this.userForm.controls.province_id.value,
+          district_id: this.userForm.controls.district_id.value,
+          ward_id: this.userForm.controls.ward_id.value,
+          street: this.userForm.controls.street.value,
+          full_address: `${this.userForm.controls.street.value}, ${this.wardSelectedName}, ${this.districtSelectedName}, ${this.provinceSelectedName}`,
+        },
+        first_name: this.userForm.controls.first_name.value,
+        last_name: this.userForm.controls.last_name.value,
+        phone_number: this.userForm.controls.phone_number.value,
+      };
+
       this.userService
-        .apiUserPatch(
-          this.accessToken,
-          this.currentUser.id,
-          this.userForm.value
-        )
+        .apiUserPatch(this.accessToken, this.currentUser.id, body)
         .subscribe(
           (res) => {
             if (res) {
@@ -112,7 +144,7 @@ export class MyAccountTabComponent implements OnInit {
       this.errorMessage = 'Mật khẩu và xác nhận mật khấu không trùng khớp !';
       return;
     }
-    
+
     this.userService
       .apiUserChangePasswordPost(
         this.accessToken,
@@ -128,6 +160,46 @@ export class MyAccountTabComponent implements OnInit {
           this.toastr.error('Thay đổi mật khẩu không thành công');
         }
       );
+  }
+
+  //GHN-API
+  getAllProvinceOfVietNam() {
+    this.ghnLocationService.apiProvincesGet().subscribe(
+      (res) => {
+        if (res && res.code === 200) {
+          this.provinceList = res.data;
+        }
+      },
+      (error) => {
+        console.log('Have a error when get GHN province : ', error);
+      }
+    );
+  }
+
+  getAllDistrictOfVietNam(provinceId: number) {
+    this.ghnLocationService.apiDistrictsGet(provinceId).subscribe(
+      (res) => {
+        if (res && res.code === 200) {
+          this.districtList = res.data;
+        }
+      },
+      (error) => {
+        console.log('Have a error when get GHN district : ', error);
+      }
+    );
+  }
+
+  getAllWardOfVietNam(districtId: number) {
+    this.ghnLocationService.apiWardsGet(districtId).subscribe(
+      (res) => {
+        if (res && res.code === 200) {
+          this.wardList = res.data;
+        }
+      },
+      (error) => {
+        console.log('Have a error when get GHN ward : ', error);
+      }
+    );
   }
 
   //Others
@@ -153,5 +225,27 @@ export class MyAccountTabComponent implements OnInit {
     } else {
       this.router.navigateByUrl('/myaccount/verified#phone');
     }
+  }
+
+  onChangeProvince(data: number) {
+    this.provinceSelectedName = this.provinceList.find(
+      (el) => el.ProvinceID === data
+    ).ProvinceName;
+
+    this.getAllDistrictOfVietNam(data);
+  }
+
+  onChangeDistrict(data: number) {
+    this.districtSelectedName = this.districtList.find(
+      (el) => el.DistrictID === data
+    ).DistrictName;
+
+    this.getAllWardOfVietNam(data);
+  }
+
+  onChangeWard(data: number) {
+    this.wardSelectedName = this.wardList.find(
+      (el) => el.WardCode === data
+    ).WardName;
   }
 }
