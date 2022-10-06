@@ -10,6 +10,7 @@ import { PaymentComponent } from './components/pages/payment/payment.component';
 import { ProductDetailComponent } from './components/pages/product-detail/product-detail.component';
 import { PurchaseComponent } from './components/pages/purchase/purchase.component';
 import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
+import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
 import { SellerOrderManagementComponent } from './components/pages/seller-pages/seller-order-management/seller-order-management.component';
 import { SellerProductMangementComponent } from './components/pages/seller-product-mangement/seller-product-mangement.component';
 
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginPageComponent,
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
       },
     ],
   },
