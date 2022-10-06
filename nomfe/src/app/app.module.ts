@@ -43,7 +43,6 @@ import { CheckoutComponent } from './components/pages/checkout/checkout.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SellerProductMangementComponent } from './components/pages/seller-product-mangement/seller-product-mangement.component';
 import { ModalAddProductComponent } from './components/pages/seller-product-mangement/modal-add-product/modal-add-product.component';
-import { ModalAddAddressComponent } from './components/pages/checkout/modal-add-address/modal-add-address.component';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ProductListTabComponent } from './components/pages/seller-product-mangement/tab-list-orders/product-list-tab/product-list-tab.component';
@@ -86,7 +85,6 @@ import { ModalViewOrderComponent } from './components/pages/checkout/modal-view-
     CheckoutComponent,
     SellerProductMangementComponent,
     ModalAddProductComponent,
-    ModalAddAddressComponent,
     ProductListTabComponent,
     AllPurchaseTabComponent,
     PendingPurchaseTabComponent,

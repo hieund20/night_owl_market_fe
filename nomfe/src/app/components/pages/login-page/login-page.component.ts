@@ -118,6 +118,14 @@ export class LoginPageComponent implements OnInit {
         }
       },
       (err) => {
+        let googleUserInformation = {
+          email: err.error.email,
+        };
+        this.router.navigate([
+          '/auth/register',
+          { email: googleUserInformation.email },
+        ]);
+
         this.toastr.error(
           'Đăng nhập bằng Google vào hệ thống không thành công'
         );

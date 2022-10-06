@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -41,11 +41,22 @@ export class RegisterPageComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getEmailOfUserFromURL();
+  }
 
+  getEmailOfUserFromURL() {
+    let email = this.route.snapshot.paramMap.get('email');
+    if (email) {
+      this.registerForm.controls.email.setValue(email);
+    }
+  }
+
+  //API
   onSubmitRegister() {
     const controls = <any>this.registerForm.controls;
 
