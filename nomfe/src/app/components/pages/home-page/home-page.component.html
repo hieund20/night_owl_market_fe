@@ -44,7 +44,7 @@
             <img mat-card-image src="{{ item.picture }}" alt="." />
           </div>
           <mat-card-content>
-            <p>
+            <p class="ellipsis-text" [matTooltip]="item.name || ''">
               <b>
                 {{ item.name }}
               </b>
