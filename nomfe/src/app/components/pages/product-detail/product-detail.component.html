@@ -2,7 +2,11 @@
   <mat-card class="mb-4">
     <div class="d-flex justify-content-between">
       <div class="product-pic">
-        <img mat-card-md-image src="{{ productDetail.picture }}" />
+        <ngb-carousel>
+          <ng-template ngbSlide *ngFor="let item of carouselImageList">
+            <img [src]="item" class="carosel-img" />
+          </ng-template>
+        </ngb-carousel>
       </div>
       <div class="product-info">
         <h1 class="product-name">

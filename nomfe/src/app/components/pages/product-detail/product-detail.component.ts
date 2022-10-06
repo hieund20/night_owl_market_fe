@@ -16,16 +16,21 @@ import { OptionService } from './../../../services/option.service';
 export class ProductDetailComponent implements OnInit {
   accessToken: string = '';
   isCurrentUserLogged: boolean = false;
+
   productDetail: Product = {};
   productId: string = '';
   productQuantity: number = 1;
+
   optionUnitInStock: number = 2;
   optionItem: Option = {};
   optionSelected: any = {};
+
   commentForm = new FormGroup({
     rate: new FormControl(3),
     comment: new FormControl('', Validators.required),
   });
+
+  carouselImageList: any = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +53,7 @@ export class ProductDetailComponent implements OnInit {
   getProductDetail() {
     this.productService.apiProductByIdGet(this.productId).subscribe((res) => {
       this.productDetail = res;
+      this.carouselImageList = [res.picture];
     });
   }
 
@@ -85,6 +91,12 @@ export class ProductDetailComponent implements OnInit {
     this.optionSelected = data.value;
     this.optionUnitInStock = this.optionSelected.unit_in_stock;
     this.productQuantity = 1;
+
+    let carouselImageListTemp: any = [];
+    data.value.picture_set.forEach((el: any) => {
+      carouselImageListTemp.push(el.image);
+    });
+    this.carouselImageList = [...carouselImageListTemp];
   }
 
   onAddProductToCart() {
