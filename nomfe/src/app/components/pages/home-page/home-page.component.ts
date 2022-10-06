@@ -36,6 +36,10 @@ export class HomePageComponent implements OnInit {
   getCategoryList() {
     this.categoryService.apiCategoryGet().subscribe((res) => {
       this.categoryList = res.results;
+      this.categoryList.unshift({
+        id: 0,
+        name: 'Tất cả',
+      });
     });
   }
 

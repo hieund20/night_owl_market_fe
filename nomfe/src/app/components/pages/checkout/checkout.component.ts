@@ -171,10 +171,12 @@ export class CheckoutComponent implements OnInit {
             }, 1000);
           }
         } else {
+          this.spinner.hide();
           this.toastr.error('Đặt hàng không thành công');
         }
       },
       (err) => {
+        this.spinner.hide();
         this.toastr.error('Đặt hàng không thành công');
         console.log('have a error when post order checkout', err);
       }
