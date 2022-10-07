@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { GhnLocationService } from 'src/app/services/ghn-services/ghn-location.service';
+import { AddressService } from 'src/app/services/address.service';
 
 @Component({
   selector: 'app-my-account-tab',
@@ -19,14 +20,17 @@ export class MyAccountTabComponent implements OnInit {
     first_name: new FormControl(null, Validators.required),
     last_name: new FormControl(null, Validators.required),
     phone_number: new FormControl(null, Validators.required),
+  });
+  isEditUserForm: boolean = false;
+  isEmailVerified: boolean = false;
+  isPhoneVerified: boolean = false;
+
+  addressForm = new FormGroup({
     province_id: new FormControl(null, Validators.required),
     district_id: new FormControl(null, Validators.required),
     ward_id: new FormControl(null, Validators.required),
     street: new FormControl(null, Validators.required),
   });
-  isEditUserForm: boolean = false;
-  isEmailVerified: boolean = false;
-  isPhoneVerified: boolean = false;
   //Change password
   changingPasswordForm = new FormGroup({
     current_password: new FormControl(null, Validators.required),
@@ -46,6 +50,7 @@ export class MyAccountTabComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private addressService: AddressService,
     public toastr: ToastrService,
     private router: Router,
     private ghnLocationService: GhnLocationService
@@ -61,14 +66,14 @@ export class MyAccountTabComponent implements OnInit {
     this.userForm.controls.first_name.setValue(this.currentUser.first_name);
     this.userForm.controls.last_name.setValue(this.currentUser.last_name);
     this.userForm.controls.phone_number.setValue(this.currentUser.phone_number);
-    this.userForm.controls.province_id.setValue(
+    this.addressForm.controls.province_id.setValue(
       this.currentUser.address.province_id
     );
     // this.userForm.controls.district_id.setValue(
     //   this.currentUser.address.district_id
     // );
     // this.userForm.controls.ward_id.setValue(this.currentUser.address.ward_id);
-    this.userForm.controls.street.setValue(this.currentUser.address.street);
+    this.addressForm.controls.street.setValue(this.currentUser.address.street);
   }
 
   //API
@@ -107,13 +112,6 @@ export class MyAccountTabComponent implements OnInit {
       (this.userForm as FormGroup).removeControl('email');
 
       let body = {
-        address: {
-          province_id: this.userForm.controls.province_id.value,
-          district_id: this.userForm.controls.district_id.value,
-          ward_id: this.userForm.controls.ward_id.value,
-          street: this.userForm.controls.street.value,
-          full_address: `${this.userForm.controls.street.value}, ${this.wardSelectedName}, ${this.districtSelectedName}, ${this.provinceSelectedName}`,
-        },
         first_name: this.userForm.controls.first_name.value,
         last_name: this.userForm.controls.last_name.value,
         phone_number: this.userForm.controls.phone_number.value,
@@ -132,7 +130,31 @@ export class MyAccountTabComponent implements OnInit {
             this.toastr.error('Sửa thông tin tài khoản không thành công');
           }
         );
+      this.onUpdateMyAddress();
     }
+  }
+
+  onUpdateMyAddress() {
+    let body = {
+      province_id: this.addressForm.controls.province_id.value,
+      district_id: this.addressForm.controls.district_id.value,
+      ward_id: this.addressForm.controls.ward_id.value,
+      street: this.addressForm.controls.street.value,
+      full_address: `${this.addressForm.controls.street.value}, ${this.wardSelectedName}, ${this.districtSelectedName}, ${this.provinceSelectedName}`,
+    };
+
+    this.addressService
+      .apiAddressPatch(this.accessToken, this.currentUser.id, body)
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.getCurrentUser();
+          }
+        },
+        (err) => {
+          console.log('Something is wrong', err);
+        }
+      );
   }
 
   onSubmitChangingPasswordForm() {

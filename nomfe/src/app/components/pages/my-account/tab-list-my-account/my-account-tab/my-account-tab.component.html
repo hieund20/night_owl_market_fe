@@ -70,13 +70,6 @@
               <p>{{ currentUser.address.full_address }}</p>
             </div>
           </div>
-
-          <div class="row">
-            <div class="col">
-              <label><b>NOM Coin</b></label>
-              <p>{{ currentUser.balance | customcurrency }} đ</p>
-            </div>
-          </div>
         </div>
         <form *ngIf="isEditUserForm" [formGroup]="userForm">
           <div class="row">
@@ -108,7 +101,9 @@
               </mat-form-field>
             </div>
           </div>
+        </form>
 
+        <form *ngIf="isEditUserForm" [formGroup]="addressForm">
           <div class="row">
             <div class="col">
               <mat-form-field appearance="outline">
