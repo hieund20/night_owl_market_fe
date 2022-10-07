@@ -554,4 +554,179 @@ export class UserService {
       }
     );
   }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiGetUserWithIdEmailPost(
+    body?: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiGetUserWithIdEmailPost(
+    body?: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiGetUserWithIdEmailPost(
+    body?: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiGetUserWithIdEmailPost(
+    body?: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    let headers = this.defaultHeaders;
+
+    return this.httpClient.request<any>(
+      'post',
+      `${this.basePath}/users/get-user-id-with-email/`,
+      {
+        headers: headers,
+        body: body,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiSendResetCodeToEmailGet(
+    userId?: number,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiSendResetCodeToEmailGet(
+    userId?: number,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiSendResetCodeToEmailGet(
+    userId?: number,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiSendResetCodeToEmailGet(
+    userId?: number,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (userId === null || userId === undefined) {
+      throw new Error(
+        'Required parameter userId was null or undefined when calling apiSendResetCodeToEmailGet.'
+      );
+    }
+    let headers = this.defaultHeaders;
+
+    return this.httpClient.request<any>(
+      'get',
+      `${this.basePath}/users/${userId}/send-reset-code-to-email/`,
+      {
+        headers: headers,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiGetTokenByUserIdAndResetCodePost(
+    body?: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiGetTokenByUserIdAndResetCodePost(
+    body?: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiGetTokenByUserIdAndResetCodePost(
+    body?: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiGetTokenByUserIdAndResetCodePost(
+    body?: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    let headers = this.defaultHeaders;
+
+    return this.httpClient.request<any>(
+      'post',
+      `${this.basePath}/users/get-token-by-user-id-and-reset-code/`,
+      {
+        headers: headers,
+        body: body,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * @param accessToken
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiResetPasswordPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiResetPasswordPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiResetPasswordPost(
+    accessToken: string,
+    body?: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiResetPasswordPost(
+    accessToken: string,
+    body?: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiResetPasswordPost.'
+      );
+    }
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    return this.httpClient.request<any>(
+      'post',
+      `${this.basePath}/users/reset-password/`,
+      {
+        headers: headers,
+        body: body,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
 }
