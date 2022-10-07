@@ -48,6 +48,12 @@ export class MyAccountTabComponent implements OnInit {
   districtSelectedName: string = '';
   wardSelectedName: string = '';
 
+  //Avatar
+  isEditAvatar: boolean = false;
+  imageAvatarFileList: any = [];
+  imageAvatarBase64: string = '';
+  fileList: File[] = [];
+
   constructor(
     private userService: UserService,
     private addressService: AddressService,
@@ -224,7 +230,7 @@ export class MyAccountTabComponent implements OnInit {
     );
   }
 
-  //Others
+  //OTHERS
   onCloseForm() {
     this.isEditUserForm = false;
   }
@@ -269,5 +275,53 @@ export class MyAccountTabComponent implements OnInit {
     this.wardSelectedName = this.wardList.find(
       (el) => el.WardCode === data
     ).WardName;
+  }
+
+  //Avatar
+  onEditAvatar(type: string) {
+    if (type === 'EDIT') {
+      this.isEditAvatar = true;
+    } else if (type === 'CLOSE') {
+      this.isEditAvatar = false;
+      this.imageAvatarBase64 = '';
+      this.imageAvatarFileList = [];
+    } else {
+      if (!this.imageAvatarBase64) {
+        this.toastr.warning('Bạn chưa tải ảnh avatar lên');
+      } else {
+        let body = {
+          image: this.imageAvatarBase64,
+        };
+        this.userService.apiChangeAvatarPatch(this.accessToken, body).subscribe(
+          (res) => {
+            if (res) {
+              this.toastr.success('Cập nhật avatar thành công');
+            }
+          },
+          (err) => {
+            this.toastr.error('Cập nhật avatar không thành công');
+          }
+        );
+      }
+      console.log(this.imageAvatarBase64);
+    }
+  }
+
+  onImageSelect(e: any) {
+    this.imageAvatarFileList.push(...e.addedFiles);
+
+    let file = e.addedFiles[0];
+    let reader = new FileReader();
+    reader.onload = this.handleImageReaderLoaded.bind(this);
+    reader.readAsBinaryString(file);
+  }
+
+  onImageRemove(e: any) {
+    this.imageAvatarFileList.splice(this.fileList.indexOf(e), 1);
+  }
+
+  handleImageReaderLoaded(readerEvt: any) {
+    var binaryString = readerEvt.target.result;
+    this.imageAvatarBase64 = btoa(binaryString);
   }
 }

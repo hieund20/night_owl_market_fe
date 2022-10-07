@@ -4,12 +4,56 @@
     <mat-divider></mat-divider>
     <div class="row mt-4">
       <div class="col-5 d-flex justify-content-center">
-        <img
-          [src]="currentUser.avatar"
-          class="rounded-circle"
-          style="width: 150px; height: 150px"
-          alt="Avatar"
-        />
+        <div>
+          <img
+            [src]="currentUser.avatar"
+            class="rounded-circle img-avatar"
+            alt="avatar"
+            *ngIf="!isEditAvatar"
+          />
+          <ngx-dropzone (change)="onImageSelect($event)" *ngIf="isEditAvatar">
+            <ngx-dropzone-label>Avatar của bạn</ngx-dropzone-label>
+            <ngx-dropzone-preview
+              *ngFor="let f of imageAvatarFileList"
+              [removable]="true"
+              (removed)="onImageRemove(f)"
+            >
+              <ngx-dropzone-label
+                >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+          <div class="d-flex justify-content-center mt-2">
+            <div>
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="onEditAvatar('EDIT')"
+                *ngIf="!isEditAvatar"
+              >
+                <mat-icon>image</mat-icon> Thay đổi Avatar
+              </button>
+              <div>
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="onEditAvatar('CLOSE')"
+                  *ngIf="isEditAvatar"
+                >
+                  Đóng
+                </button>
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="onEditAvatar('SAVE')"
+                  *ngIf="isEditAvatar"
+                >
+                  <mat-icon>save</mat-icon> Lưu
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-7">
         <div *ngIf="!isEditUserForm">
