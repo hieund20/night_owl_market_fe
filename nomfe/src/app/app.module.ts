@@ -69,6 +69,7 @@ import { VerifiedEmailTabComponent } from './components/pages/check-verified-acc
 import { VerifiedPhoneTabComponent } from './components/pages/check-verified-account/tab-list-check-account/verified-phone-tab/verified-phone-tab.component';
 import { ModalViewOrderComponent } from './components/pages/checkout/modal-view-order/modal-view-order.component';
 import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
+import { ShopDetailComponent } from './components/pages/shop-detail/shop-detail.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { ResetPasswordComponent } from './components/pages/reset-password/reset-
     VerifiedPhoneTabComponent,
     ModalViewOrderComponent,
     ResetPasswordComponent,
+    ShopDetailComponent,
   ],
   imports: [
     BrowserModule,

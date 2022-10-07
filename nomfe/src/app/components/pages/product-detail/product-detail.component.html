@@ -83,7 +83,6 @@
             <mat-icon>add_shopping_cart</mat-icon>
             Thêm vào giỏ
           </button>
-          <!-- <button mat-raised-button color="primary">Mua ngay</button> -->
         </div>
       </div>
     </div>
@@ -112,7 +111,15 @@
           </b>
         </div>
       </div>
-      <div><button mat-stroked-button color="primary">Xem Shop</button></div>
+      <div>
+        <button
+          mat-stroked-button
+          color="primary"
+          [routerLink]="['/shop-detail/', productDetail.owner.id]"
+        >
+          Xem Shop
+        </button>
+      </div>
     </div>
   </mat-card>
 

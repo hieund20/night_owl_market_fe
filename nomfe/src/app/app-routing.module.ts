@@ -13,6 +13,7 @@ import { RegisterPageComponent } from './components/pages/register-page/register
 import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
 import { SellerOrderManagementComponent } from './components/pages/seller-pages/seller-order-management/seller-order-management.component';
 import { SellerProductMangementComponent } from './components/pages/seller-product-mangement/seller-product-mangement.component';
+import { ShopDetailComponent } from './components/pages/shop-detail/shop-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -68,6 +69,15 @@ const routes: Routes = [
       {
         path: 'order-management',
         component: SellerOrderManagementComponent,
+      },
+    ],
+  },
+  {
+    path: 'shop-detail',
+    children: [
+      {
+        path: ':id',
+        component: ShopDetailComponent,
       },
     ],
   },

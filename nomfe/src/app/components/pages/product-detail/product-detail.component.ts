@@ -1,7 +1,7 @@
 import { MatRadioChange } from '@angular/material/radio';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Option } from 'src/app/model/option';
 import { ProductService } from 'src/app/services/product.service';
@@ -34,6 +34,7 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private productService: ProductService,
     private optionService: OptionService,
     private toastr: ToastrService
@@ -50,6 +51,7 @@ export class ProductDetailComponent implements OnInit {
     this.accessToken = <string>localStorage.getItem('access_token');
   }
 
+  //Product
   getProductDetail() {
     this.productService.apiProductByIdGet(this.productId).subscribe((res) => {
       this.productDetail = res;
@@ -141,7 +143,7 @@ export class ProductDetailComponent implements OnInit {
   }
   //=====
 
-  //Push comment
+  //Comment
   onPostComment() {
     const controls = <any>this.commentForm.controls;
 

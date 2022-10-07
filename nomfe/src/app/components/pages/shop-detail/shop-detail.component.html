@@ -1,0 +1,60 @@
+<div class="main-layout-box">
+  <mat-card class="mb-4">
+    <div class="row align-items-center">
+      <div class="col-3">
+        <div class="d-flex align-items-center">
+          <img
+            [src]="shopDetail.avatar"
+            class="rounded-circle shadow-4"
+            style="width: 60px; height: 60px; margin-right: 16px"
+            alt="avatars"
+          />
+          <div>
+            <label><b>Tên shop</b></label>
+            <p>{{ shopDetail.last_name }} {{ shopDetail.first_name }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-2">
+        <label><b>Số điện thoại</b></label>
+        <p>{{ shopDetail.phone_number }}</p>
+      </div>
+
+      <div class="col">
+        <label><b>Số lượng sản phẩm đang bán</b></label>
+        <p>{{ shopDetail.product_set.length }}</p>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="mb-4"><b>Danh sách sản phẩm</b></mat-card>
+  <div class="row" *ngIf="shopDetail.product_set.length > 0">
+    <div
+      *ngFor="let item of shopDetail.product_set"
+      class="product-card col-3 mb-4"
+    >
+      <mat-card>
+        <div class="card-img">
+          <img mat-card-image src="{{ item.picture }}" alt="." />
+        </div>
+        <mat-card-content>
+          <p class="ellipsis-text" [matTooltip]="item.name || ''">
+            <b>
+              {{ item.name }}
+            </b>
+          </p>
+          <div class="d-flex justify-content-between">
+            <p>{{ item.min_price | customcurrency }} đ</p>
+            <p>Đã bán: {{ item.sold_amount }}</p>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button [routerLink]="['/product/', item.id]">
+            Mua ngay
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
