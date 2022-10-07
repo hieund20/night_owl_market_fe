@@ -296,6 +296,8 @@ export class MyAccountTabComponent implements OnInit {
           (res) => {
             if (res) {
               this.toastr.success('Cập nhật avatar thành công');
+              this.isEditAvatar = false;
+              this.getCurrentUser();
             }
           },
           (err) => {
