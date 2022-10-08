@@ -5,11 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { GhnLocationService } from 'src/app/services/ghn-services/ghn-location.service';
 import { OrdersService } from 'src/app/services/orders.service';
-import { VoucherService } from 'src/app/services/voucher.service';
 import { PaymentMethods } from '../../constants/payment-methods';
-import { AddressService } from './../../../services/address.service';
 import { ModalViewOrderComponent } from './modal-view-order/modal-view-order.component';
 
 @Component({
@@ -25,6 +22,7 @@ export class CheckoutComponent implements OnInit {
     'store_name',
     'cost',
     'total_shipping_fee',
+    'voucher_apply',
     'actions',
   ];
   pageLength: number = 0;
@@ -39,20 +37,13 @@ export class CheckoutComponent implements OnInit {
   });
   isEditPaymentForm: boolean = false;
   paymentMethodShow: string = this.paymentMethodList[1].viewValue;
-
   //Address
   myAddress: string = '';
-  // addressList: any[] = [];
-  // addressForm = new FormGroup({
-  //   address: new FormControl('', Validators.required),
-  // });
-  // isEditAddressForm: boolean = false;
+  //Voucher
+  voucherList: any[] = [];
 
   constructor(
     private orderService: OrdersService,
-    private voucherService: VoucherService,
-    private addressService: AddressService,
-    private ghnLocationService: GhnLocationService,
     public dialog: MatDialog,
     private router: Router,
     private toastr: ToastrService,
@@ -63,8 +54,6 @@ export class CheckoutComponent implements OnInit {
     this.getAccessToken();
     this.getOrdersList(this.page);
     this.getMyAddress();
-    this.getAllVoucher();
-    // this.getMyAddressList();
   }
 
   getAccessToken() {
@@ -73,7 +62,6 @@ export class CheckoutComponent implements OnInit {
 
   getMyAddress() {
     let currentUser = JSON.parse(<string>localStorage.getItem('current_user'));
-    console.log(currentUser);
     this.myAddress = currentUser.address.full_address;
   }
 
@@ -91,8 +79,8 @@ export class CheckoutComponent implements OnInit {
               store_name: `${el.store.last_name} ${el.store.first_name}`,
               cost: el.cost,
               total_shipping_fee: el.total_shipping_fee,
+              voucher_apply: el.voucher_apply,
             });
-            this.totalFinalPrice += el.cost;
             this.totalFinalShippingFee += Number.parseInt(
               el.total_shipping_fee
             );
@@ -100,10 +88,11 @@ export class CheckoutComponent implements OnInit {
           this.pageLength = res.count;
           this.dataSource.data = this.dataTableList;
           this.getOrderById(this.dataTableList[0].id);
+          this.handleCounterTotalFinalPrice();
         }
       },
       (error) => {
-        console.log('Error when get order detail list: ', error);
+        console.log('Something is wrong', error);
       }
     );
   }
@@ -111,32 +100,13 @@ export class CheckoutComponent implements OnInit {
   getOrderById(id: number) {
     this.orderService.apiOrderIdGet(this.accessToken, id).subscribe(
       (res) => {
-        console.log('check res', res);
+        // console.log('check res', res);
       },
       (err) => {
         console.log('Something is wrong', err);
       }
     );
   }
-
-  // getMyAddressList() {
-  //   this.addressService.apiAddressGet(this.accessToken).subscribe(
-  //     (res) => {
-  //       if (res) {
-  //         res.results.forEach((el: any, index: number) => {
-  //           this.addressList.push(
-  //             `${el.street}, ${el.ward_id}, ${el.district_id},
-  //             ${el.province_id}, ${el.country}`
-  //           );
-  //         });
-  //         this.addressForm.controls.address.setValue(this.addressList[0]);
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log('Have a error when get address: ', error);
-  //     }
-  //   );
-  // }
 
   postOrderCheckout() {
     this.spinner.show();
@@ -146,9 +116,20 @@ export class CheckoutComponent implements OnInit {
     }
 
     let list_voucher: any = {};
-    orderIdList.forEach((el) => {
-      list_voucher[el] = 'null';
-    });
+
+    if (!this.voucherList.length) {
+      orderIdList.forEach((orderId) => {
+        list_voucher[orderId] = 'NONE';
+      });
+    } else {
+        orderIdList.forEach((orderId) => {
+          this.voucherList.forEach((voucher) => {
+            if (orderId === voucher.orderId) {
+              list_voucher[orderId] = voucher.code;
+            }
+          });
+        });
+    }
 
     const body = {
       list_voucher: {
@@ -178,20 +159,7 @@ export class CheckoutComponent implements OnInit {
       (err) => {
         this.spinner.hide();
         this.toastr.error('Đặt hàng không thành công');
-        console.log('have a error when post order checkout', err);
-      }
-    );
-  }
-
-  getAllVoucher() {
-    this.voucherService.apiVouchersGet(this.accessToken).subscribe(
-      (res) => {
-        if (res) {
-          console.log('check res', res);
-        }
-      },
-      (err) => {
-        console.log('Some thing is wrong', err);
+        console.log('Something is wrong', err);
       }
     );
   }
@@ -210,18 +178,6 @@ export class CheckoutComponent implements OnInit {
     this.getOrdersList(this.page);
   }
 
-  // onOpenModalAddAddress() {
-  //   const dialogRef = this.dialog.open(ModalAddAddressComponent, {
-  //     width: '700px',
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       this.getMyAddressList();
-  //     }
-  //   });
-  // }
-
   onOpenModalViewOrderInformation(id: number) {
     const dialogRef = this.dialog.open(ModalViewOrderComponent, {
       width: '700px',
@@ -230,8 +186,61 @@ export class CheckoutComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('data', result);
+        let rowIndex = this.dataTableList.findIndex((el: any) => el.id === id);
+        let row = this.dataTableList.find((el: any) => el.id === id);
+        let dataTableListClone = [...this.dataSource.data];
+
+        //**Reset data in table
+        //dataTableList is a temp variable
+        this.dataSource.data = [...this.dataTableList];
+
+        if (result.code !== 'NONE' && result.discount !== 0) {
+          dataTableListClone.splice(rowIndex, 1, {
+            ...row,
+            voucher_apply: `"${result.code}" - Giảm ${result.discount}% đơn giá`,
+            cost: row.cost * ((100 - result.discount) / 100),
+          });
+
+          this.handleAddOrRemoveVoucher({ ...result, orderId: id });
+        } else {
+          dataTableListClone = [...this.dataTableList];
+          dataTableListClone.splice(rowIndex, 1, {
+            ...row,
+          });
+
+          this.handleAddOrRemoveVoucher({ ...result, orderId: id });
+        }
+
+        this.dataSource.data = [...dataTableListClone];
+        this.handleCounterTotalFinalPrice();
       }
     });
+  }
+
+  handleCounterTotalFinalPrice() {
+    this.totalFinalPrice = 0;
+    this.dataSource.data.forEach((el: any) => {
+      this.totalFinalPrice += el.cost;
+    });
+  }
+
+  handleAddOrRemoveVoucher(voucher: any) {
+    let voucherListClone = [...this.voucherList];
+
+    let isExistOrder = this.voucherList.find(
+      (el: any) => el.orderId === voucher.orderId
+    );
+
+    if (isExistOrder) {
+      let existVoucherIndex = this.voucherList.findIndex(
+        (el: any) => el.orderId === voucher.orderId
+      );
+
+      voucherListClone.splice(existVoucherIndex, 1, voucher);
+    } else {
+      voucherListClone.push(voucher);
+    }
+
+    this.voucherList = voucherListClone;
   }
 }

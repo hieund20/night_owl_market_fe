@@ -7,7 +7,7 @@
     </div>
     <div class="col">
       <label><b>Giá trị đơn hàng</b></label>
-      <p>{{ orderDetail.orderCost | customcurrency }} đ</p>
+      <p>{{ orderCost | customcurrency }} đ</p>
     </div>
     <div class="col">
       <label><b>Tổng phí vận chuyển</b></label>
@@ -42,8 +42,31 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
+
+  <div class="row mt-4">
+    <div class="col">
+      <label><b>Vouchers</b></label>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-select
+            [formControl]="vouchersControl"
+            name="voucher"
+            (valueChange)="onChangeVoucherSelect($event)"
+          >
+            <mat-option value="NONE">- Bỏ chọn -</mat-option>
+            <mat-option
+              *ngFor="let voucher of voucherList"
+              [value]="voucher.code"
+            >
+              "{{ voucher.code }}" - Giảm {{ voucher.discount }}% đơn giá
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Đóng</button>
-  <button mat-flat-button color="primary">Lưu</button>
+  <button mat-flat-button color="primary" (click)="onSaveModal()">Lưu</button>
 </div>

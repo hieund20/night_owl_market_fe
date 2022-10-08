@@ -1,7 +1,9 @@
+import { FormControl } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { OrdersService } from 'src/app/services/orders.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-modal-view-order',
@@ -11,6 +13,8 @@ import { OrdersService } from 'src/app/services/orders.service';
 export class ModalViewOrderComponent implements OnInit {
   accessToken: string = '';
   orderDetail: any = null;
+  orderCost: number = 0;
+  discountPercentage: number = 0;
   //Table
   displayedColumns: string[] = [
     'productId',
@@ -20,16 +24,21 @@ export class ModalViewOrderComponent implements OnInit {
   ];
   dataTableList: any[] = [];
   dataSource = new MatTableDataSource<any>(this.dataTableList);
+  //Vouchers
+  voucherList: any[] = [];
+  vouchersControl = new FormControl('NONE');
 
   constructor(
     public dialogRef: MatDialogRef<ModalViewOrderComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private orderService: OrdersService
+    private orderService: OrdersService,
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
     this.getAccessToken();
     this.getOrderById();
+    this.getAvailableVoucherByOrderId();
   }
 
   //API
@@ -43,7 +52,6 @@ export class ModalViewOrderComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res) {
-            console.log('check res', res);
             let productListTemp: any = [];
             res.orderdetail_set.forEach((el: any) => {
               productListTemp.push({
@@ -63,11 +71,12 @@ export class ModalViewOrderComponent implements OnInit {
               orderVoucherApply: res.voucher_apply,
               orderProductList: [...productListTemp],
             };
+
+            this.orderCost = res.cost;
           }
 
           this.dataTableList = this.orderDetail.orderProductList;
           this.dataSource.data = this.dataTableList;
-          console.log('check res', this.orderDetail);
         },
         (err) => {
           console.log('Something is wrong', err);
@@ -75,5 +84,43 @@ export class ModalViewOrderComponent implements OnInit {
       );
   }
 
+  getAvailableVoucherByOrderId() {
+    this.orderService
+      .apiAvailableVoucherByIdOrderGet(this.accessToken, this.data.orderId)
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.voucherList = res;
+          }
+        },
+        (err) => {
+          console.log('Some thing is wrong', err);
+        }
+      );
+  }
+
   //Others
+  onChangeVoucherSelect(data: any) {
+    if (data === 'NONE') {
+      //Reset value
+      this.orderCost = this.orderDetail.orderCost;
+    } else {
+      let discountPercentageTemp = Number.parseInt(
+        this.voucherList.find((el: any) => el.code === data).discount
+      );
+      this.discountPercentage = discountPercentageTemp;
+
+      //Reset value
+      this.orderCost = this.orderDetail.orderCost;
+      this.orderCost =
+        this.orderDetail.orderCost * ((100 - discountPercentageTemp) / 100);
+    }
+  }
+
+  onSaveModal(): void {
+    this.dialogRef.close({
+      discount: this.discountPercentage,
+      code: this.vouchersControl.value,
+    });
+  }
 }
