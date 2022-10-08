@@ -70,6 +70,7 @@ import { VerifiedPhoneTabComponent } from './components/pages/check-verified-acc
 import { ModalViewOrderComponent } from './components/pages/checkout/modal-view-order/modal-view-order.component';
 import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
 import { ShopDetailComponent } from './components/pages/shop-detail/shop-detail.component';
+import { ModalPurchaseViewOrderComponent } from './components/pages/purchase/modal-purchase-view-order/modal-purchase-view-order.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { ShopDetailComponent } from './components/pages/shop-detail/shop-detail.
     ModalViewOrderComponent,
     ResetPasswordComponent,
     ShopDetailComponent,
+    ModalPurchaseViewOrderComponent,
   ],
   imports: [
     BrowserModule,

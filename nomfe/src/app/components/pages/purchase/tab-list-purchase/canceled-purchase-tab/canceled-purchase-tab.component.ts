@@ -1,7 +1,9 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { _MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { OrdersService } from 'src/app/services/orders.service';
+import { ModalPurchaseViewOrderComponent } from '../../modal-purchase-view-order/modal-purchase-view-order.component';
 
 @Component({
   selector: 'app-canceled-purchase-tab',
@@ -18,12 +20,14 @@ export class CanceledPurchaseTabComponent implements OnInit {
     'buyer_phone',
     'cost',
     'total_shipping_fee',
+    'actions'
   ];
   page: number = 1;
   pageLength: number = 0;
 
   constructor(
     private orderService: OrdersService,
+    public dialog: MatDialog,
     public toastr: ToastrService
   ) {}
 
@@ -65,5 +69,12 @@ export class CanceledPurchaseTabComponent implements OnInit {
   onPageChange(data: any) {
     this.page = data.pageIndex + 1;
     this.getOrderList(this.page);
+  }
+
+  onOpenModalViewOrderInformation(id: number) {
+    const dialogRef = this.dialog.open(ModalPurchaseViewOrderComponent, {
+      width: '700px',
+      data: { orderId: id },
+    });
   }
 }

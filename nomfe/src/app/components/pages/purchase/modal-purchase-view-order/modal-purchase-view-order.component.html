@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Chi tiết đơn hàng</h2>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col">
+      <label><b>Chủ shop</b></label>
+      <p>{{ orderDetail.sellerFullName }}</p>
+    </div>
+    <div class="col">
+      <label><b>Giá trị đơn hàng</b></label>
+      <p>{{ orderCost | customcurrency }} đ</p>
+    </div>
+    <div class="col">
+      <label><b>Tổng phí vận chuyển</b></label>
+      <p>{{ orderDetail.orderTotalShippingFee | customcurrency }} đ</p>
+    </div>
+  </div>
+  <div class="row">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="productId">
+        <th mat-header-cell *matHeaderCellDef>Mã sản phẩm</th>
+        <td mat-cell *matCellDef="let element">{{ element.productId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Tên sản phẩm</th>
+        <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="productPrice">
+        <th mat-header-cell *matHeaderCellDef>Đơn giá</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.productPrice | customcurrency }} đ
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="productUnit">
+        <th mat-header-cell *matHeaderCellDef>Loại</th>
+        <td mat-cell *matCellDef="let element">{{ element.productUnit }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Đóng</button>
+</div>

@@ -1,7 +1,9 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { OrdersService } from 'src/app/services/orders.service';
+import { ModalPurchaseViewOrderComponent } from '../../purchase/modal-purchase-view-order/modal-purchase-view-order.component';
 
 @Component({
   selector: 'app-seller-order-management',
@@ -18,13 +20,14 @@ export class SellerOrderManagementComponent implements OnInit {
     'customer_phone',
     'cost',
     'total_shipping_fee',
-    'action',
+    'actions',
   ];
   page: number = 1;
   pageLength: number = 0;
 
   constructor(
     private orderService: OrdersService,
+    public dialog: MatDialog,
     public toastr: ToastrService
   ) {}
 
@@ -95,5 +98,12 @@ export class SellerOrderManagementComponent implements OnInit {
   onPageChange(data: any) {
     this.page = data.pageIndex + 1;
     this.getUnAcceptOrderList(this.page);
+  }
+
+  onOpenModalViewOrderInformation(id: number) {
+    const dialogRef = this.dialog.open(ModalPurchaseViewOrderComponent, {
+      width: '700px',
+      data: { orderId: id },
+    });
   }
 }

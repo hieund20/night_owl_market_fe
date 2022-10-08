@@ -1,7 +1,9 @@
-import { OrdersService } from 'src/app/services/orders.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { OrdersService } from 'src/app/services/orders.service';
+import { ModalPurchaseViewOrderComponent } from '../../modal-purchase-view-order/modal-purchase-view-order.component';
 
 @Component({
   selector: 'app-delivering-purchase-tab',
@@ -25,6 +27,7 @@ export class DeliveringPurchaseTabComponent implements OnInit {
 
   constructor(
     private orderService: OrdersService,
+    public dialog: MatDialog,
     public toastr: ToastrService
   ) {}
 
@@ -81,5 +84,12 @@ export class DeliveringPurchaseTabComponent implements OnInit {
   onPageChange(data: any) {
     this.page = data.pageIndex + 1;
     this.getOrderList(this.page);
+  }
+
+  onOpenModalViewOrderInformation(id: number) {
+    const dialogRef = this.dialog.open(ModalPurchaseViewOrderComponent, {
+      width: '700px',
+      data: { orderId: id },
+    });
   }
 }

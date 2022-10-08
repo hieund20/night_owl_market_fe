@@ -45,9 +45,16 @@
         </ng-container>
 
         <!-- Action Column -->
-        <ng-container matColumnDef="action">
+        <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Thao tác</th>
           <td mat-cell *matCellDef="let element">
+            <button
+              matTooltip="Xem chi tiết đơn hàng"
+              mat-icon-button
+              (click)="onOpenModalViewOrderInformation(element.id)"
+            >
+              <mat-icon>info</mat-icon>
+            </button>
             <button
               mat-icon-button
               (click)="onAcceptOrder(element.id)"

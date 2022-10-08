@@ -1,6 +1,8 @@
+import { MatDialog } from '@angular/material/dialog';
 import { OrdersService } from 'src/app/services/orders.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
+import { ModalPurchaseViewOrderComponent } from '../../modal-purchase-view-order/modal-purchase-view-order.component';
 
 @Component({
   selector: 'app-pending-purchase-tab',
@@ -17,11 +19,12 @@ export class PendingPurchaseTabComponent implements OnInit {
     'buyer_phone',
     'cost',
     'total_shipping_fee',
+    'actions'
   ];
   page: number = 1;
   pageLength: number = 0;
 
-  constructor(private orderService: OrdersService) {}
+  constructor(private orderService: OrdersService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getAccessToken();
@@ -61,5 +64,12 @@ export class PendingPurchaseTabComponent implements OnInit {
   onPageChange(data: any) {
     this.page = data.pageIndex + 1;
     this.getOrderList(this.page);
+  }
+
+  onOpenModalViewOrderInformation(id: number) {
+    const dialogRef = this.dialog.open(ModalPurchaseViewOrderComponent, {
+      width: '700px',
+      data: { orderId: id },
+    });
   }
 }
