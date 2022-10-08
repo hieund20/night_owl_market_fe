@@ -1,7 +1,7 @@
-import { MatDialog } from '@angular/material/dialog';
-import { OrdersService } from 'src/app/services/orders.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { OrdersService } from 'src/app/services/orders.service';
 import { ModalPurchaseViewOrderComponent } from '../../modal-purchase-view-order/modal-purchase-view-order.component';
 
 @Component({
@@ -19,12 +19,15 @@ export class PendingPurchaseTabComponent implements OnInit {
     'buyer_phone',
     'cost',
     'total_shipping_fee',
-    'actions'
+    'actions',
   ];
   page: number = 1;
   pageLength: number = 0;
 
-  constructor(private orderService: OrdersService, public dialog: MatDialog) {}
+  constructor(
+    private orderService: OrdersService,
+    public dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.getAccessToken();

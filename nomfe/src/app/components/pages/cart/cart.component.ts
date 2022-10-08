@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import {
   animate,
   state,
@@ -12,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from './../../../services/cart.service';
 import { OrdersService } from './../../../services/orders.service';
+import { deleteFromCart } from '../../store/actions/cart.actions';
 
 @Component({
   selector: 'app-cart',
@@ -45,6 +47,7 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private orderService: OrdersService,
+    private store: Store<{ cart: number }>,
     private router: Router,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService
@@ -88,7 +91,6 @@ export class CartComponent implements OnInit {
 
         console.log('cehck list', cartListTemp);
         this.cartList = [...cartListTemp];
-
       },
       (error) => {
         console.log('error when get cart group by owner', error);
@@ -99,8 +101,8 @@ export class CartComponent implements OnInit {
   deleteProductInCart(id: number) {
     this.cartService.apiCartDelete(this.accessToken, id).subscribe(
       (res) => {
+        this.store.dispatch(deleteFromCart());
         this.toastr.success('Xóa sản phẩm trong giỏ thành công');
-
         this.getCartGroupByOwner();
       },
       (error) => {
@@ -193,41 +195,4 @@ export class CartComponent implements OnInit {
       this.totalPrice += el.price * el.quantity;
     });
   }
-
-  //Handle Mat-table Selection
-  /** Whether the number of selected elements matches the total number of rows. */
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
-
-  //   //Count product
-  //   this.countProduct = this.selection.selected.length;
-  //   //Calculation total price
-  //   this.totalPrice = 0;
-  //   this.selection.selected.forEach((el) => {
-  //     return (this.totalPrice += Number.parseInt(el.price) * el.quantity);
-  //   });
-
-  //   return numSelected === numRows;
-  // }
-
-  // /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // toggleAllRows() {
-  //   if (this.isAllSelected()) {
-  //     this.selection.clear();
-  //     return;
-  //   }
-
-  //   this.selection.select(...this.dataSource.data);
-  // }
-
-  // /** The label for the checkbox on the passed row */
-  // checkboxLabel(row?: any): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-  //     row.position + 1
-  //   }`;
-  // }
 }

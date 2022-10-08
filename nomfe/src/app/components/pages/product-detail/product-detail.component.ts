@@ -1,8 +1,11 @@
-import { MatRadioChange } from '@angular/material/radio';
+import { addToCart } from './../../store/actions/cart.actions';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatRadioChange } from '@angular/material/radio';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { Option } from 'src/app/model/option';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from './../../../model/product';
@@ -34,7 +37,7 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    private store: Store<{ cart: number }>,
     private productService: ProductService,
     private optionService: OptionService,
     private toastr: ToastrService
@@ -133,6 +136,7 @@ export class ProductDetailComponent implements OnInit {
         (res) => {
           if (res) {
             this.toastr.success('Thêm vào giỏ hàng thành công');
+            this.store.dispatch(addToCart());
           }
         },
         (error) => {

@@ -1,5 +1,7 @@
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/services/user.service';
 
@@ -12,10 +14,20 @@ export class HeaderComponent implements OnInit {
   currentUser: User = {};
   isCurrentUserLogged: boolean = false;
 
-  constructor(private router: Router, private userService: UserService) {}
+  //Ngr store
+  cart$: Observable<number> | undefined;
+
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private store: Store<{ cart: number }>
+  ) {
+    this.cart$ = store.select('cart');
+  }
 
   ngOnInit(): void {
     this.getCurrentUser();
+    this.onDetectCartChange();
   }
 
   //API
@@ -37,6 +49,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  //Others
   onLogOut() {
     localStorage.clear();
     this.isCurrentUserLogged = false;
@@ -45,5 +58,11 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/auth/login']);
     }, 1000);
+  }
+
+  onDetectCartChange() {
+    this.store.select('cart').subscribe((res) => {
+      this.getCurrentUser();
+    });
   }
 }

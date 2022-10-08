@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'app-purchase',
@@ -12,31 +11,17 @@ export class PurchaseComponent implements OnInit {
   currentUrl: string = '';
   accessToken: string = '';
 
-  constructor(private orderService: OrdersService, private router: Router) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.getCurrentUrl();
     this.handleSwitchTab();
     this.getAccessToken();
-    this.onCancelUnCheckoutOrder();
   }
 
   //API
   getAccessToken() {
     this.accessToken = <string>localStorage.getItem('access_token');
-  }
-
-  onCancelUnCheckoutOrder() {
-    this.orderService.apiCancelUnCheckoutGet(this.accessToken).subscribe(
-      (res) => {
-        if (res) {
-          console.log('cancel uncheckout order success');
-        }
-      },
-      (err) => {
-        console.log('have a error when cancel uncheckout order', err);
-      }
-    );
   }
 
   getCurrentUrl() {

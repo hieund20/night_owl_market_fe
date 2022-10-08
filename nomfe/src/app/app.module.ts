@@ -1,3 +1,4 @@
+import { cartReducer } from './components/store/reducers/cart.reducers';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
@@ -71,6 +72,8 @@ import { ModalViewOrderComponent } from './components/pages/checkout/modal-view-
 import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
 import { ShopDetailComponent } from './components/pages/shop-detail/shop-detail.component';
 import { ModalPurchaseViewOrderComponent } from './components/pages/purchase/modal-purchase-view-order/modal-purchase-view-order.component';
+//NgrStore
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -146,6 +149,9 @@ import { ModalPurchaseViewOrderComponent } from './components/pages/purchase/mod
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    StoreModule.forRoot({
+      cart: cartReducer,
+    }),
   ],
   exports: [NgxSpinnerModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

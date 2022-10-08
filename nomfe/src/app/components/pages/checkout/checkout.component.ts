@@ -1,3 +1,5 @@
+import { checkoutSuccess } from './../../store/actions/cart.actions';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,6 +46,7 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private orderService: OrdersService,
+    private store: Store<{ cart: number }>,
     public dialog: MatDialog,
     private router: Router,
     private toastr: ToastrService,
@@ -122,13 +125,13 @@ export class CheckoutComponent implements OnInit {
         list_voucher[orderId] = 'NONE';
       });
     } else {
-        orderIdList.forEach((orderId) => {
-          this.voucherList.forEach((voucher) => {
-            if (orderId === voucher.orderId) {
-              list_voucher[orderId] = voucher.code;
-            }
-          });
+      orderIdList.forEach((orderId) => {
+        this.voucherList.forEach((voucher) => {
+          if (orderId === voucher.orderId) {
+            list_voucher[orderId] = voucher.code;
+          }
         });
+      });
     }
 
     const body = {
@@ -140,6 +143,7 @@ export class CheckoutComponent implements OnInit {
     this.orderService.apiOrdersCheckoutPost(this.accessToken, body).subscribe(
       (res) => {
         if (res) {
+          this.store.dispatch(checkoutSuccess());
           //Payment with MoMo
           if (this.paymentMethodForm.controls.method.value === 1) {
             this.spinner.hide();
@@ -151,6 +155,7 @@ export class CheckoutComponent implements OnInit {
               this.router.navigateByUrl('/purchase#pending');
             }, 1000);
           }
+          
         } else {
           this.spinner.hide();
           this.toastr.error('Đặt hàng không thành công');
