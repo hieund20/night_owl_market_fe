@@ -149,4 +149,68 @@ export class ChatroomsService {
       }
     );
   }
+
+  /**
+   *
+   *
+   * @param accessToken
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiChatRoomsSendMessagePost(
+    accessToken: string,
+    id: number,
+    body?: any,
+    observe?: 'body',
+    reportProgress?: boolean
+  ): Observable<any>;
+  public apiChatRoomsSendMessagePost(
+    accessToken: string,
+    id: number,
+    body?: any,
+    observe?: 'response',
+    reportProgress?: boolean
+  ): Observable<HttpResponse<any>>;
+  public apiChatRoomsSendMessagePost(
+    accessToken: string,
+    id: number,
+    body?: any,
+    observe?: 'events',
+    reportProgress?: boolean
+  ): Observable<HttpEvent<any>>;
+  public apiChatRoomsSendMessagePost(
+    accessToken: string,
+    id: number,
+    body?: any,
+    observe: any = 'body',
+    reportProgress: boolean = false
+  ): Observable<any> {
+    if (accessToken === null || accessToken === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiChatRoomsIdGet.'
+      );
+    }
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter accessToken was null or undefined when calling apiChatRoomsIdGet.'
+      );
+    }
+
+    let headers = this.defaultHeaders;
+    // to determine the Accept header
+    headers = headers.set('Authorization', `Bearer ${accessToken}`);
+
+    return this.httpClient.request<any>(
+      'post',
+      `${this.basePath}/chatrooms/${id}/send-message/`,
+      {
+        headers: headers,
+        body: body,
+        withCredentials: this.configuration.withCredentials,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
 }

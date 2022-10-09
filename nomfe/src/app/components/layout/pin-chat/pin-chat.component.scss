@@ -1,4 +1,5 @@
 .pin-chat-container {
+    cursor: pointer;
     position: fixed;
     right: 50px;
     bottom: 0;
@@ -41,6 +42,8 @@
             min-height: 180px;
             max-height: 180px;
             overflow-y: scroll;
+            overflow-x: hidden;
+
             & .chat-group-container {
                 border-bottom: 1px solid lightgray;
                 padding: 12px 8px 12px 8px;
@@ -48,16 +51,54 @@
                 &:hover {
                     background-color: rgb(217, 213, 213);
                 }
+
+                & .alert-new-message {
+                    background-color: rgb(244 67 53);
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                }
             }
 
             & .chat-detail-container {
                 padding: 12px 8px 12px 8px;
+                height: 170px;
+                position: relative;
+
+                & .chat-information {
+                    border-bottom: 1px solid lightgray;
+                    padding-bottom: 4px;
+                    margin-bottom: 8px;
+                }
 
                 & .message-text-container {
                     background-color: #3f51b5;
                     color: white;
                     border-radius: 8px;
                     padding: 4px 8px;
+                }
+
+                & .send-message-container {
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                    left: 8px;
+                    right: 8px;
+
+                    & .input-typing-message {
+                        width: 87%;
+                        outline: none;
+                        border: 1px solid lightgray;
+                        border-radius: 4px;
+
+                        &:focus {
+                            border: 1px solid #3f51b5;
+                        }
+                    }
+
+                    & .btn-send-message {
+                        width: 10%;
+                    }
                 }
             }
         }
