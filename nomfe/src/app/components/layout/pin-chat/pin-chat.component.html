@@ -1,0 +1,64 @@
+<div class="pin-chat-container" (click)="onOpenChatBox()" #pinChat>
+  <div class="pin-chat-header" *ngIf="!toggleChat">
+    <mat-icon class="icon"> chat</mat-icon>
+    <p><b>Chat</b></p>
+  </div>
+
+  <!-- Main Chat Box  -->
+  <div class="animation">
+    <div class="title d-flex justify-content-between aligns-item-center">
+      <div>
+        <b>Chat</b>
+      </div>
+      <button mat-icon-button (click)="onCloseChatBox()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="chat-container">
+      <!-- List chat room -->
+      <div *ngIf="!chatRoomDetail">
+        <div *ngFor="let item of chatRoomList">
+          <div
+            class="chat-group-container d-flex justify-content-between"
+            (click)="onClickChatRoom(item.id)"
+          >
+            <div class="join-avatar-user">
+              <img
+                *ngFor="let user of item.user"
+                [src]="user.avatar"
+                class="rounded-circle"
+                style="width: 20px; height: 20px"
+              />
+            </div>
+            <div class="last-message">
+              <span>{{
+                item.last_message.content || "Chưa có tin nhắn mới"
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat detail -->
+      <div class="chat-detail-container" *ngIf="chatRoomDetail">
+        <div class="chat-detail-message">
+          <div class="row">
+            <div class="col d-flex aligns-item-center">
+              <img
+                [src]="chatRoomDetail.last_message.creator.avatar"
+                class="rounded-circle"
+                style="width: 25px; height: 25px; margin-right: 8px;"
+                matTooltip="{{
+                  chatRoomDetail.last_message.creator.last_name
+                }} {{ chatRoomDetail.last_message.creator.first_name }}"
+              />
+              <div class="message-text-container">
+                <span>{{ chatRoomDetail.last_message.content || "--" }} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

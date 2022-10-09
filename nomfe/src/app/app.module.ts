@@ -36,6 +36,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 import { CustomCurrencyPipe } from './components/shared/pipe/currency.pipe';
 import { CartComponent } from './components/pages/cart/cart.component';
@@ -74,6 +75,7 @@ import { ShopDetailComponent } from './components/pages/shop-detail/shop-detail.
 import { ModalPurchaseViewOrderComponent } from './components/pages/purchase/modal-purchase-view-order/modal-purchase-view-order.component';
 //NgrStore
 import { StoreModule } from '@ngrx/store';
+import { PinChatComponent } from './components/layout/pin-chat/pin-chat.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +111,7 @@ import { StoreModule } from '@ngrx/store';
     ResetPasswordComponent,
     ShopDetailComponent,
     ModalPurchaseViewOrderComponent,
+    PinChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -137,6 +140,7 @@ import { StoreModule } from '@ngrx/store';
     MatAutocompleteModule,
     MatStepperModule,
     MatDividerModule,
+    MatBottomSheetModule,
     ToastrModule.forRoot(),
     NgbModule,
     NgxSpinnerModule.forRoot({

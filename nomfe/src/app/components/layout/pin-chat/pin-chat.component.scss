@@ -1,0 +1,86 @@
+.pin-chat-container {
+    position: fixed;
+    right: 50px;
+    bottom: 0;
+
+    width: 100px;
+    height: 80px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    background-color: #fbfbfb;
+    padding-top: 10px;
+    padding-bottom: 38px;
+
+    & .pin-chat-header {
+        width: 70%;
+        margin: 0 auto;
+        display: flex;
+        color: #3f51b5;
+        font-size: 16px;
+
+        & .icon {
+            margin-right: 4px;
+        }
+    }
+
+    //Main chat box container
+    & .animation {
+        transition: 0.5s;
+        transform: translateY(100%);
+        border: 1px solid lightgray;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+
+        & .chat-container {
+            //List chat room
+            cursor: pointer;
+            min-height: 180px;
+            max-height: 180px;
+            overflow-y: scroll;
+            & .chat-group-container {
+                border-bottom: 1px solid lightgray;
+                padding: 12px 8px 12px 8px;
+
+                &:hover {
+                    background-color: rgb(217, 213, 213);
+                }
+            }
+
+            & .chat-detail-container {
+                padding: 12px 8px 12px 8px;
+
+                & .message-text-container {
+                    background-color: #3f51b5;
+                    color: white;
+                    border-radius: 8px;
+                    padding: 4px 8px;
+                }
+            }
+        }
+    }
+
+    & .title {
+        transition: 0.5s;
+        transform: translateY(-100%);
+        padding: 8px;
+
+        color: #3f51b5;
+        font-size: 16px;
+    }
+
+    &.open .animation,
+    &.open .title {
+        transform: translateY(0);
+    }
+    &.open {
+        height: fit-content;
+        background-color: inherit;
+        width: 400px;
+        padding-top: 0px;
+        box-shadow: none;
+    }
+}
