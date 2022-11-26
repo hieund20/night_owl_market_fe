@@ -1,20 +1,19 @@
 import {
   HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
   HttpEvent,
+  HttpHeaders,
+  HttpResponse,
 } from '@angular/common/http';
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Configuration } from '../configuration';
-import { BASE_PATH, COLLECTION_FORMATS } from '../variable';
+import { API_ROOT_URL, BASE_PATH } from '../variable';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OptionService {
-  protected basePath = 'https://night-owl-market.herokuapp.com/market';
+  protected basePath = API_ROOT_URL;
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 

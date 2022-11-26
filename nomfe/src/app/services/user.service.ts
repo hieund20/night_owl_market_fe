@@ -7,13 +7,13 @@ import {
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Configuration } from '../configuration';
-import { BASE_PATH } from '../variable';
+import { BASE_PATH, API_ROOT_URL } from '../variable';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  protected basePath = 'https://night-owl-market.herokuapp.com/market';
+  protected basePath = API_ROOT_URL;
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 

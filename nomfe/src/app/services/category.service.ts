@@ -8,13 +8,13 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Configuration } from '../configuration';
-import { BASE_PATH, COLLECTION_FORMATS } from '../variable';
+import { BASE_PATH, COLLECTION_FORMATS, API_ROOT_URL } from '../variable';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  protected basePath = 'https://night-owl-market.herokuapp.com/market';
+  protected basePath = API_ROOT_URL;
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 

@@ -8,13 +8,13 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Configuration } from '../configuration';
-import { BASE_PATH, COLLECTION_FORMATS } from '../variable';
+import { BASE_PATH, COLLECTION_FORMATS, API_ROOT_URL } from '../variable';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  protected basePath = 'https://night-owl-market.herokuapp.com/api';
+  protected basePath = API_ROOT_URL;
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 
@@ -67,9 +67,7 @@ export class AuthService {
     }
 
     // to determine the Content-Type header
-    const consumes: string[] = [
-      'application/json',
-    ];
+    const consumes: string[] = ['application/json'];
     const httpContentTypeSelected: string | undefined =
       this.configuration.selectHeaderContentType(consumes);
     if (httpContentTypeSelected != undefined) {
