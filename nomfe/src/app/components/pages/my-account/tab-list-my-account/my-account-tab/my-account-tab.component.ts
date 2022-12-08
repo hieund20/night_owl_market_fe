@@ -72,14 +72,19 @@ export class MyAccountTabComponent implements OnInit {
     this.userForm.controls.first_name.setValue(this.currentUser.first_name);
     this.userForm.controls.last_name.setValue(this.currentUser.last_name);
     this.userForm.controls.phone_number.setValue(this.currentUser.phone_number);
-    this.addressForm.controls.province_id.setValue(
-      this.currentUser.address.province_id
-    );
+
+    if (this.currentUser.address) {
+      this.addressForm.controls.province_id.setValue(
+        this.currentUser.address.province_id
+      );
+      this.addressForm.controls.street.setValue(
+        this.currentUser.address.street
+      );
+    }
     // this.userForm.controls.district_id.setValue(
     //   this.currentUser.address.district_id
     // );
     // this.userForm.controls.ward_id.setValue(this.currentUser.address.ward_id);
-    this.addressForm.controls.street.setValue(this.currentUser.address.street);
   }
 
   //API
@@ -92,6 +97,11 @@ export class MyAccountTabComponent implements OnInit {
       (res) => {
         if (res) {
           this.currentUser = res;
+          if (!this.currentUser.avatar) {
+            this.currentUser.avatar =
+              '../../../../../../assets/images/default-user.jpg';
+          }
+
           this.initFormValue();
           this.checkEmailVerified();
           this.checkPhoneVerified();
