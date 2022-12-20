@@ -138,7 +138,13 @@ export class MyAccountTabComponent implements OnInit {
         .subscribe(
           (res) => {
             if (res) {
-              this.getCurrentUser();
+              let isUserHaveAddress = false;
+              let addressId = null;
+              if (res.address) {
+                isUserHaveAddress = true;
+                addressId = res.address.id;
+              }
+              this.onUpdateMyAddress(isUserHaveAddress, addressId);
               this.toastr.success('Sửa thông tin tài khoản thành công');
             }
           },
@@ -146,11 +152,11 @@ export class MyAccountTabComponent implements OnInit {
             this.toastr.error('Sửa thông tin tài khoản không thành công');
           }
         );
-      this.onUpdateMyAddress();
+      
     }
   }
 
-  onUpdateMyAddress() {
+  onUpdateMyAddress(isHaveAddress: boolean, addressId?: any) {
     let body = {
       province_id: this.addressForm.controls.province_id.value,
       district_id: this.addressForm.controls.district_id.value,
@@ -159,9 +165,23 @@ export class MyAccountTabComponent implements OnInit {
       full_address: `${this.addressForm.controls.street.value}, ${this.wardSelectedName}, ${this.districtSelectedName}, ${this.provinceSelectedName}`,
     };
 
-    this.addressService
-      .apiAddressPatch(this.accessToken, this.currentUser.id, body)
-      .subscribe(
+    console.log("check address", isHaveAddress);
+
+    if (isHaveAddress) {
+      this.addressService
+        .apiAddressPatch(this.accessToken, addressId, body)
+        .subscribe(
+          (res) => {
+            if (res) {
+              this.getCurrentUser();
+            }
+          },
+          (err) => {
+            console.log('Something is wrong', err);
+          }
+        );
+    } else {
+      this.addressService.apiAddressPost(this.accessToken, body).subscribe(
         (res) => {
           if (res) {
             this.getCurrentUser();
@@ -171,6 +191,7 @@ export class MyAccountTabComponent implements OnInit {
           console.log('Something is wrong', err);
         }
       );
+    }
   }
 
   onSubmitChangingPasswordForm() {
