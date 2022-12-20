@@ -74,7 +74,7 @@ export class AuthService {
       headers = headers.set('Content-Type', httpContentTypeSelected);
     }
 
-    return this.httpClient.request<any>('post', `${this.basePath}/token/`, {
+    return this.httpClient.request<any>('post', `https://www.nguyendinhhuy.dev/api/token/`, {
       body: body,
       headers: headers,
       withCredentials: this.configuration.withCredentials,
